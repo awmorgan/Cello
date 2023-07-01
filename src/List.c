@@ -116,7 +116,7 @@ static var List_At(struct List *l, int64_t i) {
   i = i < 0 ? l->nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)l->nitems) {
+  if (i < 0 || i >= (int64_t)l->nitems) {
     return throw(IndexOutOfBoundsError,
                  "Index '%i' out of bounds for List of size %i.", $(Int, i),
                  $(Int, l->nitems));

@@ -131,7 +131,6 @@
 
 typedef void *var;
 // todo
-#define or ||
 #define in ,
 
 /* Declaration */

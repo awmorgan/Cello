@@ -305,7 +305,7 @@ static void Array_Pop_At(var self, var key) {
   i = i < 0 ? a->nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)a->nitems) {
+  if (i < 0 || i >= (int64_t)a->nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Array of size %i.", key, $I(a->nitems));
     return;
@@ -350,7 +350,7 @@ static void Array_Push_At(var self, var obj, var key) {
   i = i < 0 ? a->nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)a->nitems) {
+  if (i < 0 || i >= (int64_t)a->nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Array of size %i.", key, $I(a->nitems));
     return;
@@ -389,7 +389,7 @@ static var Array_Get(var self, var key) {
   i = i < 0 ? a->nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)a->nitems) {
+  if (i < 0 || i >= (int64_t)a->nitems) {
     return throw(IndexOutOfBoundsError,
                  "Index '%i' out of bounds for Array of size %i.", key,
                  $I(a->nitems));
@@ -406,7 +406,7 @@ static void Array_Set(var self, var key, var val) {
   i = i < 0 ? a->nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)a->nitems) {
+  if (i < 0 || i >= (int64_t)a->nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Array of size %i.", key, $I(a->nitems));
     return;

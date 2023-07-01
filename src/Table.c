@@ -155,7 +155,7 @@ static void Table_New(var self, var args) {
   t->sspace1 = calloc(1, Table_Step(t));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->data == NULL or t->sspace0 == NULL or t->sspace1 == NULL) {
+  if (t->data == NULL || t->sspace0 == NULL || t->sspace1 == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
 #endif
@@ -230,7 +230,7 @@ static void Table_Assign(var self, var obj) {
   t->sspace1 = realloc(t->sspace1, Table_Step(t));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->data == NULL or t->sspace0 == NULL or t->sspace1 == NULL) {
+  if (t->data == NULL || t->sspace0 == NULL || t->sspace1 == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
 #endif
@@ -453,7 +453,7 @@ static bool Table_Mem(var self, var key) {
   while (true) {
 
     uint64_t h = Table_Key_Hash(t, i);
-    if (h == 0 or j > Table_Probe(t, i, h)) {
+    if (h == 0 || j > Table_Probe(t, i, h)) {
       return false;
     }
 
@@ -482,7 +482,7 @@ static void Table_Rem(var self, var key) {
   while (true) {
 
     uint64_t h = Table_Key_Hash(t, i);
-    if (h == 0 or j > Table_Probe(t, i, h)) {
+    if (h == 0 || j > Table_Probe(t, i, h)) {
       throw(KeyError, "Key %$ not in Table!", key);
     }
 
@@ -537,7 +537,7 @@ static var Table_Get(var self, var key) {
   while (true) {
 
     uint64_t h = Table_Key_Hash(t, i);
-    if (h == 0 or j > Table_Probe(t, i, h)) {
+    if (h == 0 || j > Table_Probe(t, i, h)) {
       throw(KeyError, "Key %$ not in Table!", key);
     }
 

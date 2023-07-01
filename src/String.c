@@ -55,7 +55,7 @@ static const char *String_Brief(void) { return "String Object"; }
 
 static const char *String_Description(void) {
   return "The `String` type is a wrapper around the native C string type. This "
-         "includes strings that are allocated on either the Stack or the Heap."
+         "includes strings that are allocated on either the Stack || the Heap."
          "\n\n"
          "For strings allocated on the heap a number of extra operations are "
          "provided overs standard C strings such as concatenation.";
@@ -117,7 +117,7 @@ static void String_Del(var self) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot destruct String, not on heap!");
   }
@@ -131,7 +131,7 @@ static void String_Assign(var self, var obj) {
   char *val = c_str(obj);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
@@ -166,7 +166,7 @@ static void String_Clear(var self) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
@@ -213,7 +213,7 @@ static void String_Concat(var self, var obj) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
@@ -234,7 +234,7 @@ static void String_Resize(var self, size_t n) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
@@ -268,7 +268,7 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   va_end(va_tmp);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
@@ -293,7 +293,7 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   va_end(va_tmp);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
@@ -321,7 +321,7 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   va_end(va_tmp);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }

@@ -90,7 +90,7 @@ static void Tuple_Del(var self) {
   struct Tuple *t = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot destruct Tuple, not on heap!");
   }
@@ -109,7 +109,7 @@ static void Tuple_Assign(var self, var obj) {
     size_t nargs = len(obj);
 
 #if CELLO_ALLOC_CHECK == 1
-    if (header(self)->alloc == (var)AllocStack or
+    if (header(self)->alloc == (var)AllocStack ||
         header(self)->alloc == (var)AllocStatic) {
       throw(ValueError, "Cannot reallocate Tuple, not on heap!");
     }
@@ -191,7 +191,7 @@ static var Tuple_Get(var self, var key) {
   i = i < 0 ? nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)nitems) {
+  if (i < 0 || i >= (int64_t)nitems) {
     return throw(IndexOutOfBoundsError,
                  "Index '%i' out of bounds for Tuple of size %i.", key,
                  $I(Tuple_Len(t)));
@@ -209,7 +209,7 @@ static void Tuple_Set(var self, var key, var val) {
   i = i < 0 ? nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)nitems) {
+  if (i < 0 || i >= (int64_t)nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Tuple of size %i.", key,
           $I(Tuple_Len(t)));
@@ -263,7 +263,7 @@ static void Tuple_Push(var self, var obj) {
   size_t nitems = Tuple_Len(t);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
@@ -294,7 +294,7 @@ static void Tuple_Pop(var self) {
 #endif
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
@@ -313,14 +313,14 @@ static void Tuple_Push_At(var self, var obj, var key) {
   i = i < 0 ? nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)nitems) {
+  if (i < 0 || i >= (int64_t)nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Tuple of size %i.", key, $I(nitems));
   }
 #endif
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
@@ -349,7 +349,7 @@ static void Tuple_Pop_At(var self, var key) {
   i = i < 0 ? nitems + i : i;
 
 #if CELLO_BOUND_CHECK == 1
-  if (i < 0 or i >= (int64_t)nitems) {
+  if (i < 0 || i >= (int64_t)nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Tuple of size %i.", key, $I(nitems));
   }
@@ -359,7 +359,7 @@ static void Tuple_Pop_At(var self, var key) {
           sizeof(var) * (nitems - (size_t)i));
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
@@ -375,7 +375,7 @@ static void Tuple_Concat(var self, var obj) {
   size_t objlen = len(obj);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
@@ -402,7 +402,7 @@ static void Tuple_Resize(var self, size_t n) {
   struct Tuple *t = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc == (var)AllocStack or
+  if (header(self)->alloc == (var)AllocStack ||
       header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }

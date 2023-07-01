@@ -61,11 +61,11 @@ static struct Method *Iter_Methods(void) {
       {"iter_init",
        "var iter_init(var self);\n"
        "var iter_last(var self);",
-       "Return the initial item (or final item) in the iteration over `self`."},
+       "Return the initial item (|| final item) in the iteration over `self`."},
       {"iter_next",
        "var iter_next(var self, var curr);\n"
        "var iter_prev(var self, var curr);",
-       "Given the current item `curr`, return the next (or previous) item in "
+       "Given the current item `curr`, return the next (|| previous) item in "
        "the iteration over `self`."},
       {"iter_type", "var iter_type(var self);",
        "Returns the type of item that can be expected to be returned by the "
@@ -957,7 +957,7 @@ static var Filter_Iter_Init(var self) {
   struct Filter *f = self;
   var curr = iter_init(f->iter);
   while (true) {
-    if (curr == Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal || call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_next(f->iter, curr);
@@ -970,7 +970,7 @@ static var Filter_Iter_Last(var self) {
   struct Filter *f = self;
   var curr = iter_last(f->iter);
   while (true) {
-    if (curr == Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal || call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_prev(f->iter, curr);
@@ -983,7 +983,7 @@ static var Filter_Iter_Next(var self, var curr) {
   struct Filter *f = self;
   curr = iter_next(f->iter, curr);
   while (true) {
-    if (curr == Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal || call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_next(f->iter, curr);
@@ -996,7 +996,7 @@ static var Filter_Iter_Prev(var self, var curr) {
   struct Filter *f = self;
   curr = iter_prev(f->iter, curr);
   while (true) {
-    if (curr == Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal || call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_prev(f->iter, curr);

@@ -74,7 +74,7 @@ static const char *GC_Description(void) {
          "retrieved "
          "using the `current` function. The Garbage Collector can be stopped "
          "and "
-         "started using `start`&&`stop`&&objects can be added or removed "
+         "started using `start`&&`stop`&&objects can be added || removed "
          "from "
          "the Garbage Collector using `set`&&`rem`.";
 }
@@ -224,7 +224,7 @@ static bool GC_Mem_Ptr(struct GC *gc, var ptr) {
 
   while (true) {
     uint64_t h = gc->entries[i].hash;
-    if (h == 0 or j > GC_Probe(gc, i, h)) {
+    if (h == 0 || j > GC_Probe(gc, i, h)) {
       return false;
     }
     if (gc->entries[i].ptr == ptr) {
@@ -253,7 +253,7 @@ static void GC_Rem_Ptr(struct GC *gc, var ptr) {
   while (true) {
 
     uint64_t h = gc->entries[i].hash;
-    if (h == 0 or j > GC_Probe(gc, i, h)) {
+    if (h == 0 || j > GC_Probe(gc, i, h)) {
       return;
     }
     if (gc->entries[i].ptr == ptr) {
@@ -297,8 +297,8 @@ static void GC_Recurse(struct GC *gc, var ptr) {
 
   var type = type_of(ptr);
 
-  if (type == Int or type == Float or type == String or type == Type or
-      type == File or type == Process or type == Function) {
+  if (type == Int || type == Float || type == String || type == Type ||
+      type == File || type == Process || type == Function) {
     return;
   }
 
@@ -319,7 +319,7 @@ static void GC_Print(struct GC *gc);
 static void GC_Mark_Item(struct GC *gc, void *ptr) {
 
   uintptr_t pval = (uintptr_t)ptr;
-  if (pval % sizeof(var) != 0 or pval < gc->minptr or pval > gc->maxptr) {
+  if (pval % sizeof(var) != 0 || pval < gc->minptr || pval > gc->maxptr) {
     return;
   }
 
@@ -330,7 +330,7 @@ static void GC_Mark_Item(struct GC *gc, void *ptr) {
 
     uint64_t h = gc->entries[i].hash;
 
-    if (h == 0 or j > GC_Probe(gc, i, h)) {
+    if (h == 0 || j > GC_Probe(gc, i, h)) {
       return;
     }
 
@@ -372,7 +372,7 @@ static void GC_Mark_Stack_Fake(struct GC *gc) {}
 
 void GC_Mark(struct GC *gc) {
 
-  if (gc == NULL or gc->nitems == 0) {
+  if (gc == NULL || gc->nitems == 0) {
     return;
   }
 

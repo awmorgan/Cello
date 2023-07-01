@@ -327,7 +327,7 @@ static var Tree_Maximum(struct Tree *m, var node) {
 
 static var Tree_Sibling(struct Tree *m, var node) {
 
-  if (node == NULL or Tree_Get_Parent(m, node) == NULL) {
+  if (node == NULL || Tree_Get_Parent(m, node) == NULL) {
     return NULL;
   }
 
