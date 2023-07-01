@@ -18,6 +18,36 @@
                         "problemMatcher": [
                                 "$gcc"
                         ]
+                },
+                {
+                        "label": "make examples",
+                        "type": "shell",
+                        "command": "make",
+                        "args": [
+                                "examples",
+                                "-j4"
+                        ],
+                        "group": {
+                                "kind": "build",
+                        },
+                        "problemMatcher": [
+                                "$gcc"
+                        ]
+                },
+                {
+                        "label": "make check",
+                        "type": "shell",
+                        "command": "make",
+                        "args": [
+                                "check",
+                                "-j4"
+                        ],
+                        "group": {
+                                "kind": "build",
+                        },
+                        "problemMatcher": [
+                                "$gcc"
+                        ]
                 }
         ]
 }
