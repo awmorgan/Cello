@@ -146,7 +146,7 @@ static void File_New(var self, var args) {
 
 static void File_Del(var self) {
   struct File *f = self;
-  if (f->file isnt NULL) {
+  if (f->file != NULL) {
     File_Close(self);
   }
 }
@@ -154,7 +154,7 @@ static void File_Del(var self) {
 static var File_Open(var self, var filename, var access) {
   struct File *f = self;
 
-  if (f->file isnt NULL) {
+  if (f->file != NULL) {
     File_Close(self);
   }
 
@@ -237,7 +237,7 @@ static size_t File_Read(var self, void *output, size_t size) {
   }
 
   size_t num = fread(output, size, 1, f->file);
-  if (num isnt 1 and size isnt 0 and not feof(f->file)) {
+  if (num != 1 and size != 0 and not feof(f->file)) {
     throw(IOError, "Failed to read from file: %i", $I(num));
     return num;
   }
@@ -253,7 +253,7 @@ static size_t File_Write(var self, void *input, size_t size) {
   }
 
   size_t num = fwrite(input, size, 1, f->file);
-  if (num isnt 1 and size isnt 0) {
+  if (num != 1 and size != 0) {
     throw(IOError, "Failed to write to file: %i", $I(num));
   }
 
@@ -334,7 +334,7 @@ static void Process_New(var self, var args) {
 
 static void Process_Del(var self) {
   struct Process *p = self;
-  if (p->proc isnt NULL) {
+  if (p->proc != NULL) {
     Process_Close(self);
   }
 }
@@ -342,7 +342,7 @@ static void Process_Del(var self) {
 static var Process_Open(var self, var filename, var access) {
   struct Process *p = self;
 
-  if (p->proc isnt NULL) {
+  if (p->proc != NULL) {
     Process_Close(self);
   }
 
@@ -425,7 +425,7 @@ static size_t Process_Read(var self, void *output, size_t size) {
   }
 
   size_t num = fread(output, size, 1, p->proc);
-  if (num isnt 1 and size isnt 0 and not feof(p->proc)) {
+  if (num != 1 and size != 0 and not feof(p->proc)) {
     throw(IOError, "Failed to read from process: %i", $I(num));
     return num;
   }
@@ -441,7 +441,7 @@ static size_t Process_Write(var self, void *input, size_t size) {
   }
 
   size_t num = fwrite(input, size, 1, p->proc);
-  if (num isnt 1 and size isnt 0) {
+  if (num != 1 and size != 0) {
     throw(IOError, "Failed to write to process: %i", $I(num));
   }
 

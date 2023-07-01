@@ -289,7 +289,7 @@ var Type =
 static var Type_Scan(var self, var cls) {
 
 #if CELLO_METHOD_CHECK == 1
-  if (type_of(self) isnt Type) {
+  if (type_of(self) != Type) {
     return throw(TypeError, "Method call got non type '%s'", type_of(self));
   }
 #endif
@@ -317,7 +317,7 @@ static var Type_Scan(var self, var cls) {
 }
 
 static bool Type_Implements(var self, var cls) {
-  return Type_Scan(self, cls) isnt NULL;
+  return Type_Scan(self, cls) != NULL;
 }
 
 bool type_implements(var self, var cls) { return Type_Implements(self, cls); }
@@ -465,7 +465,7 @@ static var Type_Of(var self) {
           self);
   }
 
-  if (head->magic isnt((var)CELLO_MAGIC_NUM)) {
+  if (head->magic != ((var)CELLO_MAGIC_NUM)) {
     throw(ValueError,
           "Pointer '%p' passed to 'type_of' "
           "has bad magic number, perhaps it wasn't allocated by Cello.",

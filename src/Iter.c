@@ -356,10 +356,10 @@ static int Range_Show(var self, var output, int pos) {
   struct Range *r = self;
   pos = print_to(output, pos, "<'Range' At 0x%p [", self);
   var curr = Range_Iter_Init(self);
-  while (curr isnt Terminal) {
+  while (curr != Terminal) {
     pos = print_to(output, pos, "%i", curr);
     curr = Range_Iter_Next(self, curr);
-    if (curr isnt Terminal) {
+    if (curr != Terminal) {
       pos = print_to(output, pos, ", ");
     }
   }
@@ -457,7 +457,7 @@ static int64_t Slice_Arg(int part, size_t n, var arg) {
 
   int64_t a = c_int(arg);
 
-  if (part isnt 2) {
+  if (part != 2) {
     a = a < 0 ? n + a : a;
     a = a > n ? n : a;
     a = a < 0 ? 0 : a;
@@ -654,10 +654,10 @@ static int Slice_Show(var self, var output, int pos) {
   struct Slice *s = self;
   pos = print_to(output, pos, "<'Slice' At 0x%p [", self);
   var curr = Slice_Iter_Init(self);
-  while (curr isnt Terminal) {
+  while (curr != Terminal) {
     pos = print_to(output, pos, "%$", curr);
     curr = Slice_Iter_Next(self, curr);
-    if (curr isnt Terminal) {
+    if (curr != Terminal) {
       pos = print_to(output, pos, ", ");
     }
   }

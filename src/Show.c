@@ -236,11 +236,11 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
     const char *start = fmt;
 
     /* Match String */
-    while (*fmt isnt '\0' and *fmt isnt '%') {
+    while (*fmt != '\0' and *fmt != '%') {
       fmt++;
     }
 
-    if (start isnt fmt) {
+    if (start != fmt) {
       memcpy(fmt_buf, start, fmt - start);
       fmt_buf[fmt - start] = '\0';
       int off = format_to(out, pos, fmt_buf);
@@ -267,7 +267,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
       fmt++;
     }
 
-    if (start isnt fmt) {
+    if (start != fmt) {
 
       memcpy(fmt_buf, start, fmt - start + 1);
       fmt_buf[fmt - start + 1] = '\0';
@@ -366,11 +366,11 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
     const char *start = fmt;
 
     /* Match String */
-    while (*fmt isnt '\0' and *fmt isnt '%') {
+    while (*fmt != '\0' and *fmt != '%') {
       fmt++;
     }
 
-    if (start isnt fmt) {
+    if (start != fmt) {
       memcpy(fmt_buf, start, fmt - start);
       fmt_buf[fmt - start] = '\0';
       format_from(input, pos, fmt_buf);
@@ -394,7 +394,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
       fmt++;
     }
 
-    if (start isnt fmt) {
+    if (start != fmt) {
 
       int off = 0;
       memcpy(fmt_buf, start, fmt - start + 1);

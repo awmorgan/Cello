@@ -140,7 +140,7 @@ static void Tuple_Assign(var self, var obj) {
 static size_t Tuple_Len(var self) {
   struct Tuple *t = self;
   size_t i = 0;
-  while (t->items and t->items[i] isnt Terminal) {
+  while (t->items and t->items[i] != Terminal) {
     i++;
   }
   return i;
@@ -154,7 +154,7 @@ static var Tuple_Iter_Init(var self) {
 static var Tuple_Iter_Next(var self, var curr) {
   struct Tuple *t = self;
   size_t i = 0;
-  while (t->items[i] isnt Terminal) {
+  while (t->items[i] != Terminal) {
     if (t->items[i] == curr) {
       return t->items[i + 1];
     }
@@ -174,7 +174,7 @@ static var Tuple_Iter_Prev(var self, var curr) {
     return Terminal;
   }
   size_t i = 0;
-  while (t->items[i] isnt Terminal) {
+  while (t->items[i] != Terminal) {
     if (t->items[i] == curr) {
       return t->items[i - 1];
     }
@@ -234,7 +234,7 @@ static void Tuple_Pop_At(var self, var key);
 static void Tuple_Rem(var self, var item) {
   struct Tuple *t = self;
   size_t i = 0;
-  while (t->items[i] isnt Terminal) {
+  while (t->items[i] != Terminal) {
     if (eq(item, t->items[i])) {
       Tuple_Pop_At(self, $I(i));
       return;
@@ -247,9 +247,9 @@ static int Tuple_Show(var self, var output, int pos) {
   struct Tuple *t = self;
   pos = print_to(output, pos, "tuple(", self);
   size_t i = 0;
-  while (t->items[i] isnt Terminal) {
+  while (t->items[i] != Terminal) {
     pos = print_to(output, pos, "%$", t->items[i]);
-    if (t->items[i + 1] isnt Terminal) {
+    if (t->items[i + 1] != Terminal) {
       pos = print_to(output, pos, ", ");
     }
     i++;
@@ -426,7 +426,7 @@ static void Tuple_Mark(var self, var gc, void (*f)(var, void *)) {
   if (t->items == NULL) {
     return;
   }
-  while (t->items[i] isnt Terminal) {
+  while (t->items[i] != Terminal) {
     f(gc, t->items[i]);
     i++;
   }

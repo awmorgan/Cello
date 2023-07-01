@@ -137,7 +137,7 @@ static void Table_New(var self, var args) {
   t->vsize = Table_Size_Round(size(t->vtype));
 
   size_t nargs = len(args);
-  if (nargs % 2 isnt 0) {
+  if (nargs % 2 != 0) {
     throw(FormatError,
           "Received non multiple of two argument count to Table constructor.");
   }
@@ -171,7 +171,7 @@ static void Table_Del(var self) {
   struct Table *t = self;
 
   for (size_t i = 0; i < t->nslots; i++) {
-    if (Table_Key_Hash(t, i) isnt 0) {
+    if (Table_Key_Hash(t, i) != 0) {
       destruct(Table_Key(t, i));
       destruct(Table_Val(t, i));
     }
@@ -196,7 +196,7 @@ static void Table_Clear(var self) {
   struct Table *t = self;
 
   for (size_t i = 0; i < t->nslots; i++) {
-    if (Table_Key_Hash(t, i) isnt 0) {
+    if (Table_Key_Hash(t, i) != 0) {
       destruct(Table_Key(t, i));
       destruct(Table_Val(t, i));
     }
@@ -291,7 +291,7 @@ static uint64_t Table_Hash(var self) {
   uint64_t h = 0;
 
   var curr = Table_Iter_Init(self);
-  while (curr isnt Terminal) {
+  while (curr != Terminal) {
     var vurr = (char *)curr + t->ksize + sizeof(struct Header);
     h = h ^ hash(curr) ^ hash(vurr);
     curr = Table_Iter_Next(self, curr);
@@ -411,7 +411,7 @@ static void Table_Rehash(struct Table *t, size_t new_size) {
 
     uint64_t h = *(uint64_t *)((char *)old_data + i * Table_Step(t));
 
-    if (h isnt 0) {
+    if (h != 0) {
       var key = (char *)old_data + i * Table_Step(t) + sizeof(uint64_t) +
                 sizeof(struct Header);
       var val = (char *)old_data + i * Table_Step(t) + sizeof(uint64_t) +
@@ -496,7 +496,7 @@ static void Table_Rem(var self, var key) {
 
         uint64_t ni = (i + 1) % t->nslots;
         uint64_t nh = Table_Key_Hash(t, ni);
-        if (nh isnt 0 and Table_Probe(t, ni, nh) > 0) {
+        if (nh != 0 and Table_Probe(t, ni, nh) > 0) {
           memcpy((char *)t->data + i * Table_Step(t),
                  (char *)t->data + ni * Table_Step(t), Table_Step(t));
           memset((char *)t->data + ni * Table_Step(t), 0, Table_Step(t));
@@ -564,7 +564,7 @@ static var Table_Iter_Init(var self) {
   }
 
   for (size_t i = 0; i < t->nslots; i++) {
-    if (Table_Key_Hash(t, i) isnt 0) {
+    if (Table_Key_Hash(t, i) != 0) {
       return Table_Key(t, i);
     }
   }
@@ -584,7 +584,7 @@ static var Table_Iter_Next(var self, var curr) {
     }
     uint64_t h =
         *(uint64_t *)((char *)curr - sizeof(struct Header) - sizeof(uint64_t));
-    if (h isnt 0) {
+    if (h != 0) {
       return curr;
     }
     curr = (char *)curr + Table_Step(t);
@@ -602,7 +602,7 @@ static var Table_Iter_Last(var self) {
 
   size_t i = t->nslots - 1;
   while (true) {
-    if (Table_Key_Hash(t, i) isnt 0) {
+    if (Table_Key_Hash(t, i) != 0) {
       return Table_Key(t, i);
     }
     if (i == 0) {
@@ -626,7 +626,7 @@ static var Table_Iter_Prev(var self, var curr) {
     }
     uint64_t h =
         *(uint64_t *)((char *)curr - sizeof(struct Header) - sizeof(uint64_t));
-    if (h isnt 0) {
+    if (h != 0) {
       return curr;
     }
     curr = (char *)curr - Table_Step(t);
@@ -647,7 +647,7 @@ static int Table_Show(var self, var output, int pos) {
 
   size_t j = 0;
   for (size_t i = 0; i < t->nslots; i++) {
-    if (Table_Key_Hash(t, i) isnt 0) {
+    if (Table_Key_Hash(t, i) != 0) {
       pos = print_to(output, pos, "%$:%$", Table_Key(t, i), Table_Val(t, i));
       if (j < Table_Len(t) - 1) {
         pos = print_to(output, pos, ", ");
@@ -680,7 +680,7 @@ static void Table_Resize(var self, size_t n) {
 static void Table_Mark(var self, var gc, void (*f)(var, void *)) {
   struct Table *t = self;
   for (size_t i = 0; i < t->nslots; i++) {
-    if (Table_Key_Hash(t, i) isnt 0) {
+    if (Table_Key_Hash(t, i) != 0) {
       f(gc, Table_Key(t, i));
       f(gc, Table_Val(t, i));
     }

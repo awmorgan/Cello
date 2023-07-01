@@ -131,7 +131,6 @@
 
 typedef void *var;
 
-#define isnt !=
 #define not !
 #define and &&
 #define or ||
@@ -599,7 +598,7 @@ var iter_type(var self);
 #define foreach_in(X, S)                                                       \
   for (var __##X = (S), __Iter##X = instance(__##X, Iter),                     \
            X = ((struct Iter *)(__Iter##X))->iter_init(__##X);                 \
-       X isnt Terminal; X = ((struct Iter *)(__Iter##X))->iter_next(__##X, X))
+       X != Terminal; X = ((struct Iter *)(__Iter##X))->iter_next(__##X, X))
 
 void push(var self, var obj);
 void pop(var self);
@@ -707,7 +706,7 @@ var stop_in(var self);
 
 #define with(...) with_xp(with_in, (__VA_ARGS__))
 #define with_xp(X, A) X A
-#define with_in(X, S) for (var X = start_in(S); X isnt NULL; X = stop_in(X))
+#define with_in(X, S) for (var X = start_in(S); X != NULL; X = stop_in(X))
 
 void lock(var self);
 bool trylock(var self);
@@ -727,7 +726,7 @@ void unlock(var self);
   }                                                                            \
   exception_try_end();                                                         \
   }                                                                            \
-  for (var X = exception_catch(tuple(__VA_ARGS__)); X isnt NULL; X = NULL)
+  for (var X = exception_catch(tuple(__VA_ARGS__)); X != NULL; X = NULL)
 
 #define throw(E, F, ...) exception_throw(E, F, tuple(__VA_ARGS__))
 

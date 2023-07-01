@@ -142,7 +142,7 @@ static void Thread_Del(var self) {
   CloseHandle(t->thread);
 #endif
 
-  if (t->args isnt NULL) {
+  if (t->args != NULL) {
     del_raw(t->args);
   }
   del_raw(t->tls);

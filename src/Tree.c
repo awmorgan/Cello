@@ -168,7 +168,7 @@ static void Tree_New(var self, var args) {
   m->root = NULL;
 
   size_t nargs = len(args);
-  if (nargs % 2 isnt 0) {
+  if (nargs % 2 != 0) {
     throw(FormatError,
           "Received non multiple of two argument count to Tree constructor.");
   }
@@ -181,7 +181,7 @@ static void Tree_New(var self, var args) {
 }
 
 static void Tree_Clear_Entry(struct Tree *m, var node) {
-  if (node isnt NULL) {
+  if (node != NULL) {
     Tree_Clear_Entry(m, *Tree_Left(m, node));
     Tree_Clear_Entry(m, *Tree_Right(m, node));
     destruct(Tree_Key(m, node));
@@ -262,7 +262,7 @@ static uint64_t Tree_Hash(var self) {
   uint64_t h = 0;
 
   var curr = Tree_Iter_Init(self);
-  while (curr isnt Terminal) {
+  while (curr != Terminal) {
     var node = (char *)curr - sizeof(struct Header) - 3 * sizeof(var);
     h = h ^ hash(Tree_Key(m, node)) ^ hash(Tree_Val(m, node));
     curr = Tree_Iter_Next(self, curr);
@@ -281,7 +281,7 @@ static bool Tree_Mem(var self, var key) {
   key = cast(key, m->ktype);
 
   var node = m->root;
-  while (node isnt NULL) {
+  while (node != NULL) {
     int c = cmp(Tree_Key(m, node), key);
     if (c == 0) {
       return true;
@@ -297,7 +297,7 @@ static var Tree_Get(var self, var key) {
   key = cast(key, m->ktype);
 
   var node = m->root;
-  while (node isnt NULL) {
+  while (node != NULL) {
     int c = cmp(Tree_Key(m, node), key);
     if (c == 0) {
       return Tree_Val(m, node);
@@ -319,7 +319,7 @@ static var Tree_Val_Type(var self) {
 }
 
 static var Tree_Maximum(struct Tree *m, var node) {
-  while (*Tree_Right(m, node) isnt NULL) {
+  while (*Tree_Right(m, node) != NULL) {
     node = *Tree_Right(m, node);
   }
   return node;
@@ -339,7 +339,7 @@ static var Tree_Sibling(struct Tree *m, var node) {
 }
 
 static var Tree_Grandparent(struct Tree *m, var node) {
-  if ((node isnt NULL) and (Tree_Get_Parent(m, node) isnt NULL)) {
+  if ((node != NULL) and (Tree_Get_Parent(m, node) != NULL)) {
     return Tree_Get_Parent(m, Tree_Get_Parent(m, node));
   } else {
     return NULL;
@@ -368,7 +368,7 @@ void Tree_Replace(struct Tree *m, var oldn, var newn) {
       *Tree_Right(m, Tree_Get_Parent(m, oldn)) = newn;
     }
   }
-  if (newn isnt NULL) {
+  if (newn != NULL) {
     Tree_Set_Parent(m, newn, Tree_Get_Parent(m, oldn));
   }
 }
@@ -377,7 +377,7 @@ static void Tree_Rotate_Left(struct Tree *m, var node) {
   var r = *Tree_Right(m, node);
   Tree_Replace(m, node, r);
   *Tree_Right(m, node) = *Tree_Left(m, r);
-  if (*Tree_Left(m, r) isnt NULL) {
+  if (*Tree_Left(m, r) != NULL) {
     Tree_Set_Parent(m, *Tree_Left(m, r), node);
   }
   *Tree_Left(m, r) = node;
@@ -388,7 +388,7 @@ static void Tree_Rotate_Right(struct Tree *m, var node) {
   var l = *Tree_Left(m, node);
   Tree_Replace(m, node, l);
   *Tree_Left(m, node) = *Tree_Right(m, l);
-  if (*Tree_Right(m, l) isnt NULL) {
+  if (*Tree_Right(m, l) != NULL) {
     Tree_Set_Parent(m, *Tree_Right(m, l), node);
   }
   *Tree_Right(m, l) = node;
@@ -408,7 +408,7 @@ static void Tree_Set_Fix(struct Tree *m, var node) {
       return;
     }
 
-    if ((Tree_Uncle(m, node) isnt NULL) and
+    if ((Tree_Uncle(m, node) != NULL) and
         (Tree_Is_Red(m, Tree_Uncle(m, node)))) {
       Tree_Set_Black(m, Tree_Get_Parent(m, node));
       Tree_Set_Black(m, Tree_Uncle(m, node));
@@ -588,7 +588,7 @@ static void Tree_Rem(var self, var key) {
 
   bool found = false;
   var node = m->root;
-  while (node isnt NULL) {
+  while (node != NULL) {
     int c = cmp(Tree_Key(m, node), key);
     if (c == 0) {
       found = true;
@@ -605,7 +605,7 @@ static void Tree_Rem(var self, var key) {
   destruct(Tree_Key(m, node));
   destruct(Tree_Val(m, node));
 
-  if ((*Tree_Left(m, node) isnt NULL) and (*Tree_Right(m, node) isnt NULL)) {
+  if ((*Tree_Left(m, node) != NULL) and (*Tree_Right(m, node) != NULL)) {
     var pred = Tree_Maximum(m, *Tree_Left(m, node));
     bool ncol = Tree_Get_Color(m, node);
     memcpy((char *)node + 3 * sizeof(var), (char *)pred + 3 * sizeof(var),
@@ -624,7 +624,7 @@ static void Tree_Rem(var self, var key) {
 
   Tree_Replace(m, node, chld);
 
-  if ((Tree_Get_Parent(m, node) == NULL) and (chld isnt NULL)) {
+  if ((Tree_Get_Parent(m, node) == NULL) and (chld != NULL)) {
     Tree_Set_Black(m, chld);
   }
 
@@ -638,7 +638,7 @@ static var Tree_Iter_Init(var self) {
     return Terminal;
   }
   var node = m->root;
-  while (*Tree_Left(m, node) isnt NULL) {
+  while (*Tree_Left(m, node) != NULL) {
     node = *Tree_Left(m, node);
   }
   return Tree_Key(m, node);
@@ -650,9 +650,9 @@ static var Tree_Iter_Next(var self, var curr) {
   var node = (char *)curr - sizeof(struct Header) - 3 * sizeof(var);
   var prnt = Tree_Get_Parent(m, node);
 
-  if (*Tree_Right(m, node) isnt NULL) {
+  if (*Tree_Right(m, node) != NULL) {
     node = *Tree_Right(m, node);
-    while (*Tree_Left(m, node) isnt NULL) {
+    while (*Tree_Left(m, node) != NULL) {
       node = *Tree_Left(m, node);
     }
     return Tree_Key(m, node);
@@ -680,7 +680,7 @@ static var Tree_Iter_Last(var self) {
     return Terminal;
   }
   var node = m->root;
-  while (*Tree_Right(m, node) isnt NULL) {
+  while (*Tree_Right(m, node) != NULL) {
     node = *Tree_Right(m, node);
   }
   return Tree_Key(m, node);
@@ -692,9 +692,9 @@ static var Tree_Iter_Prev(var self, var curr) {
   var node = (char *)curr - sizeof(struct Header) - 3 * sizeof(var);
   var prnt = Tree_Get_Parent(m, node);
 
-  if (*Tree_Left(m, node) isnt NULL) {
+  if (*Tree_Left(m, node) != NULL) {
     node = *Tree_Left(m, node);
-    while (*Tree_Right(m, node) isnt NULL) {
+    while (*Tree_Right(m, node) != NULL) {
       node = *Tree_Right(m, node);
     }
     return Tree_Key(m, node);
@@ -728,11 +728,11 @@ static int Tree_Show(var self, var output, int pos) {
 
   var curr = Tree_Iter_Init(self);
 
-  while (curr isnt Terminal) {
+  while (curr != Terminal) {
     var node = (char *)curr - sizeof(struct Header) - 3 * sizeof(var);
     pos = print_to(output, pos, "%$:%$", Tree_Key(m, node), Tree_Val(m, node));
     curr = Tree_Iter_Next(self, curr);
-    if (curr isnt Terminal) {
+    if (curr != Terminal) {
       pos = print_to(output, pos, ", ");
     }
   }
@@ -745,7 +745,7 @@ static void Tree_Mark(var self, var gc, void (*f)(var, void *)) {
 
   var curr = Tree_Iter_Init(self);
 
-  while (curr isnt Terminal) {
+  while (curr != Terminal) {
     var node = (char *)curr - sizeof(struct Header) - 3 * sizeof(var);
     f(gc, Tree_Key(m, node));
     f(gc, Tree_Val(m, node));

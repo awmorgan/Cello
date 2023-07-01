@@ -157,7 +157,7 @@ static void GC_Rehash(struct GC *gc, size_t new_size) {
 #endif
 
   for (size_t i = 0; i < old_size; i++) {
-    if (old_entries[i].hash isnt 0) {
+    if (old_entries[i].hash != 0) {
       GC_Set_Ptr(gc, old_entries[i].ptr, old_entries[i].root);
     }
   }
@@ -266,7 +266,7 @@ static void GC_Rem_Ptr(struct GC *gc, var ptr) {
       while (true) {
         uint64_t nj = (j + 1) % gc->nslots;
         uint64_t nh = gc->entries[nj].hash;
-        if (nh isnt 0 and GC_Probe(gc, nj, nh) > 0) {
+        if (nh != 0 and GC_Probe(gc, nj, nh) > 0) {
           memcpy(&gc->entries[j], &gc->entries[nj], sizeof(struct GCEntry));
           memset(&gc->entries[nj], 0, sizeof(struct GCEntry));
           j = nj;
@@ -320,7 +320,7 @@ static void GC_Print(struct GC *gc);
 static void GC_Mark_Item(struct GC *gc, void *ptr) {
 
   uintptr_t pval = (uintptr_t)ptr;
-  if (pval % sizeof(var) isnt 0 or pval < gc->minptr or pval > gc->maxptr) {
+  if (pval % sizeof(var) != 0 or pval < gc->minptr or pval > gc->maxptr) {
     return;
   }
 
@@ -456,7 +456,7 @@ void GC_Sweep(struct GC *gc) {
       while (true) {
         uint64_t nj = (j + 1) % gc->nslots;
         uint64_t nh = gc->entries[nj].hash;
-        if (nh isnt 0 and GC_Probe(gc, nj, nh) > 0) {
+        if (nh != 0 and GC_Probe(gc, nj, nh) > 0) {
           memcpy(&gc->entries[j], &gc->entries[nj], sizeof(struct GCEntry));
           memset(&gc->entries[nj], 0, sizeof(struct GCEntry));
           j = nj;

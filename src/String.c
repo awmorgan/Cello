@@ -399,7 +399,7 @@ static int String_Look(var self, var input, int pos) {
   var chr = $I(0);
   pos = scan_from(input, pos, "%c", chr);
 
-  if (c_int(chr) isnt '\"') {
+  if (c_int(chr) != '\"') {
     throw(FormatError, "String literal does not start with quotation marks!");
   }
 
