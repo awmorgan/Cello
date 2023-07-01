@@ -151,8 +151,8 @@ static void Thread_Del(var self) {
 static int64_t Thread_C_Int(var self) {
   struct Thread *t = self;
 
-  if (not t->is_running) {
-    throw(ValueError, "Cannot get thread ID, thread not running!");
+  if (!t->is_running) {
+    throw(ValueError, "Can!get thread ID, thread !running!");
   }
 
 #if defined(CELLO_UNIX)
@@ -264,7 +264,7 @@ static var Thread_Call(var self, var args) {
 
   /* Setup Thread Local Storage */
 
-  if (not Thread_TLS_Key_Created) {
+  if (!Thread_TLS_Key_Created) {
     Thread_TLS_Key_Create();
     Thread_TLS_Key_Created = true;
     atexit(Thread_TLS_Key_Delete);
@@ -277,7 +277,7 @@ static var Thread_Call(var self, var args) {
   }
 
   if (err == EAGAIN) {
-    throw(OutOfMemoryError, "Not enough resources to create another Thread");
+    throw(OutOfMemoryError, "!enough resources to create another Thread");
   }
 
   if (err == EBUSY) {
@@ -288,7 +288,7 @@ static var Thread_Call(var self, var args) {
 
   /* Setup Thread Local Storage */
 
-  if (not Thread_TLS_Key_Created) {
+  if (!Thread_TLS_Key_Created) {
     Thread_TLS_Key_Create();
     Thread_TLS_Key_Created = true;
     atexit(Thread_TLS_Key_Delete);
@@ -320,7 +320,7 @@ static void Thread_Main_Del(void) {
 
 static var Thread_Current(void) {
 
-  if (not Thread_TLS_Key_Created) {
+  if (!Thread_TLS_Key_Created) {
     Thread_TLS_Key_Create();
     Thread_TLS_Key_Created = true;
     atexit(Thread_TLS_Key_Delete);
@@ -379,7 +379,7 @@ static void Thread_Stop(var self) {
   struct Thread *t = self;
 
 #if defined(CELLO_UNIX)
-  if (not t->thread) {
+  if (!t->thread) {
     return;
   }
   int err = pthread_kill(t->thread, SIGINT);
@@ -390,7 +390,7 @@ static void Thread_Stop(var self) {
     throw(ValueError, "Invalid Thread");
   }
 #elif defined(CELLO_WINDOWS)
-  if (not t->thread) {
+  if (!t->thread) {
     return;
   }
   TerminateThread(t->thread, FALSE);
@@ -401,7 +401,7 @@ static void Thread_Join(var self) {
   struct Thread *t = self;
 
 #if defined(CELLO_UNIX)
-  if (not t->thread) {
+  if (!t->thread) {
     return;
   }
   int err = pthread_join(t->thread, NULL);
@@ -412,7 +412,7 @@ static void Thread_Join(var self) {
     throw(ValueError, "Invalid Thread");
   }
 #elif defined(CELLO_WINDOWS)
-  if (not t->thread) {
+  if (!t->thread) {
     return;
   }
   WaitForSingleObject(t->thread, INFINITE);
@@ -616,7 +616,7 @@ static void Mutex_Unlock(var self) {
     throw(ValueError, "Invalid Argument to Mutex Unlock");
   }
   if (err == EPERM) {
-    throw(ResourceError, "Mutex cannot be held by caller");
+    throw(ResourceError, "Mutex can!be held by caller");
   }
 #elif defined(CELLO_WINDOWS)
   ReleaseMutex(m->mutex);

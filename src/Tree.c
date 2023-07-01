@@ -17,7 +17,7 @@ static const char *Tree_Description(void) {
          "several "
          "other nice properties such as being able to iterate over the items "
          "in "
-         "order and not having large pauses for rehashing on some insertions."
+         "order and!having large pauses for rehashing on some insertions."
          "\n\n"
          "This==largely equivalent to the C++ construct "
          "[std::map](http://www.cplusplus.com/reference/map/map/)";
@@ -129,7 +129,7 @@ static bool Tree_Is_Red(struct Tree *m, var node) {
 }
 
 static bool Tree_Is_Black(struct Tree *m, var node) {
-  return not Tree_Get_Color(m, node);
+  return !Tree_Get_Color(m, node);
 }
 
 static var Tree_Alloc(struct Tree *m) {
@@ -138,7 +138,7 @@ static var Tree_Alloc(struct Tree *m) {
 
 #if CELLO_MEMORY_CHECK == 1
   if (node == NULL) {
-    throw(OutOfMemoryError, "Cannot allocate Tree entry, out of memory!");
+    throw(OutOfMemoryError, "Can!allocate Tree entry, out of memory!");
   }
 #endif
 
@@ -305,7 +305,7 @@ static var Tree_Get(var self, var key) {
     node = c < 0 ? *Tree_Left(m, node) : *Tree_Right(m, node);
   }
 
-  return throw(KeyError, "Key %$ not in Tree!", key);
+  return throw(KeyError, "Key %$!in Tree!", key);
 }
 
 static var Tree_Key_Type(var self) {
@@ -597,8 +597,8 @@ static void Tree_Rem(var self, var key) {
     node = c < 0 ? *Tree_Left(m, node) : *Tree_Right(m, node);
   }
 
-  if (not found) {
-    throw(KeyError, "Key %$ not in Tree!", key);
+  if (!found) {
+    throw(KeyError, "Key %$!in Tree!", key);
     return;
   }
 
@@ -759,7 +759,7 @@ static void Tree_Resize(var self, size_t n) {
     Tree_Clear(self);
   } else {
     throw(FormatError,
-          "Cannot resize Tree to %li items. Trees can only be resized to 0 "
+          "Can!resize Tree to %li items. Trees can only be resized to 0 "
           "items.",
           $I(n));
   }

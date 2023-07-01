@@ -117,11 +117,11 @@ int cmp(var self, var obj) {
 }
 
 bool eq(var self, var obj) { return cmp(self, obj) == 0; }
-bool neq(var self, var obj) { return not eq(self, obj); }
+bool neq(var self, var obj) { return!eq(self, obj); }
 bool gt(var self, var obj) { return cmp(self, obj) > 0; }
 bool lt(var self, var obj) { return cmp(self, obj) < 0; }
-bool ge(var self, var obj) { return not lt(self, obj); }
-bool le(var self, var obj) { return not gt(self, obj); }
+bool ge(var self, var obj) { return!lt(self, obj); }
+bool le(var self, var obj) { return!gt(self, obj); }
 
 static const char *Sort_Name(void) { return "Sort"; }
 

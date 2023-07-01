@@ -130,8 +130,7 @@
 /* Syntax */
 
 typedef void *var;
-
-#define not !
+// todo
 #define and &&
 #define or ||
 #define in ,

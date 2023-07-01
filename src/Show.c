@@ -16,7 +16,7 @@ static const char *Format_Description(void) {
          "`Show` class to read and write output."
          "\n\n"
          "It is important to note that the semantics of these operations match "
-         "`printf` and not the newly defined `Show` class. For example it is "
+         "`printf` and !the newly defined `Show` class. For example it is "
          "perfectly valid to pass a C `int` to these functions, while the "
          "`println` "
          "function from `Show` must be passed only `var` objects.";
@@ -263,7 +263,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
     }
 
     /* Match Format Specifier */
-    while (not strchr("diuoxXfFeEgGaAxcsp$", *fmt)) {
+    while (!strchr("diuoxXfFeEgGaAxcsp$", *fmt)) {
       fmt++;
     }
 
@@ -273,7 +273,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
       fmt_buf[fmt - start + 1] = '\0';
 
       if (index >= len(args)) {
-        throw(FormatError, "Not enough arguments to Format String!");
+        throw(FormatError, "!enough arguments to Format String!");
       }
 
       var a = get(args, $I(index));
@@ -390,7 +390,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
     }
 
     /* Match Format Specifier */
-    while (not strchr("diuoxXfFeEgGaAxcsp$[^]", *fmt)) {
+    while (!strchr("diuoxXfFeEgGaAxcsp$[^]", *fmt)) {
       fmt++;
     }
 
@@ -402,7 +402,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
       strcat(fmt_buf, "%n");
 
       if (index >= len(args)) {
-        throw(FormatError, "Not enough arguments to Format String!");
+        throw(FormatError, "!enough arguments to Format String!");
       }
 
       var a = get(args, $I(index));

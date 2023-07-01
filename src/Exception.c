@@ -40,7 +40,7 @@ static const char *Exception_Description(void) {
          "One instance of this type is created for each `Thread` and stores "
          "the "
          "various bits of data required for the exception system. It can be "
-         "retrieved using the `current` function, although not much can be "
+         "retrieved using the `current` function, although !much can be "
          "done "
          "with it."
          "\n\n"
@@ -371,7 +371,7 @@ var exception_catch(var args) {
 
   struct Exception *e = current(Exception);
 
-  if (not e->active) {
+  if (!e->active) {
     return NULL;
   }
 

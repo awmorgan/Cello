@@ -13,9 +13,9 @@ PT_FUNC(test_array_new) {
   PT_ASSERT(a1);
   PT_ASSERT(a2);
 
-  PT_ASSERT(a0 isnt a1);
-  PT_ASSERT(a0 isnt a2);
-  PT_ASSERT(a1 isnt a2);
+  PT_ASSERT(a0 != a1);
+  PT_ASSERT(a0 != a2);
+  PT_ASSERT(a1 != a2);
 
   PT_ASSERT(eq(get(a0, $I(0)), $I(1)));
   PT_ASSERT(eq(get(a1, $I(0)), $F(1.1)));
@@ -104,12 +104,12 @@ PT_FUNC(test_array_get) {
 
   PT_ASSERT(len(a0) == 2);
   PT_ASSERT(mem(a0, $I(1)));
-  PT_ASSERT(not mem(a0, $I(5)));
+  PT_ASSERT(!mem(a0, $I(5)));
 
   resize(a0, 0);
 
   PT_ASSERT(len(a0) == 0);
-  PT_ASSERT(not mem(a0, $I(1)));
+  PT_ASSERT(!mem(a0, $I(1)));
 
   del(a0);
 
@@ -420,7 +420,7 @@ PT_FUNC(test_file_new) {
   PT_ASSERT(f0);
   PT_ASSERT(f1);
 
-  PT_ASSERT(f0 isnt f1);
+  PT_ASSERT(f0 != f1);
 
   del(f0);
 }
@@ -479,7 +479,7 @@ PT_FUNC(test_float_assign) {
 
   assign(float2, float1);
 
-  PT_ASSERT(not(float2 == float1));
+  PT_ASSERT(!(float2 == float1));
   PT_ASSERT(c_float(float2) == 24.313);
 
   del(float1);
@@ -566,8 +566,8 @@ PT_FUNC(test_filter_get) {
 
   PT_ASSERT(mem(f, $I(5)));
   PT_ASSERT(mem(f, $I(9)));
-  PT_ASSERT(not mem(f, $I(0)));
-  PT_ASSERT(not mem(f, $I(1)));
+  PT_ASSERT(!mem(f, $I(0)));
+  PT_ASSERT(!mem(f, $I(1)));
 
   del(x);
 }
@@ -595,8 +595,8 @@ PT_FUNC(test_filter_new) {
 
   PT_ASSERT(mem(f, $I(5)));
   PT_ASSERT(mem(f, $I(9)));
-  PT_ASSERT(not mem(f, $I(0)));
-  PT_ASSERT(not mem(f, $I(1)));
+  PT_ASSERT(!mem(f, $I(0)));
+  PT_ASSERT(!mem(f, $I(1)));
 
   del(x);
   del(f);
@@ -640,7 +640,7 @@ PT_FUNC(test_int_assign) {
 
   assign(int2, int1);
 
-  PT_ASSERT(not(int2 == int1));
+  PT_ASSERT(!(int2 == int1));
   PT_ASSERT(c_int(int2) == 24313);
 
   del(int1);
@@ -715,9 +715,9 @@ PT_FUNC(test_list_new) {
   PT_ASSERT(l1);
   PT_ASSERT(l2);
 
-  PT_ASSERT(l0 isnt l1);
-  PT_ASSERT(l0 isnt l2);
-  PT_ASSERT(l1 isnt l2);
+  PT_ASSERT(l0 != l1);
+  PT_ASSERT(l0 != l2);
+  PT_ASSERT(l1 != l2);
 
   PT_ASSERT(eq(get(l0, $I(0)), $I(1)));
   PT_ASSERT(eq(get(l1, $I(0)), $F(1.1)));
@@ -806,12 +806,12 @@ PT_FUNC(test_list_get) {
 
   PT_ASSERT(len(l0) == 2);
   PT_ASSERT(mem(l0, $I(1)));
-  PT_ASSERT(not mem(l0, $I(5)));
+  PT_ASSERT(!mem(l0, $I(5)));
 
   resize(l0, 0);
 
   PT_ASSERT(len(l0) == 0);
-  PT_ASSERT(not mem(l0, $I(1)));
+  PT_ASSERT(!mem(l0, $I(1)));
 
   del(l0);
 
@@ -1602,7 +1602,7 @@ PT_FUNC(test_string_new) {
 
   assign(s2, s1);
 
-  PT_ASSERT(not(s1 == s2));
+  PT_ASSERT(!(s1 == s2));
   PT_ASSERT_STR_EQ(c_str(s2), "There");
 
   del(s1);
@@ -1722,14 +1722,14 @@ PT_FUNC(test_table_get) {
   rem(t0, $S("Hello"));
 
   PT_ASSERT(len(t0) == 1);
-  PT_ASSERT(not mem(t0, $S("Hello")));
+  PT_ASSERT(!mem(t0, $S("Hello")));
   PT_ASSERT(mem(t0, $S("There")));
 
   resize(t0, 0);
 
   PT_ASSERT(len(t0) == 0);
-  PT_ASSERT(not mem(t0, $S("Hello")));
-  PT_ASSERT(not mem(t0, $S("There")));
+  PT_ASSERT(!mem(t0, $S("Hello")));
+  PT_ASSERT(!mem(t0, $S("There")));
 
   del(t0);
 
@@ -1823,8 +1823,8 @@ PT_FUNC(test_table_new) {
   PT_ASSERT(t1);
   PT_ASSERT(t2);
 
-  PT_ASSERT(t0 isnt t2);
-  PT_ASSERT(t0 isnt t1);
+  PT_ASSERT(t0 != t2);
+  PT_ASSERT(t0 != t1);
 
   PT_ASSERT(mem(t0, $S("Hello")));
   PT_ASSERT(mem(t1, $S("Bonjour")));
@@ -1834,8 +1834,8 @@ PT_FUNC(test_table_new) {
 
   PT_ASSERT(mem(t2, $S("Where")));
   PT_ASSERT(mem(t2, $S("Bonjour")));
-  PT_ASSERT(not mem(t2, $S("Hello")));
-  PT_ASSERT(not mem(t2, $S("There")));
+  PT_ASSERT(!mem(t2, $S("Hello")));
+  PT_ASSERT(!mem(t2, $S("There")));
 
   del(t0);
   del(t1);
@@ -1912,7 +1912,7 @@ PT_FUNC(test_table_rehash) {
     set(t0, key, value);
   }
 
-  PT_ASSERT(test_key isnt NULL);
+  PT_ASSERT(test_key != NULL);
   PT_ASSERT(eq(get(t0, test_key), value));
   PT_ASSERT(len(t0) == max);
 
@@ -1972,7 +1972,7 @@ PT_FUNC(test_thread_get) {
   PT_ASSERT(mem(current(Thread), $S("Hello")));
   PT_ASSERT(c_int(get(current(Thread), $S("Hello"))) == 1);
   rem(current(Thread), $S("Hello"));
-  PT_ASSERT(not mem(current(Thread), $S("Hello")));
+  PT_ASSERT(!mem(current(Thread), $S("Hello")));
 }
 
 PT_FUNC(test_thread_hash) {
@@ -2118,14 +2118,14 @@ PT_FUNC(test_tree_get) {
   rem(m0, $S("Hello"));
 
   PT_ASSERT(len(m0) == 1);
-  PT_ASSERT(not mem(m0, $S("Hello")));
+  PT_ASSERT(!mem(m0, $S("Hello")));
   PT_ASSERT(mem(m0, $S("There")));
 
   resize(m0, 0);
 
   PT_ASSERT(len(m0) == 0);
-  PT_ASSERT(not mem(m0, $S("Hello")));
-  PT_ASSERT(not mem(m0, $S("There")));
+  PT_ASSERT(!mem(m0, $S("Hello")));
+  PT_ASSERT(!mem(m0, $S("There")));
 
   del(m0);
 
@@ -2230,8 +2230,8 @@ PT_FUNC(test_tree_new) {
   PT_ASSERT(m1);
   PT_ASSERT(m2);
 
-  PT_ASSERT(m0 isnt m2);
-  PT_ASSERT(m0 isnt m1);
+  PT_ASSERT(m0 != m2);
+  PT_ASSERT(m0 != m1);
 
   PT_ASSERT(mem(m0, $S("Hello")));
   PT_ASSERT(mem(m1, $S("Bonjour")));
@@ -2241,8 +2241,8 @@ PT_FUNC(test_tree_new) {
 
   PT_ASSERT(mem(m2, $S("Where")));
   PT_ASSERT(mem(m2, $S("Bonjour")));
-  PT_ASSERT(not mem(m2, $S("Hello")));
-  PT_ASSERT(not mem(m2, $S("There")));
+  PT_ASSERT(!mem(m2, $S("Hello")));
+  PT_ASSERT(!mem(m2, $S("There")));
 
   del(m0);
   del(m1);
@@ -2693,8 +2693,8 @@ PT_FUNC(test_exception_catch) {
   }
 
   PT_ASSERT(reached0);
-  PT_ASSERT(not reached1);
-  PT_ASSERT(not reached2);
+  PT_ASSERT(!reached1);
+  PT_ASSERT(!reached2);
 
   PT_ASSERT(len(current(Exception)) == 0);
 }
@@ -2743,7 +2743,7 @@ PT_FUNC(test_exception_catch_outer) {
     reached1 = true;
   }
 
-  PT_ASSERT(not reached0);
+  PT_ASSERT(!reached0);
   PT_ASSERT(reached1);
 
   PT_ASSERT(len(current(Exception)) == 0);

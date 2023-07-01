@@ -85,7 +85,7 @@ static struct Example *GC_Examples(void) {
       {"Starting & Stopping",
        "var gc = current(GC);\n"
        "stop(gc);\n"
-       "var x = new(Int, $I(10)); /* Not added to GC */\n"
+       "var x = new(Int, $I(10)); /* !added to GC */\n"
        "show($I(running(gc))); /* 0 */\n"
        "del(x); /* Must be deleted when done */\n"
        "start(gc);\n"},
@@ -151,7 +151,7 @@ static void GC_Rehash(struct GC *gc, size_t new_size) {
 
 #if CELLO_MEMORY_CHECK == 1
   if (gc->entries == NULL) {
-    throw(OutOfMemoryError, "Cannot allocate GC Pointer Table, out of memory!");
+    throw(OutOfMemoryError, "Can!allocate GC Pointer Table, out of memory!");
     return;
   }
 #endif
@@ -335,7 +335,7 @@ static void GC_Mark_Item(struct GC *gc, void *ptr) {
       return;
     }
 
-    if (gc->entries[i].ptr == ptr and not gc->entries[i].marked) {
+    if (gc->entries[i].ptr == ptr and !gc->entries[i].marked) {
       gc->entries[i].marked = true;
       GC_Recurse(gc, gc->entries[i].ptr);
       return;
@@ -446,7 +446,7 @@ void GC_Sweep(struct GC *gc) {
       continue;
     }
 
-    if (not gc->entries[i].root and not gc->entries[i].marked) {
+    if (!gc->entries[i].root and !gc->entries[i].marked) {
 
       gc->freelist[gc->freenum] = gc->entries[i].ptr;
       gc->freenum++;
@@ -520,7 +520,7 @@ static void GC_Del(var self) {
 
 static void GC_Set(var self, var key, var val) {
   struct GC *gc = self;
-  if (not gc->running) {
+  if (!gc->running) {
     return;
   }
   gc->nitems++;
@@ -536,7 +536,7 @@ static void GC_Set(var self, var key, var val) {
 
 static void GC_Rem(var self, var key) {
   struct GC *gc = self;
-  if (not gc->running) {
+  if (!gc->running) {
     return;
   }
   GC_Rem_Ptr(gc, key);
