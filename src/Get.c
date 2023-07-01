@@ -24,28 +24,8 @@ static const char *Get_Definition(void) {
          "};\n";
 }
 
-static struct Method *Get_Methods(void) {
-
-  static struct Method methods[] = {
-      {"get", "var get(var self, var key);",
-       "Get the value at a given `key` for object `self`."},
-      {"set", "void set(var self, var key, var val);",
-       "Set the value at a given `key` for object `self`."},
-      {"mem", "bool mem(var self, var key);",
-       "Returns true if `key` is a member of the object `self`."},
-      {"rem", "void rem(var self, var key);",
-       "Removes the `key` from object `self`."},
-      {"key_type", "var key_type(var self);",
-       "Returns the key type for the object `self`."},
-      {"val_type", "var val_type(var self);",
-       "Returns the value type for the object `self`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Get = Cello(Get, Instance(Doc, Get_Name, Get_Brief, Get_Description,
-                              Get_Definition, Get_Methods));
+var Get = Cello(
+    Get, Instance(Doc, Get_Name, Get_Brief, Get_Description, Get_Definition));
 
 var get(var self, var key) { return method(self, Get, get, key); }
 

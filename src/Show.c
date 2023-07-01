@@ -29,27 +29,8 @@ static const char *Format_Definition(void) {
          "};\n";
 }
 
-static struct Method *Format_Methods(void) {
-
-  static struct Method methods[] = {
-      {"format_to",
-       "int format_to(var self, int pos, const char* fmt, ...);\n"
-       "int format_to_va(var self, int pos, const char* fmt, va_list va);",
-       "Write a formatted string `fmt` to the object `self` at position "
-       "`pos`."},
-      {"format_from",
-       "int format_from(var self, int pos, const char* fmt, ...);\n"
-       "int format_from_va(var self, int pos, const char* fmt, va_list va);",
-       "Read a formatted string `fmt` from the object `self` at position "
-       "`pos`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Format =
-    Cello(Format, Instance(Doc, Format_Name, Format_Brief, Format_Description,
-                           Format_Definition, Format_Methods));
+var Format = Cello(Format, Instance(Doc, Format_Name, Format_Brief,
+                                    Format_Description, Format_Definition));
 
 int format_to_va(var self, int pos, const char *fmt, va_list va) {
   return method(self, Format, format_to, pos, fmt, va);
@@ -118,44 +99,8 @@ static const char *Show_Definition(void) {
          "};\n";
 }
 
-static struct Method *Show_Methods(void) {
-
-  static struct Method methods[] = {
-      {"show",
-       "int show(var self);\n"
-       "int show_to(var self, var out, int pos);",
-       "Show the object `self` either to `stdout` or to the object `output`."},
-      {"look",
-       "int look(var self);\n"
-       "int look_from(var self, var input, int pos);",
-       "Read the object `self` either from `stdout` or from the object "
-       "`input`."},
-      {"print",
-       "#define print(fmt, ...)\n"
-       "#define println(fmt, ...)\n"
-       "#define print_to(out, pos, fmt, ...)\n"
-       "int print_with(const char* fmt, var args);\n"
-       "int println_with(const char* fmt, var args);\n"
-       "int print_to_with(var out, int pos, const char* fmt, var args);",
-       "Print the format string `fmt` either to `stdout` or to the object "
-       "`out` "
-       "at positions `pos`. Returns new position in output."},
-      {"scan",
-       "#define scan(fmt, ...)\n"
-       "#define scanln(fmt, ...)\n"
-       "#define scan_from(input, pos, fmt, ...)\n"
-       "int scan_with(const char* fmt, var args);\n"
-       "int scanln_with(const char* fmt, var args);\n"
-       "int scan_from_with(var input, int pos, const char* fmt, var args);",
-       "Scan the format string `fmt` either from `stdin` or from the object "
-       "`input` at position `pos`. Returns new position in output."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Show = Cello(Show, Instance(Doc, Show_Name, Show_Brief, Show_Description,
-                                Show_Definition, Show_Methods));
+                                Show_Definition));
 
 int show(var self) { return show_to(self, $(File, stdout), 0); }
 

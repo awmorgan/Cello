@@ -23,32 +23,8 @@ static const char *Stream_Definition(void) {
          "};\n";
 }
 
-static struct Method *Stream_Methods(void) {
-
-  static struct Method methods[] = {
-      {"sopen", "var sopen(var self, var resource, var options);",
-       "Open the stream `self` with a given `resource`&&`options`."},
-      {"sclose", "void sclose(var self);", "Close the stream `self`."},
-      {"sseek", "void sseek(var self, int64_t pos, int origin);",
-       "Seek to the position `pos` from some `origin` in the stream `self`."},
-      {"stell", "int64_t stell(var self);",
-       "Return the current position of the stream `stell`."},
-      {"sflush", "void sflush(var self);",
-       "Flush the buffered contents of stream `self`."},
-      {"seof", "bool seof(var self);",
-       "Returns true if there is no more information in the stream."},
-      {"sread", "size_t sread(var self, void* output, size_t size);",
-       "Read `size` bytes from the stream `self`&&write them to `output`."},
-      {"swrite", "size_t swrite(var self, void* input, size_t size);",
-       "Write `size` bytes to the stream `self`&&read them from `input`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Stream =
-    Cello(Stream, Instance(Doc, Stream_Name, Stream_Brief, Stream_Description,
-                           Stream_Definition, Stream_Methods));
+var Stream = Cello(Stream, Instance(Doc, Stream_Name, Stream_Brief,
+                                    Stream_Description, Stream_Definition));
 
 var sopen(var self, var resource, var options) {
   return method(self, Stream, sopen, resource, options);
@@ -236,14 +212,13 @@ static int File_Format_From(var self, int pos, const char *fmt, va_list va) {
   return vfscanf(f->file, fmt, va);
 }
 
-var File = Cello(File,
-                 Instance(Doc, File_Name, File_Brief, File_Description,
-                          File_Definition, NULL),
-                 Instance(New, File_New, File_Del),
-                 Instance(Start, NULL, File_Close, NULL),
-                 Instance(Stream, File_Open, File_Close, File_Seek, File_Tell,
-                          File_Flush, File_EOF, File_Read, File_Write),
-                 Instance(Format, File_Format_To, File_Format_From));
+var File = Cello(
+    File,
+    Instance(Doc, File_Name, File_Brief, File_Description, File_Definition),
+    Instance(New, File_New, File_Del), Instance(Start, NULL, File_Close, NULL),
+    Instance(Stream, File_Open, File_Close, File_Seek, File_Tell, File_Flush,
+             File_EOF, File_Read, File_Write),
+    Instance(Format, File_Format_To, File_Format_From));
 
 static const char *Process_Name(void) { return "Process"; }
 
@@ -411,7 +386,7 @@ static int Process_Format_From(var self, int pos, const char *fmt, va_list va) {
 
 var Process = Cello(Process,
                     Instance(Doc, Process_Name, Process_Brief,
-                             Process_Description, Process_Definition, NULL),
+                             Process_Description, Process_Definition),
                     Instance(New, Process_New, Process_Del),
                     Instance(Start, NULL, Process_Close, NULL),
                     Instance(Stream, Process_Open, Process_Close, Process_Seek,

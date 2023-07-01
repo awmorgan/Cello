@@ -19,19 +19,8 @@ static const char *Cast_Definition(void) {
          "};\n";
 }
 
-static struct Method *Cast_Methods(void) {
-
-  static struct Method methods[] = {
-      {"cast", "var cast(var self, var type);",
-       "Ensures the object `self`==of the given `type` && returns it if it "
-       "is."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Cast = Cello(Cast, Instance(Doc, Cast_Name, Cast_Brief, Cast_Description,
-                                Cast_Definition, Cast_Methods));
+                                Cast_Definition));
 
 var cast(var self, var type) {
 
@@ -69,37 +58,6 @@ static const char *Type_Description(void) {
          "To see if a type implements a class `type_implements` can be used. "
          "To "
          "call a member of a class, implemented `type_method` can be used.";
-}
-
-static struct Method *Type_Methods(void) {
-
-  static struct Method methods[] = {
-      {"type_of", "var type_of(var self);",
-       "Returns the `Type` of an object `self`."},
-      {"instance",
-       "var instance(var self, var cls);\n"
-       "var type_instance(var type, var cls);",
-       "Returns the instance of class `cls` implemented by object `self` or "
-       "type `type`. If class==not implemented then returns `NULL`."},
-      {"implements",
-       "bool implements(var self, var cls);\n"
-       "bool type_implements(var type, var cls);",
-       "Returns if the object `self` or type `type` implements the class "
-       "`cls`."},
-      {"method",
-       "#define method(X, C, M, ...)\n"
-       "#define type_method(T, C, M, ...)",
-       "Returns the result of the call to method `M` of class `C` for object "
-       "`X`"
-       "or type `T`. If class==not implemented then an error==thrown."},
-      {"implements_method",
-       "#define implements_method(X, C, M)\n"
-       "#define type_implements_method(T, C, M)",
-       "Returns if the type `T` or object `X` implements the method `M` of "
-       "class C."},
-      {NULL, NULL, NULL}};
-
-  return methods;
 }
 
 enum { CELLO_NBUILTINS = 2 + (CELLO_CACHE_NUM / 3), CELLO_MAX_INSTANCES = 256 };
@@ -222,24 +180,11 @@ static int Type_Help_To(var self, var out, int pos) {
     pos = print_to(out, pos, "\n\n");
   }
 
-  if (doc->methods) {
-    pos = print_to(out, pos, "\n### Methods\n\n");
-    struct Method *methods = doc->methods();
-    while (methods[0].name) {
-      pos = print_to(out, pos, "__%s__\n\n", $S((char *)methods[0].name));
-      pos = print_indent(out, pos, methods[0].definition);
-      pos =
-          print_to(out, pos, "\n\n%s\n\n", $S((char *)methods[0].description));
-      methods++;
-    }
-  }
-
   return pos;
 }
 
 var Type = CelloEmpty(
-    Type,
-    Instance(Doc, Type_Name, Type_Brief, Type_Description, NULL, Type_Methods),
+    Type, Instance(Doc, Type_Name, Type_Brief, Type_Description, NULL),
     Instance(Assign, Type_Assign), Instance(Copy, Type_Copy),
     Instance(Alloc, Type_Alloc, NULL), Instance(New, Type_New, NULL),
     Instance(Cmp, Type_Cmp), Instance(Hash, Type_Hash),
@@ -481,18 +426,8 @@ static const char *Size_Definition(void) {
          "};\n";
 }
 
-static struct Method *Size_Methods(void) {
-
-  static struct Method methods[] = {
-      {"size", "size_t size(var type);",
-       "Returns the associated size of a given `type` in bytes."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Size = Cello(Size, Instance(Doc, Size_Name, Size_Brief, Size_Description,
-                                Size_Definition, Size_Methods));
+                                Size_Definition));
 
 size_t size(var type) {
 

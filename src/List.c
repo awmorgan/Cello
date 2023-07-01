@@ -404,14 +404,14 @@ static void List_Mark(var self, var gc, void (*f)(var, void *)) {
   }
 }
 
-var List = Cello(
-    List, Instance(Doc, List_Name, List_Brief, List_Description, NULL, NULL),
-    Instance(New, List_New, List_Del), Instance(Assign, List_Assign),
-    Instance(Mark, List_Mark), Instance(Cmp, List_Cmp),
-    Instance(Hash, List_Hash),
-    Instance(Push, List_Push, List_Pop, List_Push_At, List_Pop_At),
-    Instance(Concat, List_Concat, List_Push), Instance(Len, List_Len),
-    Instance(Get, List_Get, List_Set, List_Mem, List_Rem),
-    Instance(Iter, List_Iter_Init, List_Iter_Next, List_Iter_Last,
-             List_Iter_Prev, List_Iter_Type),
-    Instance(Show, List_Show, NULL), Instance(Resize, List_Resize));
+var List =
+    Cello(List, Instance(Doc, List_Name, List_Brief, List_Description, NULL),
+          Instance(New, List_New, List_Del), Instance(Assign, List_Assign),
+          Instance(Mark, List_Mark), Instance(Cmp, List_Cmp),
+          Instance(Hash, List_Hash),
+          Instance(Push, List_Push, List_Pop, List_Push_At, List_Pop_At),
+          Instance(Concat, List_Concat, List_Push), Instance(Len, List_Len),
+          Instance(Get, List_Get, List_Set, List_Mem, List_Rem),
+          Instance(Iter, List_Iter_Init, List_Iter_Next, List_Iter_Last,
+                   List_Iter_Prev, List_Iter_Type),
+          Instance(Show, List_Show, NULL), Instance(Resize, List_Resize));

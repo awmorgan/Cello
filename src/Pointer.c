@@ -19,20 +19,8 @@ static const char *Pointer_Definition(void) {
          "};\n";
 }
 
-static struct Method *Pointer_Methods(void) {
-
-  static struct Method methods[] = {
-      {"ref", "void ref(var self, var item);",
-       "Set the object `self` to reference the object `item`."},
-      {"deref", "var deref(var self);", "Get the object referenced by `self`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Pointer = Cello(Pointer, Instance(Doc, Pointer_Name, Pointer_Brief,
-                                      Pointer_Description, Pointer_Definition,
-                                      Pointer_Methods));
+                                      Pointer_Description, Pointer_Definition));
 
 void ref(var self, var item) { method(self, Pointer, ref, item); }
 
@@ -81,8 +69,7 @@ static var Ref_Deref(var self) {
 }
 
 var Ref = Cello(
-    Ref,
-    Instance(Doc, Ref_Name, Ref_Brief, Ref_Description, Ref_Definition, NULL),
+    Ref, Instance(Doc, Ref_Name, Ref_Brief, Ref_Description, Ref_Definition),
     Instance(Assign, Ref_Assign), Instance(Pointer, Ref_Ref, Ref_Deref));
 
 static const char *Box_Name(void) { return "Box"; }
@@ -154,7 +141,6 @@ static var Box_Deref(var self) {
 }
 
 var Box = Cello(
-    Box,
-    Instance(Doc, Box_Name, Box_Brief, Box_Description, Box_Definition, NULL),
+    Box, Instance(Doc, Box_Name, Box_Brief, Box_Description, Box_Definition),
     Instance(New, Box_New, Box_Del), Instance(Assign, Box_Assign),
     Instance(Show, Box_Show, NULL), Instance(Pointer, Box_Ref, Box_Deref));

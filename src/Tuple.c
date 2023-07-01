@@ -40,16 +40,6 @@ static const char *Tuple_Definition(void) {
          "};\n";
 }
 
-static struct Method *Tuple_Methods(void) {
-
-  static struct Method methods[] = {
-      {"tuple", "#define tuple(...)",
-       "Construct a `Tuple` object on the stack."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 static void Tuple_New(var self, var args) {
   struct Tuple *t = self;
   size_t nargs = len(args);
@@ -498,8 +488,7 @@ static uint64_t Tuple_Hash(var self) {
 
 var Tuple = Cello(
     Tuple,
-    Instance(Doc, Tuple_Name, Tuple_Brief, Tuple_Description, Tuple_Definition,
-             Tuple_Methods),
+    Instance(Doc, Tuple_Name, Tuple_Brief, Tuple_Description, Tuple_Definition),
     Instance(New, Tuple_New, Tuple_Del), Instance(Assign, Tuple_Assign),
     Instance(Cmp, Tuple_Cmp), Instance(Hash, Tuple_Hash),
     Instance(Len, Tuple_Len),

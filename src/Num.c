@@ -16,19 +16,8 @@ static const char *C_Int_Definition(void) {
          "};\n";
 }
 
-static struct Method *C_Int_Methods(void) {
-
-  static struct Method methods[] = {
-      {"c_int", "int64_t c_int(var self);",
-       "Returns the object `self` represented as a `int64_t`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var C_Int =
-    Cello(C_Int, Instance(Doc, C_Int_Name, C_Int_Brief, C_Int_Description,
-                          C_Int_Definition, C_Int_Methods));
+var C_Int = Cello(C_Int, Instance(Doc, C_Int_Name, C_Int_Brief,
+                                  C_Int_Description, C_Int_Definition));
 
 static const char *C_Float_Name(void) { return "C_Float"; }
 
@@ -46,19 +35,8 @@ static const char *C_Float_Definition(void) {
          "};\n";
 }
 
-static struct Method *C_Float_Methods(void) {
-
-  static struct Method methods[] = {
-      {"c_float", "double c_float(var self);",
-       "Returns the object `self` represented as a `double`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var C_Float = Cello(C_Float, Instance(Doc, C_Float_Name, C_Float_Brief,
-                                      C_Float_Description, C_Float_Definition,
-                                      C_Float_Methods));
+                                      C_Float_Description, C_Float_Definition));
 
 int64_t c_int(var self) {
 
@@ -117,8 +95,7 @@ static int Int_Look(var self, var input, int pos) {
 }
 
 var Int = Cello(
-    Int,
-    Instance(Doc, Int_Name, Int_Brief, Int_Description, Int_Definition, NULL),
+    Int, Instance(Doc, Int_Name, Int_Brief, Int_Description, Int_Definition),
     Instance(Assign, Int_Assign), Instance(Cmp, Int_Cmp),
     Instance(Hash, Int_Hash), Instance(C_Int, Int_C_Int),
     Instance(Show, Int_Show, Int_Look));
@@ -171,9 +148,9 @@ int Float_Look(var self, var input, int pos) {
   return scan_from(input, pos, "%f", self);
 }
 
-var Float = Cello(Float,
-                  Instance(Doc, Float_Name, Float_Brief, Float_Description,
-                           Float_Definition, NULL),
-                  Instance(Assign, Float_Assign), Instance(Cmp, Float_Cmp),
-                  Instance(Hash, Float_Hash), Instance(C_Float, Float_C_Float),
-                  Instance(Show, Float_Show, Float_Look));
+var Float = Cello(
+    Float,
+    Instance(Doc, Float_Name, Float_Brief, Float_Description, Float_Definition),
+    Instance(Assign, Float_Assign), Instance(Cmp, Float_Cmp),
+    Instance(Hash, Float_Hash), Instance(C_Float, Float_C_Float),
+    Instance(Show, Float_Show, Float_Look));

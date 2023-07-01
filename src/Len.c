@@ -16,17 +16,8 @@ static const char *Len_Definition(void) {
          "};\n";
 }
 
-static struct Method *Len_Methods(void) {
-
-  static struct Method methods[] = {
-      {"len", "size_t len(var self);", "Returns the length of object `self`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Len = Cello(Len, Instance(Doc, Len_Name, Len_Brief, Len_Description,
-                              Len_Definition, Len_Methods));
+var Len = Cello(
+    Len, Instance(Doc, Len_Name, Len_Brief, Len_Description, Len_Definition));
 
 size_t len(var self) { return method(self, Len, len); }
 

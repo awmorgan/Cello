@@ -34,20 +34,8 @@ static const char *Assign_Definition(void) {
          "};\n";
 }
 
-static struct Method *Assign_Methods(void) {
-
-  static struct Method methods[] = {
-      {"assign", "var assign(var self, var obj);",
-       "Assign the object `obj` to the object `self`. The assigned object "
-       "`self` is returned."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Assign =
-    Cello(Assign, Instance(Doc, Assign_Name, Assign_Brief, Assign_Description,
-                           Assign_Definition, Assign_Methods));
+var Assign = Cello(Assign, Instance(Doc, Assign_Name, Assign_Brief,
+                                    Assign_Description, Assign_Definition));
 
 var assign(var self, var obj) {
 
@@ -90,18 +78,8 @@ static const char *Swap_Definition(void) {
          "};\n";
 }
 
-static struct Method *Swap_Methods(void) {
-
-  static struct Method methods[] = {
-      {"swap", "void swap(var self, var obj);",
-       "Swap the object `self` for the object `obj`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Swap = Cello(Swap, Instance(Doc, Swap_Name, Swap_Brief, Swap_Description,
-                                Swap_Definition, Swap_Methods));
+                                Swap_Definition));
 
 static void memswap(void *p0, void *p1, size_t s) {
   if (p0 == p1) {

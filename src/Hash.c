@@ -30,21 +30,8 @@ static const char *Hash_Definition(void) {
          "};\n";
 }
 
-static struct Method *Hash_Methods(void) {
-
-  static struct Method methods[] = {
-      {"hash", "uint64_t hash(var self);",
-       "Get the hash value for the object `self`."},
-      {"hash_data", "uint64_t hash_data(void* data, size_t num);",
-       "Hash `num` bytes pointed to by `data` using "
-       "[Murmurhash](http://en.wikipedia.org/wiki/MurmurHash)."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Hash = Cello(Hash, Instance(Doc, Hash_Name, Hash_Brief, Hash_Description,
-                                Hash_Definition, Hash_Methods));
+                                Hash_Definition));
 
 uint64_t hash_data(const void *data, size_t size) {
 

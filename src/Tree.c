@@ -730,14 +730,14 @@ static void Tree_Resize(var self, size_t n) {
   }
 }
 
-var Tree = Cello(
-    Tree, Instance(Doc, Tree_Name, Tree_Brief, Tree_Description, NULL, NULL),
-    Instance(New, Tree_New, Tree_Del), Instance(Assign, Tree_Assign),
-    Instance(Mark, Tree_Mark), Instance(Cmp, Tree_Cmp),
-    Instance(Hash, Tree_Hash), Instance(Len, Tree_Len),
-    Instance(Get, Tree_Get, Tree_Set, Tree_Mem, Tree_Rem, Tree_Key_Type,
-             Tree_Val_Type),
-    Instance(Resize, Tree_Resize),
-    Instance(Iter, Tree_Iter_Init, Tree_Iter_Next, Tree_Iter_Last,
-             Tree_Iter_Prev, Tree_Iter_Type),
-    Instance(Show, Tree_Show, NULL));
+var Tree =
+    Cello(Tree, Instance(Doc, Tree_Name, Tree_Brief, Tree_Description, NULL),
+          Instance(New, Tree_New, Tree_Del), Instance(Assign, Tree_Assign),
+          Instance(Mark, Tree_Mark), Instance(Cmp, Tree_Cmp),
+          Instance(Hash, Tree_Hash), Instance(Len, Tree_Len),
+          Instance(Get, Tree_Get, Tree_Set, Tree_Mem, Tree_Rem, Tree_Key_Type,
+                   Tree_Val_Type),
+          Instance(Resize, Tree_Resize),
+          Instance(Iter, Tree_Iter_Init, Tree_Iter_Next, Tree_Iter_Last,
+                   Tree_Iter_Prev, Tree_Iter_Type),
+          Instance(Show, Tree_Show, NULL));

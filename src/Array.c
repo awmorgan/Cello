@@ -476,16 +476,15 @@ static void Array_Mark(var self, var gc, void (*f)(var, void *)) {
   }
 }
 
-var Array =
-    Cello(Array,
-          Instance(Doc, Array_Name, Array_Brief, Array_Description, NULL, NULL),
-          Instance(New, Array_New, Array_Del), Instance(Assign, Array_Assign),
-          Instance(Mark, Array_Mark), Instance(Cmp, Array_Cmp),
-          Instance(Hash, Array_Hash),
-          Instance(Push, Array_Push, Array_Pop, Array_Push_At, Array_Pop_At),
-          Instance(Concat, Array_Concat, Array_Push), Instance(Len, Array_Len),
-          Instance(Get, Array_Get, Array_Set, Array_Mem, Array_Rem),
-          Instance(Iter, Array_Iter_Init, Array_Iter_Next, Array_Iter_Last,
-                   Array_Iter_Prev, Array_Iter_Type),
-          Instance(Sort, Array_Sort_By), Instance(Show, Array_Show, NULL),
-          Instance(Resize, Array_Resize));
+var Array = Cello(
+    Array, Instance(Doc, Array_Name, Array_Brief, Array_Description, NULL),
+    Instance(New, Array_New, Array_Del), Instance(Assign, Array_Assign),
+    Instance(Mark, Array_Mark), Instance(Cmp, Array_Cmp),
+    Instance(Hash, Array_Hash),
+    Instance(Push, Array_Push, Array_Pop, Array_Push_At, Array_Pop_At),
+    Instance(Concat, Array_Concat, Array_Push), Instance(Len, Array_Len),
+    Instance(Get, Array_Get, Array_Set, Array_Mem, Array_Rem),
+    Instance(Iter, Array_Iter_Init, Array_Iter_Next, Array_Iter_Last,
+             Array_Iter_Prev, Array_Iter_Type),
+    Instance(Sort, Array_Sort_By), Instance(Show, Array_Show, NULL),
+    Instance(Resize, Array_Resize));

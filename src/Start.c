@@ -28,25 +28,8 @@ static const char *Start_Definition(void) {
          "};\n";
 }
 
-static struct Method *Start_Methods(void) {
-
-  static struct Method methods[] = {
-      {"with", "#define with(...)",
-       "Perform operations in between `start` && `stop`."},
-      {"start", "void start(var self);", "Start the object `self`."},
-      {"stop", "void stop(var self);", "Stop the object `self`."},
-      {"join", "void join(var self);",
-       "Block && wait for the object `self` to stop."},
-      {"running", "bool running(var self);",
-       "Check if the object `self` is running."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Start =
-    Cello(Start, Instance(Doc, Start_Name, Start_Brief, Start_Description,
-                          Start_Definition, Start_Methods));
+var Start = Cello(Start, Instance(Doc, Start_Name, Start_Brief,
+                                  Start_Description, Start_Definition));
 
 void start(var self) { method(self, Start, start); }
 

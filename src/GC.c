@@ -27,20 +27,8 @@ static const char *Mark_Definition(void) {
          "};\n";
 }
 
-static struct Method *Mark_Methods(void) {
-
-  static struct Method methods[] = {
-      {"mark", "void mark(var self, var gc, void(*f)(var,void*));",
-       "Mark the object `self` with the Garbage Collector `gc`&&the "
-       "callback "
-       "function `f`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Mark = Cello(Mark, Instance(Doc, Mark_Name, Mark_Brief, Mark_Description,
-                                Mark_Definition, Mark_Methods));
+                                Mark_Definition));
 
 void mark(var self, var gc, void (*f)(var, void *)) {
   if (self == NULL) {
@@ -546,7 +534,7 @@ static bool GC_Running(var self) {
   return gc->running;
 }
 
-var GC = Cello(GC, Instance(Doc, GC_Name, GC_Brief, GC_Description, NULL, NULL),
+var GC = Cello(GC, Instance(Doc, GC_Name, GC_Brief, GC_Description, NULL),
                Instance(New, GC_New, GC_Del),
                Instance(Get, NULL, GC_Set, GC_Mem, GC_Rem),
                Instance(Start, GC_Start, GC_Stop, NULL, GC_Running),

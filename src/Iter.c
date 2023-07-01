@@ -32,29 +32,8 @@ static const char *Iter_Definition(void) {
          "};\n";
 }
 
-static struct Method *Iter_Methods(void) {
-
-  static struct Method methods[] = {
-      {"foreach", "#define foreach(...)\n", "Iterate over elements,a loop."},
-      {"iter_init",
-       "var iter_init(var self);\n"
-       "var iter_last(var self);",
-       "Return the initial item (|| final item),the iteration over `self`."},
-      {"iter_next",
-       "var iter_next(var self, var curr);\n"
-       "var iter_prev(var self, var curr);",
-       "Given the current item `curr`, return the next (|| previous) item,"
-       "the iteration over `self`."},
-      {"iter_type", "var iter_type(var self);",
-       "Returns the type of item that can be expected to be returned by the "
-       "iterable."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Iter = Cello(Iter, Instance(Doc, Iter_Name, Iter_Brief, Iter_Description,
-                                Iter_Definition, Iter_Methods));
+                                Iter_Definition));
 
 var iter_init(var self) { return method(self, Iter, iter_init); }
 
@@ -95,16 +74,6 @@ static const char *Range_Definition(void) {
          "  int64_t stop;\n"
          "  int64_t step;\n"
          "};\n";
-}
-
-static struct Method *Range_Methods(void) {
-
-  static struct Method methods[] = {
-      {"range", "#define range(...)",
-       "Construct a `Range` object on the stack."},
-      {NULL, NULL, NULL}};
-
-  return methods;
 }
 
 var range_stack(var self, var args) {
@@ -316,16 +285,15 @@ static int Range_Show(var self, var output, int pos) {
   return print_to(output, pos, "]>");
 }
 
-var Range =
-    Cello(Range,
-          Instance(Doc, Range_Name, Range_Brief, Range_Description,
-                   Range_Definition, Range_Methods),
-          Instance(New, Range_New, Range_Del), Instance(Assign, Range_Assign),
-          Instance(Cmp, Range_Cmp), Instance(Len, Range_Len),
-          Instance(Get, Range_Get, NULL, Range_Mem, NULL),
-          Instance(Show, Range_Show, NULL),
-          Instance(Iter, Range_Iter_Init, Range_Iter_Next, Range_Iter_Last,
-                   Range_Iter_Prev, Range_Iter_Type));
+var Range = Cello(
+    Range,
+    Instance(Doc, Range_Name, Range_Brief, Range_Description, Range_Definition),
+    Instance(New, Range_New, Range_Del), Instance(Assign, Range_Assign),
+    Instance(Cmp, Range_Cmp), Instance(Len, Range_Len),
+    Instance(Get, Range_Get, NULL, Range_Mem, NULL),
+    Instance(Show, Range_Show, NULL),
+    Instance(Iter, Range_Iter_Init, Range_Iter_Next, Range_Iter_Last,
+             Range_Iter_Prev, Range_Iter_Type));
 
 static const char *Slice_Name(void) { return "Slice"; }
 
@@ -346,19 +314,6 @@ static const char *Slice_Definition(void) {
          "  var iter;\n"
          "  var range;\n"
          "};\n";
-}
-
-static struct Method *Slice_Methods(void) {
-
-  static struct Method methods[] = {
-      {"slice", "#define slice(I, ...)",
-       "Construct a `Slice` object on the stack over iterable `I`."},
-      {"reverse", "#define reverse(I)",
-       "Construct a `Slice` object that iterates over iterable `I`,reverse "
-       "order."},
-      {NULL, NULL, NULL}};
-
-  return methods;
 }
 
 static int64_t Slice_Arg(int part, size_t n, var arg) {
@@ -584,16 +539,15 @@ static int Slice_Show(var self, var output, int pos) {
   return print_to(output, pos, "]>");
 }
 
-var Slice =
-    Cello(Slice,
-          Instance(Doc, Slice_Name, Slice_Brief, Slice_Description,
-                   Slice_Definition, Slice_Methods),
-          Instance(New, Slice_New, Slice_Del), Instance(Assign, Slice_Assign),
-          Instance(Cmp, Slice_Cmp), Instance(Len, Slice_Len),
-          Instance(Get, Slice_Get, NULL, Slice_Mem, NULL),
-          Instance(Iter, Slice_Iter_Init, Slice_Iter_Next, Slice_Iter_Last,
-                   Slice_Iter_Prev, Slice_Iter_Type),
-          Instance(Show, Slice_Show, NULL));
+var Slice = Cello(
+    Slice,
+    Instance(Doc, Slice_Name, Slice_Brief, Slice_Description, Slice_Definition),
+    Instance(New, Slice_New, Slice_Del), Instance(Assign, Slice_Assign),
+    Instance(Cmp, Slice_Cmp), Instance(Len, Slice_Len),
+    Instance(Get, Slice_Get, NULL, Slice_Mem, NULL),
+    Instance(Iter, Slice_Iter_Init, Slice_Iter_Next, Slice_Iter_Last,
+             Slice_Iter_Prev, Slice_Iter_Type),
+    Instance(Show, Slice_Show, NULL));
 
 static const char *Zip_Name(void) { return "Zip"; }
 
@@ -614,17 +568,6 @@ static const char *Zip_Definition(void) {
          "  var iters;\n"
          "  var values;\n"
          "};\n";
-}
-
-static struct Method *Zip_Methods(void) {
-
-  static struct Method methods[] = {
-      {"zip", "#define zip(...)", "Construct a `Zip` object on the stack."},
-      {"enumerate", "#define enumerate(I)",
-       "Zip the iterable `I` with a `Range` object of the same length."},
-      {NULL, NULL, NULL}};
-
-  return methods;
 }
 
 var zip_stack(var self) {
@@ -773,14 +716,12 @@ static bool Zip_Mem(var self, var key) {
   return false;
 }
 
-var Zip =
-    Cello(Zip,
-          Instance(Doc, Zip_Name, Zip_Brief, Zip_Description, Zip_Definition,
-                   Zip_Methods),
-          Instance(New, Zip_New, Zip_Del), Instance(Assign, Zip_Assign),
-          Instance(Len, Zip_Len), Instance(Get, Zip_Get, NULL, Zip_Mem, NULL),
-          Instance(Iter, Zip_Iter_Init, Zip_Iter_Next, Zip_Iter_Last,
-                   Zip_Iter_Prev, Zip_Iter_Type));
+var Zip = Cello(
+    Zip, Instance(Doc, Zip_Name, Zip_Brief, Zip_Description, Zip_Definition),
+    Instance(New, Zip_New, Zip_Del), Instance(Assign, Zip_Assign),
+    Instance(Len, Zip_Len), Instance(Get, Zip_Get, NULL, Zip_Mem, NULL),
+    Instance(Iter, Zip_Iter_Init, Zip_Iter_Next, Zip_Iter_Last, Zip_Iter_Prev,
+             Zip_Iter_Type));
 
 var enumerate_stack(var self) {
   struct Zip *z = self;
@@ -807,17 +748,6 @@ static const char *Filter_Definition(void) {
          "  var iter;\n"
          "  var func;\n"
          "};\n";
-}
-
-static struct Method *Filter_Methods(void) {
-
-  static struct Method methods[] = {
-      {"filter", "#define filter(I, F)",
-       "Construct a `Filter` object on the stack over iterable `I` with "
-       "filter function `F`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
 }
 
 static void Filter_New(var self, var args) {
@@ -895,7 +825,7 @@ static bool Filter_Mem(var self, var key) {
 var Filter =
     Cello(Filter,
           Instance(Doc, Filter_Name, Filter_Brief, Filter_Description,
-                   Filter_Definition, Filter_Methods),
+                   Filter_Definition),
           Instance(New, Filter_New, NULL),
           Instance(Get, NULL, NULL, Filter_Mem, NULL),
           Instance(Iter, Filter_Iter_Init, Filter_Iter_Next, Filter_Iter_Last,
@@ -933,17 +863,6 @@ static const char *Map_Definition(void) {
          "  var curr;\n"
          "  var func;\n"
          "};\n";
-}
-
-static struct Method *Map_Methods(void) {
-
-  static struct Method methods[] = {
-      {"map", "#define map(I, F)",
-       "Construct a `Map` object on the stack over iterable `I` applying "
-       "function `F`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
 }
 
 static void Map_New(var self, var args) {
@@ -1022,11 +941,9 @@ static var Map_Call(var self, var args) {
   return Terminal;
 }
 
-var Map =
-    Cello(Map,
-          Instance(Doc, Map_Name, Map_Brief, Map_Description, Map_Definition,
-                   Map_Methods),
-          Instance(New, Map_New, NULL), Instance(Len, Map_Len),
-          Instance(Get, Map_Get, NULL, Map_Mem, NULL), Instance(Call, Map_Call),
-          Instance(Iter, Map_Iter_Init, Map_Iter_Next, Map_Iter_Last,
-                   Map_Iter_Prev, NULL));
+var Map = Cello(
+    Map, Instance(Doc, Map_Name, Map_Brief, Map_Description, Map_Definition),
+    Instance(New, Map_New, NULL), Instance(Len, Map_Len),
+    Instance(Get, Map_Get, NULL, Map_Mem, NULL), Instance(Call, Map_Call),
+    Instance(Iter, Map_Iter_Init, Map_Iter_Next, Map_Iter_Last, Map_Iter_Prev,
+             NULL));

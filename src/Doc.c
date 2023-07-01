@@ -33,24 +33,8 @@ static const char *Doc_Definition(void) {
          "};\n";
 }
 
-static struct Method *Doc_Methods(void) {
-
-  static struct Method methods[] = {
-      {"name", "const char* name(var type);",
-       "Return the name of a given `type`."},
-      {"brief", "const char* brief(var type);",
-       "Return a brief description of a given `type`."},
-      {"description", "const char* description(var type);",
-       "Return a longer description of a given `type`."},
-      {"definition", "const char* definition(var type);",
-       "Return the C definition of a given `type`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Doc = Cello(Doc, Instance(Doc, Doc_Name, Doc_Brief, Doc_Description,
-                              Doc_Definition, Doc_Methods));
+var Doc = Cello(
+    Doc, Instance(Doc, Doc_Name, Doc_Brief, Doc_Description, Doc_Definition));
 
 const char *name(var type) {
   struct Doc *doc = type_instance(type, Doc);
@@ -85,21 +69,8 @@ static const char *Help_Definition(void) {
          "};\n";
 }
 
-static struct Method *Help_Methods(void) {
-
-  static struct Method methods[] = {
-      {"help",
-       "void help(var self);\n"
-       "int help_to(var out, int pos, var self);",
-       "Print help information about the object `self` either to `stdout` or "
-       "to the object `out` at some position `pos`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Help = Cello(Help, Instance(Doc, Help_Name, Help_Brief, Help_Description,
-                                Help_Definition, Help_Methods));
+                                Help_Definition));
 
 int help_to(var out, int pos, var self) {
   return method(self, Help, help_to, out, pos);

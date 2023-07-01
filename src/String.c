@@ -16,19 +16,8 @@ static const char *C_Str_Definition(void) {
          "};\n";
 }
 
-static struct Method *C_Str_Methods(void) {
-
-  static struct Method methods[] = {
-      {"c_str", "char* c_str(var self);",
-       "Returns the object `self` represented as a `char*`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var C_Str =
-    Cello(C_Str, Instance(Doc, C_Str_Name, C_Str_Brief, C_Str_Description,
-                          C_Str_Definition, C_Str_Methods));
+var C_Str = Cello(C_Str, Instance(Doc, C_Str_Name, C_Str_Brief,
+                                  C_Str_Description, C_Str_Definition));
 
 char *c_str(var self) {
 
@@ -425,7 +414,7 @@ static int String_Look(var self, var input, int pos) {
 
 var String = Cello(String,
                    Instance(Doc, String_Name, String_Brief, String_Description,
-                            String_Definition, NULL),
+                            String_Definition),
                    Instance(New, String_New, String_Del),
                    Instance(Assign, String_Assign), Instance(Cmp, String_Cmp),
                    Instance(Hash, String_Hash), Instance(Len, String_Len),

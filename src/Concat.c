@@ -18,21 +18,8 @@ static const char *Concat_Definition(void) {
          "};\n";
 }
 
-static struct Method *Concat_Methods(void) {
-
-  static struct Method methods[] = {
-      {"append", "void append(var self, var obj);",
-       "Append the object `obj` to the object `self`."},
-      {"concat", "void concat(var self, var obj);",
-       "Concatenate the object `obj` to the object `self`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Concat =
-    Cello(Concat, Instance(Doc, Concat_Name, Concat_Brief, Concat_Description,
-                           Concat_Definition, Concat_Methods));
+var Concat = Cello(Concat, Instance(Doc, Concat_Name, Concat_Brief,
+                                    Concat_Description, Concat_Definition));
 
 void append(var self, var obj) { method(self, Concat, append, obj); }
 

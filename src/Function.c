@@ -14,20 +14,8 @@ static const char *Call_Definition(void) {
          "};\n";
 }
 
-static struct Method *Call_Methods(void) {
-
-  static struct Method methods[] = {
-      {"call",
-       "#define call(self, ...)\n"
-       "var call_with(var self, var args);",
-       "Call the object `self` with arguments `args`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Call = Cello(Call, Instance(Doc, Call_Name, Call_Brief, Call_Description,
-                                Call_Definition, Call_Methods));
+                                Call_Definition));
 
 var call_with(var self, var args) {
   return method(self, Call, call_with, args);
@@ -61,5 +49,5 @@ static var Function_Call(var self, var args) {
 
 var Function = Cello(Function,
                      Instance(Doc, Function_Name, Function_Brief,
-                              Function_Description, Function_Definition, NULL),
+                              Function_Description, Function_Definition),
                      Instance(Call, Function_Call));

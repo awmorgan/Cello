@@ -42,33 +42,8 @@ static const char *Cmp_Definition(void) {
          "};\n";
 }
 
-static struct Method *Cmp_Methods(void) {
-
-  static struct Method methods[] = {
-      {"cmp", "int cmp(var self, var obj);",
-       "The return value of `cmp` is `< 0` if `self` is less than `obj`, `> 0` "
-       "if `self` is greater than `obj`&&`0` if they are equal."},
-      {"eq", "bool eq(var self, var obj);",
-       "Returns true if the object `self` is equal to the object `obj`."},
-      {"neq", "bool neq(var self, var obj);",
-       "Returns false if the object `self` is equal to the object `obj`."},
-      {"gt", "bool gt(var self, var obj);",
-       "Returns true if the object `self` is greater than the object `obj`."},
-      {"lt", "bool lt(var self, var obj);",
-       "Returns false if the object `self` is less than the object `obj`."},
-      {"ge", "bool ge(var self, var obj);",
-       "Returns false if the object `self` is greater than or equal to the "
-       "object `obj`."},
-      {"le", "bool le(var self, var obj);",
-       "Returns false if the object `self` is less than or equal to the "
-       "object `obj`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Cmp = Cello(Cmp, Instance(Doc, Cmp_Name, Cmp_Brief, Cmp_Description,
-                              Cmp_Definition, Cmp_Methods));
+var Cmp = Cello(
+    Cmp, Instance(Doc, Cmp_Name, Cmp_Brief, Cmp_Description, Cmp_Definition));
 
 int cmp(var self, var obj) {
 
@@ -113,19 +88,8 @@ static const char *Sort_Definition(void) {
          "};";
 }
 
-static struct Method *Sort_Methods(void) {
-
-  static struct Method methods[] = {
-      {"sort", "void sort(var self);", "Sorts the object `self`."},
-      {"sort_by", "void sort_by(var self, bool(*f)(var,var));",
-       "Sorts the object `self` using the function `f`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Sort = Cello(Sort, Instance(Doc, Sort_Name, Sort_Brief, Sort_Description,
-                                Sort_Definition, Sort_Methods));
+                                Sort_Definition));
 
 void sort(var self) { method(self, Sort, sort_by, lt); }
 

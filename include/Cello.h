@@ -317,18 +317,11 @@ extern var Mark;
 
 /* Signatures */
 
-struct Method {
-  const char *name;
-  const char *definition;
-  const char *description;
-};
-
 struct Doc {
   const char *(*name)(void);
   const char *(*brief)(void);
   const char *(*description)(void);
   const char *(*definition)(void);
-  struct Method *(*methods)(void);
 };
 
 struct Help {

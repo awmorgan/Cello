@@ -22,19 +22,8 @@ static const char *Current_Definition(void) {
          "};\n";
 }
 
-static struct Method *Current_Methods(void) {
-
-  static struct Method methods[] = {
-      {"current", "var current(var type);",
-       "Returns the current active object of the given `type`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Current = Cello(Current, Instance(Doc, Current_Name, Current_Brief,
-                                      Current_Description, Current_Definition,
-                                      Current_Methods));
+                                      Current_Description, Current_Definition));
 
 var current(var type) { return type_method(type, Current, current); }
 
@@ -400,8 +389,7 @@ static void Thread_Mark(var self, var gc, void (*f)(var, void *)) {
 }
 
 var Thread = Cello(
-    Thread,
-    Instance(Doc, Thread_Name, Thread_Brief, Thread_Description, NULL, NULL),
+    Thread, Instance(Doc, Thread_Name, Thread_Brief, Thread_Description, NULL),
     Instance(New, Thread_New, Thread_Del), Instance(Assign, Thread_Assign),
     Instance(Cmp, Thread_Cmp), Instance(Hash, Thread_Hash),
     Instance(Call, Thread_Call), Instance(Current, Thread_Current),
@@ -429,22 +417,8 @@ static const char *Lock_Definition(void) {
          "};\n";
 }
 
-static struct Method *Lock_Methods(void) {
-
-  static struct Method methods[] = {
-      {"lock", "void lock(var self);",
-       "Wait until a lock can be aquired on object `self`."},
-      {"trylock", "bool trylock(var self);",
-       "Try to acquire a lock on object `self`. Returns `true` on success and "
-       "`false` if the resource==busy."},
-      {"unlock", "void unlock(var self);", "Release lock on object `self`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
 var Lock = Cello(Lock, Instance(Doc, Lock_Name, Lock_Brief, Lock_Description,
-                                Lock_Definition, Lock_Methods));
+                                Lock_Definition));
 
 void lock(var self) { method(self, Lock, lock); }
 
@@ -538,9 +512,8 @@ static void Mutex_Unlock(var self) {
 #endif
 }
 
-var Mutex =
-    Cello(Mutex,
-          Instance(Doc, Mutex_Name, Mutex_Brief, Mutex_Description, NULL, NULL),
-          Instance(New, Mutex_New, Mutex_Del),
-          Instance(Lock, Mutex_Lock, Mutex_Unlock, Mutex_Trylock),
-          Instance(Start, Mutex_Lock, Mutex_Unlock, NULL));
+var Mutex = Cello(
+    Mutex, Instance(Doc, Mutex_Name, Mutex_Brief, Mutex_Description, NULL),
+    Instance(New, Mutex_New, Mutex_Del),
+    Instance(Lock, Mutex_Lock, Mutex_Unlock, Mutex_Trylock),
+    Instance(Start, Mutex_Lock, Mutex_Unlock, NULL));

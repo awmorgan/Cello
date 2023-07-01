@@ -24,19 +24,7 @@ static const char *Resize_Definition(void) {
          "};\n";
 }
 
-static struct Method *Resize_Methods(void) {
-
-  static struct Method methods[] = {
-      {"resize", "void resize(var self, size_t n);",
-       "Resize to some size `n`, perhaps reserving some resource for object "
-       "`self`."},
-      {NULL, NULL, NULL}};
-
-  return methods;
-}
-
-var Resize =
-    Cello(Resize, Instance(Doc, Resize_Name, Resize_Brief, Resize_Description,
-                           Resize_Definition, Resize_Methods));
+var Resize = Cello(Resize, Instance(Doc, Resize_Name, Resize_Brief,
+                                    Resize_Description, Resize_Definition));
 
 void resize(var self, size_t n) { method(self, Resize, resize, n); }

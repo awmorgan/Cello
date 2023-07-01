@@ -652,14 +652,13 @@ static void Table_Mark(var self, var gc, void (*f)(var, void *)) {
   }
 }
 
-var Table =
-    Cello(Table,
-          Instance(Doc, Table_Name, Table_Brief, Table_Description, NULL, NULL),
-          Instance(New, Table_New, Table_Del), Instance(Assign, Table_Assign),
-          Instance(Mark, Table_Mark), Instance(Cmp, Table_Cmp),
-          Instance(Hash, Table_Hash), Instance(Len, Table_Len),
-          Instance(Get, Table_Get, Table_Set, Table_Mem, Table_Rem,
-                   Table_Key_Type, Table_Val_Type),
-          Instance(Iter, Table_Iter_Init, Table_Iter_Next, Table_Iter_Last,
-                   Table_Iter_Prev, Table_Iter_Type),
-          Instance(Show, Table_Show, NULL), Instance(Resize, Table_Resize));
+var Table = Cello(
+    Table, Instance(Doc, Table_Name, Table_Brief, Table_Description, NULL),
+    Instance(New, Table_New, Table_Del), Instance(Assign, Table_Assign),
+    Instance(Mark, Table_Mark), Instance(Cmp, Table_Cmp),
+    Instance(Hash, Table_Hash), Instance(Len, Table_Len),
+    Instance(Get, Table_Get, Table_Set, Table_Mem, Table_Rem, Table_Key_Type,
+             Table_Val_Type),
+    Instance(Iter, Table_Iter_Init, Table_Iter_Next, Table_Iter_Last,
+             Table_Iter_Prev, Table_Iter_Type),
+    Instance(Show, Table_Show, NULL), Instance(Resize, Table_Resize));
