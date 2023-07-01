@@ -186,7 +186,7 @@ static void String_Clear(var self) {
 static bool String_Mem(var self, var obj) {
 
   struct C_Str *c = instance(obj, C_Str);
-  if (c and c->c_str) {
+  if (c && c->c_str) {
     return strstr(String_C_Str(self), c->c_str(obj));
   }
 
@@ -196,7 +196,7 @@ static bool String_Mem(var self, var obj) {
 static void String_Rem(var self, var obj) {
 
   struct C_Str *c = instance(obj, C_Str);
-  if (c and c->c_str) {
+  if (c && c->c_str) {
     char *pos = strstr(String_C_Str(self), c->c_str(obj));
     size_t count =
         strlen(String_C_Str(self)) - strlen(pos) - strlen(c->c_str(obj)) + 1;

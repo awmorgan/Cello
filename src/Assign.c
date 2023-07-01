@@ -9,7 +9,7 @@ static const char *Assign_Description(void) {
          "used "
          "throughout Cello to initialise objects using other objects. In C++ "
          "this is "
-         "called the _copy constructor_ and it is used to assign the value of "
+         "called the _copy constructor_&&it is used to assign the value of "
          "one "
          "object to another."
          "\n\n"
@@ -17,13 +17,13 @@ static const char *Assign_Description(void) {
          "memory "
          "from one object to another. But for more complex objects which "
          "maintain "
-         "their own behaviours and state this may need to be overridden."
+         "their own behaviours&&state this may need to be overridden."
          "\n\n"
          "The most important thing about the `Assign` class is that it must "
          "work on "
          "the assumption that the target object may not have had it's "
          "constructor "
-         "called and could be uninitialised with just zero'd memory. This is "
+         "called&&could be uninitialised with just zero'd memory. This is "
          "often "
          "the case when copying contents into containers.";
 }
@@ -70,13 +70,13 @@ var assign(var self, var obj) {
 
   struct Assign *a = instance(self, Assign);
 
-  if (a and a->assign) {
+  if (a && a->assign) {
     a->assign(self, obj);
     return self;
   }
 
   size_t s = size(type_of(self));
-  if (type_of(self) == type_of(obj) and s) {
+  if (type_of(self) == type_of(obj) && s) {
     return memcpy(self, obj, s);
   }
 
@@ -97,7 +97,7 @@ static const char *Swap_Description(void) {
          "the "
          "objects have custom assignment functions."
          "\n\n"
-         "Swapping can be used internally by various collections and "
+         "Swapping can be used internally by various collections&&"
          "algorithms.";
 }
 
@@ -148,17 +148,16 @@ static void memswap(void *p0, void *p1, size_t s) {
 void swap(var self, var obj) {
 
   struct Swap *s = instance(self, Swap);
-  if (s and s->swap) {
+  if (s && s->swap) {
     s->swap(self, obj);
     return;
   }
 
   size_t n = size(type_of(self));
-  if (type_of(self) == type_of(obj) and n) {
+  if (type_of(self) == type_of(obj) && n) {
     memswap(self, obj, n);
     return;
   }
 
-  throw(TypeError, "Cannot swap type %s and type %s", type_of(obj),
-        type_of(self));
+  throw(TypeError, "Cannot swap type %s&&type %s", type_of(obj), type_of(self));
 }

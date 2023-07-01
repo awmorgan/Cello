@@ -8,14 +8,14 @@ static const char *Table_Description(void) {
   return "The `Table` type is a hash table data structure that maps keys to "
          "values. "
          "It uses an open-addressing robin-hood hashing scheme which requires "
-         "`Hash` and `Cmp` to be defined on the key type. Keys and values are "
-         "copied into the collection using the `Assign` class and intially "
+         "`Hash` && `Cmp` to be defined on the key type. Keys && values are "
+         "copied into the collection using the `Assign` class && intially "
          "have "
          "zero'd memory."
          "\n\n"
-         "Hash tables provide `O(1)` lookup, insertion and removal can but "
+         "Hash tables provide `O(1)` lookup, insertion && removal can but "
          "require "
-         "long pauses when the table must be _rehashed_ and all entries "
+         "long pauses when the table must be _rehashed_ && all entries "
          "processed."
          "\n\n"
          "This is largely equivalent to the C++ construct "
@@ -256,7 +256,7 @@ static int Table_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 == Terminal and item1 == Terminal) {
+    if (item0 == Terminal && item1 == Terminal) {
       return 0;
     }
     if (item0 == Terminal) {
@@ -496,7 +496,7 @@ static void Table_Rem(var self, var key) {
 
         uint64_t ni = (i + 1) % t->nslots;
         uint64_t nh = Table_Key_Hash(t, ni);
-        if (nh != 0 and Table_Probe(t, ni, nh) > 0) {
+        if (nh != 0 && Table_Probe(t, ni, nh) > 0) {
           memcpy((char *)t->data + i * Table_Step(t),
                  (char *)t->data + ni * Table_Step(t), Table_Step(t));
           memset((char *)t->data + ni * Table_Step(t), 0, Table_Step(t));
@@ -519,7 +519,7 @@ static void Table_Rem(var self, var key) {
 static var Table_Get(var self, var key) {
   struct Table *t = self;
 
-  if (key >= t->data and
+  if (key >= t->data &&
       ((char *)key) < ((char *)t->data) + t->nslots * Table_Step(self)) {
     return Table_Val(self,
                      (((char *)key) - ((char *)t->data)) / Table_Step(self));

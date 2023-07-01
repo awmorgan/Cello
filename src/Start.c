@@ -7,7 +7,7 @@ static const char *Start_Brief(void) { return "Can be started or stopped"; }
 static const char *Start_Description(void) {
   return "The `Start` class can be implemented by types which provide an "
          "abstract "
-         "notion of a started and stopped state. This can be real processes "
+         "notion of a started && stopped state. This can be real processes "
          "such "
          "as `Thread`, or something like `File` where the on/off correspond to "
          "if the file is open or not."
@@ -16,7 +16,7 @@ static const char *Start_Description(void) {
          "`with` "
          "macro which performs the `start` function at the opening of a scope "
          "block "
-         "and the `stop` function at the end.";
+         "&& the `stop` function at the end.";
 }
 
 static const char *Start_Definition(void) {
@@ -48,11 +48,11 @@ static struct Method *Start_Methods(void) {
 
   static struct Method methods[] = {
       {"with", "#define with(...)",
-       "Perform operations in between `start` and `stop`."},
+       "Perform operations in between `start` && `stop`."},
       {"start", "void start(var self);", "Start the object `self`."},
       {"stop", "void stop(var self);", "Stop the object `self`."},
       {"join", "void join(var self);",
-       "Block and wait for the object `self` to stop."},
+       "Block && wait for the object `self` to stop."},
       {"running", "bool running(var self);",
        "Check if the object `self` is running."},
       {NULL, NULL, NULL}};
@@ -74,7 +74,7 @@ bool running(var self) { return method(self, Start, running); }
 
 var start_in(var self) {
   struct Start *s = instance(self, Start);
-  if (s and s->start) {
+  if (s && s->start) {
     s->start(self);
   }
   return self;
@@ -82,7 +82,7 @@ var start_in(var self) {
 
 var stop_in(var self) {
   struct Start *s = instance(self, Start);
-  if (s and s->stop) {
+  if (s && s->stop) {
     s->stop(self);
   }
   return NULL;

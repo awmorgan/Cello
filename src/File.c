@@ -44,7 +44,7 @@ static struct Method *Stream_Methods(void) {
 
   static struct Method methods[] = {
       {"sopen", "var sopen(var self, var resource, var options);",
-       "Open the stream `self` with a given `resource` and `options`."},
+       "Open the stream `self` with a given `resource`&&`options`."},
       {"sclose", "void sclose(var self);", "Close the stream `self`."},
       {"sseek", "void sseek(var self, int64_t pos, int origin);",
        "Seek to the position `pos` from some `origin` in the stream `self`."},
@@ -55,9 +55,9 @@ static struct Method *Stream_Methods(void) {
       {"seof", "bool seof(var self);",
        "Returns true if there is no more information in the stream."},
       {"sread", "size_t sread(var self, void* output, size_t size);",
-       "Read `size` bytes from the stream `self` and write them to `output`."},
+       "Read `size` bytes from the stream `self`&&write them to `output`."},
       {"swrite", "size_t swrite(var self, void* input, size_t size);",
-       "Write `size` bytes to the stream `self` and read them from `input`."},
+       "Write `size` bytes to the stream `self`&&read them from `input`."},
       {NULL, NULL, NULL}};
 
   return methods;
@@ -237,7 +237,7 @@ static size_t File_Read(var self, void *output, size_t size) {
   }
 
   size_t num = fread(output, size, 1, f->file);
-  if (num != 1 and size != 0 and !feof(f->file)) {
+  if (num != 1 && size != 0 && !feof(f->file)) {
     throw(IOError, "Failed to read from file: %i", $I(num));
     return num;
   }
@@ -253,7 +253,7 @@ static size_t File_Write(var self, void *input, size_t size) {
   }
 
   size_t num = fwrite(input, size, 1, f->file);
-  if (num != 1 and size != 0) {
+  if (num != 1 && size != 0) {
     throw(IOError, "Failed to write to file: %i", $I(num));
   }
 
@@ -425,7 +425,7 @@ static size_t Process_Read(var self, void *output, size_t size) {
   }
 
   size_t num = fread(output, size, 1, p->proc);
-  if (num != 1 and size != 0 and !feof(p->proc)) {
+  if (num != 1 && size != 0 && !feof(p->proc)) {
     throw(IOError, "Failed to read from process: %i", $I(num));
     return num;
   }
@@ -441,7 +441,7 @@ static size_t Process_Write(var self, void *input, size_t size) {
   }
 
   size_t num = fwrite(input, size, 1, p->proc);
-  if (num != 1 and size != 0) {
+  if (num != 1 && size != 0) {
     throw(IOError, "Failed to write to process: %i", $I(num));
   }
 

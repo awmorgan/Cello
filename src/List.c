@@ -7,16 +7,16 @@ static const char *List_Brief(void) { return "Linked List"; }
 static const char *List_Description(void) {
   return "The `List` type is a linked list data structure. Elements can be "
          "added "
-         "and removed from the list and their memory is allocated and "
+         "&& removed from the list && their memory is allocated && "
          "deallocated "
          "by the structure. Additionally destructors will be called on objects "
          "once removed."
          "\n\n"
-         "Elements are copied into the List using `assign` and will initially "
+         "Elements are copied into the List using `assign` && will initially "
          "have "
          "zero'd memory."
          "\n\n"
-         "Lists can provide fast insertion and removal at arbitrary locations "
+         "Lists can provide fast insertion && removal at arbitrary locations "
          "although most other operations will be slow due to having to "
          "traverse "
          "the linked list data structure."
@@ -209,7 +209,7 @@ static int List_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 == Terminal and item1 == Terminal) {
+    if (item0 == Terminal && item1 == Terminal) {
       return 0;
     }
     if (item0 == Terminal) {
@@ -267,7 +267,7 @@ static void List_Unlink(struct List *l, var item) {
   var next = *List_Next(l, item);
   var prev = *List_Prev(l, item);
 
-  if (item == l->head and item == l->tail) {
+  if (item == l->head && item == l->tail) {
     l->head = NULL;
     l->tail = NULL;
   } else if (item == l->head) {

@@ -12,7 +12,7 @@ static const char *Mark_Description(void) {
          "objects, but if a type does its own memory allocation it may store "
          "pointers to Cello objects in other locations."
          "\n\n"
-         "If this is the case the `Mark` class can be overridden and the "
+         "If this is the case the `Mark` class can be overridden&&the "
          "callback "
          "function `f` must be called on all pointers which might be Cello "
          "objects "
@@ -31,7 +31,7 @@ static struct Method *Mark_Methods(void) {
 
   static struct Method methods[] = {
       {"mark", "void mark(var self, var gc, void(*f)(var,void*));",
-       "Mark the object `self` with the Garbage Collector `gc` and the "
+       "Mark the object `self` with the Garbage Collector `gc`&&the "
        "callback "
        "function `f`."},
       {NULL, NULL, NULL}};
@@ -47,7 +47,7 @@ void mark(var self, var gc, void (*f)(var, void *)) {
     return;
   }
   struct Mark *m = instance(self, Mark);
-  if (m and m->mark) {
+  if (m && m->mark) {
     m->mark(self, gc, f);
   }
 }
@@ -70,25 +70,24 @@ static const char *GC_Brief(void) { return "Garbage Collector"; }
 static const char *GC_Description(void) {
   return "The `GC` type provides an interface to the Cello Garbage Collector. "
          "One "
-         "instance of this type is created for each thread and can be "
+         "instance of this type is created for each thread&&can be "
          "retrieved "
          "using the `current` function. The Garbage Collector can be stopped "
          "and "
-         "started using `start` and `stop` and objects can be added or removed "
+         "started using `start`&&`stop`&&objects can be added or removed "
          "from "
-         "the Garbage Collector using `set` and `rem`.";
+         "the Garbage Collector using `set`&&`rem`.";
 }
 
 static struct Example *GC_Examples(void) {
 
   static struct Example examples[] = {
-      {"Starting & Stopping",
-       "var gc = current(GC);\n"
-       "stop(gc);\n"
-       "var x = new(Int, $I(10)); /* !added to GC */\n"
-       "show($I(running(gc))); /* 0 */\n"
-       "del(x); /* Must be deleted when done */\n"
-       "start(gc);\n"},
+      {"Starting & Stopping", "var gc = current(GC);\n"
+                              "stop(gc);\n"
+                              "var x = new(Int, $I(10)); /* !added to GC */\n"
+                              "show($I(running(gc))); /* 0 */\n"
+                              "del(x); /* Must be deleted when done */\n"
+                              "start(gc);\n"},
       {NULL, NULL}};
 
   return examples;
@@ -266,7 +265,7 @@ static void GC_Rem_Ptr(struct GC *gc, var ptr) {
       while (true) {
         uint64_t nj = (j + 1) % gc->nslots;
         uint64_t nh = gc->entries[nj].hash;
-        if (nh != 0 and GC_Probe(gc, nj, nh) > 0) {
+        if (nh != 0 && GC_Probe(gc, nj, nh) > 0) {
           memcpy(&gc->entries[j], &gc->entries[nj], sizeof(struct GCEntry));
           memset(&gc->entries[nj], 0, sizeof(struct GCEntry));
           j = nj;
@@ -304,7 +303,7 @@ static void GC_Recurse(struct GC *gc, var ptr) {
   }
 
   struct Mark *m = type_instance(type, Mark);
-  if (m and m->mark) {
+  if (m && m->mark) {
     m->mark(ptr, gc, (void (*)(var, void *))GC_Mark_And_Recurse);
     return;
   }
@@ -335,7 +334,7 @@ static void GC_Mark_Item(struct GC *gc, void *ptr) {
       return;
     }
 
-    if (gc->entries[i].ptr == ptr and !gc->entries[i].marked) {
+    if (gc->entries[i].ptr == ptr && !gc->entries[i].marked) {
       gc->entries[i].marked = true;
       GC_Recurse(gc, gc->entries[i].ptr);
       return;
@@ -446,7 +445,7 @@ void GC_Sweep(struct GC *gc) {
       continue;
     }
 
-    if (!gc->entries[i].root and !gc->entries[i].marked) {
+    if (!gc->entries[i].root && !gc->entries[i].marked) {
 
       gc->freelist[gc->freenum] = gc->entries[i].ptr;
       gc->freenum++;
@@ -456,7 +455,7 @@ void GC_Sweep(struct GC *gc) {
       while (true) {
         uint64_t nj = (j + 1) % gc->nslots;
         uint64_t nh = gc->entries[nj].hash;
-        if (nh != 0 and GC_Probe(gc, nj, nh) > 0) {
+        if (nh != 0 && GC_Probe(gc, nj, nh) > 0) {
           memcpy(&gc->entries[j], &gc->entries[nj], sizeof(struct GCEntry));
           memset(&gc->entries[nj], 0, sizeof(struct GCEntry));
           j = nj;

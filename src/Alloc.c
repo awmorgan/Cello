@@ -41,7 +41,7 @@ static const char *Alloc_Description(void) {
          "\n\n"
          "Allocated memory is automatically registered with the garbage "
          "collector "
-         "unless the functions `alloc_raw` and `dealloc_raw` are used.";
+         "unless the functions `alloc_raw`&&`dealloc_raw` are used.";
 }
 
 static const char *Alloc_Definition(void) {
@@ -83,7 +83,7 @@ static struct Method *Alloc_Methods(void) {
        "#define $S(X)\n"
        "#define $R(X)\n"
        "#define $B(X)",
-       "Allocate memory for the given type `T` on the stack and copy in the "
+       "Allocate memory for the given type `T` on the stack&&copy in the "
        "given arguments `...` as struct members. Shorthand constructors exist "
        "for native types:\n\n* `$I -> Int` `$F -> Float` `$S -> String`\n*"
        " `$R -> Ref` `$B -> Box`\n\n"},
@@ -121,7 +121,7 @@ static var alloc_by(var type, int method) {
 
   struct Alloc *a = type_instance(type, Alloc);
   var self;
-  if (a and a->alloc) {
+  if (a && a->alloc) {
     self = a->alloc();
   } else {
     struct Header *head = calloc(1, sizeof(struct Header) + size(type));
@@ -160,7 +160,7 @@ var alloc_root(var type) { return alloc_by(type, ALLOC_ROOT); }
 void dealloc(var self) {
 
   struct Alloc *a = instance(self, Alloc);
-  if (a and a->dealloc) {
+  if (a && a->dealloc) {
     a->dealloc(self);
     return;
   }
@@ -207,14 +207,14 @@ void dealloc_root(var self) { dealloc(self); }
 
 static const char *New_Name(void) { return "New"; }
 
-static const char *New_Brief(void) { return "Construction and Destruction"; }
+static const char *New_Brief(void) { return "Construction&&Destruction"; }
 
 static const char *New_Description(void) {
-  return "The `New` class allows the user to define constructors and "
+  return "The `New` class allows the user to define constructors&&"
          "destructors "
-         "for a type, accessible via `new` and `del`. Objects allocated with "
+         "for a type, accessible via `new`&&`del`. Objects allocated with "
          "`new` "
-         "are allocated on the heap and also registered with the Garbage "
+         "are allocated on the heap&&also registered with the Garbage "
          "Collector "
          "this means technically it isn't required to call `del` on them as "
          "they "
@@ -230,10 +230,10 @@ static const char *New_Description(void) {
          "segment "
          "or only accessible via vanilla C structures."
          "\n\n"
-         "The `new_raw` and `del_raw` functions can be called to construct and "
+         "The `new_raw`&&`del_raw` functions can be called to construct&&"
          "destruct objects without going via the Garbage Collector."
          "\n\n"
-         "It is also possible to simply call the `construct` and `destruct` "
+         "It is also possible to simply call the `construct`&&`destruct` "
          "functions if you wish to construct an already allocated object."
          "\n\n"
          "Constructors should assume that memory is zero'd for an object but "
@@ -273,9 +273,9 @@ static struct Method *New_Methods(void) {
        "var new_raw_with(var type, var args);\n"
        "var new_root_with(var type, var args);",
        "Construct a new object of a given `type`. Use `new_raw` to avoid the "
-       "Garbage Collector completely, and `new_root` to register the "
+       "Garbage Collector completely,&&`new_root` to register the "
        "allocation "
-       "as a Garbage Collection root. In the case of raw and root allocations "
+       "as a Garbage Collection root. In the case of raw&&root allocations "
        "they must be destructed with the corresponding deletion functions."},
       {"del",
        "void del(var self);\n"
@@ -302,7 +302,7 @@ var New = Cello(New, Instance(Doc, New_Name, New_Brief, New_Description,
 
 var construct_with(var self, var args) {
   struct New *n = instance(self, New);
-  if (n and n->construct_with) {
+  if (n && n->construct_with) {
     n->construct_with(self, args);
   } else if (len(args) == 1) {
     assign(self, get(args, $I(0)));
@@ -312,7 +312,7 @@ var construct_with(var self, var args) {
 
 var destruct(var self) {
   struct New *n = instance(self, New);
-  if (n and n->destruct) {
+  if (n && n->destruct) {
     n->destruct(self);
   }
   return self;
@@ -358,7 +358,7 @@ static const char *Copy_Description(void) {
          "when "
          "a copy is made of it. By default the `Copy` class allocates a new "
          "empty "
-         "object of the same type and uses the `Assign` class to set the "
+         "object of the same type&&uses the `Assign` class to set the "
          "contents. The copy is then registered with the Garbage Collector as "
          "if it "
          "had been constructed with `new`. This means when using manual memory "
@@ -372,7 +372,7 @@ static const char *Copy_Description(void) {
          "\n\n"
          "By convention `copy` follows the semantics of `Assign`, which "
          "typically "
-         "means a _deep copy_ should be made, and that an object will create a "
+         "means a _deep copy_ should be made,&&that an object will create a "
          "copy of all of the sub-objects it references or contains - although "
          "this "
          "could vary depending on the type's overridden behaviours.";
@@ -413,7 +413,7 @@ var Copy = Cello(Copy, Instance(Doc, Copy_Name, Copy_Brief, Copy_Description,
 var copy(var self) {
 
   struct Copy *c = instance(self, Copy);
-  if (c and c->copy) {
+  if (c && c->copy) {
     return c->copy(self);
   }
 

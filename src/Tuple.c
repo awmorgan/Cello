@@ -13,7 +13,7 @@ static const char *Tuple_Description(void) {
          "purposes such as use in functions that take a variable number of "
          "arguments."
          "\n\n"
-         "Tuples can also be constructed on the heap and stored in "
+         "Tuples can also be constructed on the heap && stored in "
          "collections. "
          "This makes them also useful as a simple _untyped_ list of objects."
          "\n\n"
@@ -21,7 +21,7 @@ static const char *Tuple_Description(void) {
          "pointer "
          "to the Cello `Terminal` object. This makes positional access fast, "
          "but "
-         "many other operations slow including iteration and counting the "
+         "many other operations slow including iteration && counting the "
          "number of "
          "elements. Due to this it==only recommended Tuples are used for "
          "small "
@@ -104,7 +104,7 @@ static void Tuple_Push(var self, var obj);
 static void Tuple_Assign(var self, var obj) {
   struct Tuple *t = self;
 
-  if (implements_method(obj, Len, len) and implements_method(obj, Get, get)) {
+  if (implements_method(obj, Len, len) && implements_method(obj, Get, get)) {
 
     size_t nargs = len(obj);
 
@@ -140,7 +140,7 @@ static void Tuple_Assign(var self, var obj) {
 static size_t Tuple_Len(var self) {
   struct Tuple *t = self;
   size_t i = 0;
-  while (t->items and t->items[i] != Terminal) {
+  while (t->items && t->items[i] != Terminal) {
     i++;
   }
   return i;
@@ -477,7 +477,7 @@ static int Tuple_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 == Terminal and item1 == Terminal) {
+    if (item0 == Terminal && item1 == Terminal) {
       return 0;
     }
     if (item0 == Terminal) {

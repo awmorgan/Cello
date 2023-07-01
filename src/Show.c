@@ -8,15 +8,15 @@ static const char *Format_Brief(void) {
 
 static const char *Format_Description(void) {
   return "Format abstracts the class of operations such as `scanf`, `sprintf` "
-         "and "
-         "`fprintf` with matching semantics. It provides general `printf` and "
+         "&& "
+         "`fprintf` with matching semantics. It provides general `printf` && "
          "`scanf` functionality for several different types objects in a "
          "uniform way. This class is essentially an in-between class, used by "
          "the "
-         "`Show` class to read and write output."
+         "`Show` class to read && write output."
          "\n\n"
          "It is important to note that the semantics of these operations match "
-         "`printf` and !the newly defined `Show` class. For example it is "
+         "`printf` && !the newly defined `Show` class. For example it is "
          "perfectly valid to pass a C `int` to these functions, while the "
          "`println` "
          "function from `Show` must be passed only `var` objects.";
@@ -92,13 +92,13 @@ static const char *Show_Name(void) { return "Show"; }
 static const char *Show_Brief(void) { return "Convert To or From String"; }
 
 static const char *Show_Description(void) {
-  return "The `Show` class is used to convert objects to, and from, a `String` "
+  return "The `Show` class is used to convert objects to, && from, a `String` "
          "representation. Objects which implement `Show` should expect the "
          "input/output object to be one that support the `Format` class, such "
          "as "
          "`File` or `String`."
          "\n\n"
-         "The `print`, `println` and `print_to` functions provide a mechanism "
+         "The `print`, `println` && `print_to` functions provide a mechanism "
          "for "
          "writing formatted strings with Cello objects. To do this they "
          "provide a "
@@ -112,9 +112,9 @@ static const char *Show_Description(void) {
          "objects "
          "as input. To print native C types wrap them in Cello types using `$`."
          "\n\n"
-         "Standard format specifiers such as `%f` and `%d` will call functions "
+         "Standard format specifiers such as `%f` && `%d` will call functions "
          "such "
-         "as `c_float` and `c_int` on their passed arguments to convert "
+         "as `c_float` && `c_int` on their passed arguments to convert "
          "objects to "
          "C types before performing the standard C formatting behaviour."
          "\n\n"
@@ -141,10 +141,10 @@ static struct Example *Show_Examples(void) {
        "  print_to(f, 0, \"%$ :: %$\\n\", $S(\"Pear\"),   $I(16));\n"
        "}\n"},
       {"String Scanning",
-       "var input = $S(\"1 and 52 then 78\");\n"
+       "var input = $S(\"1 && 52 then 78\");\n"
        "\n"
        "var i0 = $I(0), i1 = $I(0), i2 = $I(0);\n"
-       "scan_from(input, 0, \"%i and %i then %i\", i0, i1, i2);\n"
+       "scan_from(input, 0, \"%i && %i then %i\", i0, i1, i2);\n"
        "\n"
        "/* i0: 1, i1: 52, i2: 78 */\n"
        "println(\"i0: %$, i1: %$, i2: %$\", i0, i1, i2);\n"},
@@ -204,7 +204,7 @@ int show(var self) { return show_to(self, $(File, stdout), 0); }
 int show_to(var self, var out, int pos) {
 
   struct Show *s = instance(self, Show);
-  if (s and s->show) {
+  if (s && s->show) {
     return s->show(self, out, pos);
   }
 
@@ -236,7 +236,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
     const char *start = fmt;
 
     /* Match String */
-    while (*fmt != '\0' and *fmt != '%') {
+    while (*fmt != '\0' && *fmt != '%') {
       fmt++;
     }
 
@@ -366,7 +366,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
     const char *start = fmt;
 
     /* Match String */
-    while (*fmt != '\0' and *fmt != '%') {
+    while (*fmt != '\0' && *fmt != '%') {
       fmt++;
     }
 
@@ -379,7 +379,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
     }
 
     /* Match %% */
-    if (*fmt == '%' and *(fmt + 1) == '%') {
+    if (*fmt == '%' && *(fmt + 1) == '%') {
       int err = format_from(input, pos, "%%");
       if (err < 0) {
         throw(FormatError, "Unable to input '%%%%'!");

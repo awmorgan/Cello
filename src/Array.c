@@ -8,19 +8,19 @@ static const char *Array_Description(void) {
   return ""
          "The `Array` type is data structure containing a sequence of a single "
          "type "
-         "of object. It can dynamically grow and shrink in size depending on "
+         "of object. It can dynamically grow&&shrink in size depending on "
          "how "
          "many elements it contains. It allocates storage for the type "
          "specified. "
-         "It also deallocates and destroys the objects inside upon destruction."
+         "It also deallocates&&destroys the objects inside upon destruction."
          "\n\n"
-         "Elements are copied into an Array using `assign` and will initially "
+         "Elements are copied into an Array using `assign`&&will initially "
          "have "
          "zero'd memory."
          "\n\n"
          "Elements are ordered linearly. Elements are accessed by their "
          "position in "
-         "this sequence directly. Addition and removal of elements at the end "
+         "this sequence directly. Addition&&removal of elements at the end "
          "of "
          "the sequence is fast, with memory movement required for elements in "
          "the "
@@ -172,7 +172,7 @@ static void Array_Assign(var self, var obj) {
   a->nitems = 0;
   a->nslots = 0;
 
-  if (implements_method(obj, Len, len) and implements_method(obj, Get, get)) {
+  if (implements_method(obj, Len, len) && implements_method(obj, Get, get)) {
 
     a->nitems = len(obj);
     a->nslots = a->nitems;
@@ -242,7 +242,7 @@ static int Array_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 == Terminal and item1 == Terminal) {
+    if (item0 == Terminal && item1 == Terminal) {
       return 0;
     }
     if (item0 == Terminal) {

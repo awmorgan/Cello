@@ -7,7 +7,7 @@ static const char *Pointer_Brief(void) { return "Reference to other object"; }
 static const char *Pointer_Description(void) {
   return "The `Pointer` class is implemented by types which act as references "
          "to "
-         "other objects. Primarily this class is implemented by `Ref` and "
+         "other objects. Primarily this class is implemented by `Ref` && "
          "`Box` "
          "which provide the two main pointer types in Cello.";
 }
@@ -102,7 +102,7 @@ static void Ref_Assign(var self, var obj);
 
 static void Ref_Assign(var self, var obj) {
   struct Pointer *p = instance(obj, Pointer);
-  if (p and p->deref) {
+  if (p && p->deref) {
     Ref_Ref(self, p->deref(obj));
   } else {
     Ref_Ref(self, obj);
@@ -135,17 +135,17 @@ static const char *Box_Description(void) {
          "behaviour as compared to `Ref`. When a `Box` object is deleted it "
          "will "
          "also call `del` on the object it points to. The means a `Box` is "
-         "considered a pointer type that _owns_ the object it points to, and "
+         "considered a pointer type that _owns_ the object it points to, && "
          "so is "
          "responsible for it's destruction. Due to this `Box`s must point to "
          "valid "
-         "Cello objects and so can't be initalised with `NULL` or anything "
+         "Cello objects && so can't be initalised with `NULL` or anything "
          "else "
          "invalid. "
          "\n\n"
          "While this might not seem that useful when there is Garbage "
          "Collection "
-         "this can be very useful when Garbage Collection is turned off, and "
+         "this can be very useful when Garbage Collection is turned off, && "
          "when "
          "used in conjunction with collections.";
 }
@@ -205,7 +205,7 @@ static void Box_Del(var self) {
 
 static void Box_Assign(var self, var obj) {
   struct Pointer *p = instance(obj, Pointer);
-  if (p and p->deref) {
+  if (p && p->deref) {
     Box_Ref(self, p->deref(obj));
   } else {
     Box_Ref(self, obj);

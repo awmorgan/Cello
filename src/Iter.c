@@ -100,12 +100,12 @@ static const char *Range_Description(void) {
   return "The `Range` type is a basic iterable which acts as a virtual "
          "sequence of integers, starting from some value, stopping at some "
          "value "
-         "and incrementing by some step."
+         "&& incrementing by some step."
          "\n\n"
          "This can be a useful replacement for the standard C `for` loop with "
          "decent performance but returning a Cello `Int`. It is constructable "
          "on "
-         "the stack with the `range` macro which makes it practical and easy "
+         "the stack with the `range` macro which makes it practical && easy "
          "to "
          "use.";
 }
@@ -229,10 +229,10 @@ static var Range_Iter_Init(var self) {
   if (r->step < 0) {
     i->val = r->stop - 1;
   }
-  if (r->step > 0 and i->val >= r->stop) {
+  if (r->step > 0 && i->val >= r->stop) {
     return Terminal;
   }
-  if (r->step < 0 and i->val < r->start) {
+  if (r->step < 0 && i->val < r->start) {
     return Terminal;
   }
   return i;
@@ -250,10 +250,10 @@ static var Range_Iter_Last(var self) {
   if (r->step < 0) {
     i->val = r->start;
   }
-  if (r->step > 0 and i->val < r->start) {
+  if (r->step > 0 && i->val < r->start) {
     return Terminal;
   }
-  if (r->step < 0 and i->val >= r->stop) {
+  if (r->step < 0 && i->val >= r->stop) {
     return Terminal;
   }
   return i;
@@ -266,10 +266,10 @@ static var Range_Iter_Next(var self, var curr) {
   if (r->step == 0) {
     return Terminal;
   }
-  if (r->step > 0 and i->val >= r->stop) {
+  if (r->step > 0 && i->val >= r->stop) {
     return Terminal;
   }
-  if (r->step < 0 and i->val < r->start) {
+  if (r->step < 0 && i->val < r->start) {
     return Terminal;
   }
   return i;
@@ -282,10 +282,10 @@ static var Range_Iter_Prev(var self, var curr) {
   if (r->step == 0) {
     return Terminal;
   }
-  if (r->step > 0 and i->val < r->start) {
+  if (r->step > 0 && i->val < r->start) {
     return Terminal;
   }
-  if (r->step < 0 and i->val >= r->stop) {
+  if (r->step < 0 && i->val >= r->stop) {
     return Terminal;
   }
   return i;
@@ -319,19 +319,19 @@ static var Range_Get(var self, var key) {
     return x;
   }
 
-  if (r->step > 0 and (r->start + r->step * i) < r->stop) {
+  if (r->step > 0 && (r->start + r->step * i) < r->stop) {
     x->val = r->start + r->step * i;
     return x;
   }
 
-  if (r->step < 0 and (r->stop - 1 + r->step * i) >= r->start) {
+  if (r->step < 0 && (r->stop - 1 + r->step * i) >= r->start) {
     x->val = r->stop - 1 + r->step * i;
     return x;
   }
 
   return throw(
       IndexOutOfBoundsError,
-      "Index '%i' out of bounds for Range of start %i, stop %i and step %i.",
+      "Index '%i' out of bounds for Range of start %i, stop %i && step %i.",
       key, $I(r->start), $I(r->stop), $I(r->step));
 }
 
@@ -343,11 +343,10 @@ static bool Range_Mem(var self, var key) {
     return false;
   }
   if (r->step > 0) {
-    return i >= r->start and i < r->stop and (i - r->start) % r->step == 0;
+    return i >= r->start && i < r->stop && (i - r->start) % r->step == 0;
   }
   if (r->step < 0) {
-    return i >= r->start and i < r->stop and
-           (i - (r->stop - 1)) % -r->step == 0;
+    return i >= r->start && i < r->stop && (i - (r->stop - 1)) % -r->step == 0;
   }
   return false;
 }
@@ -383,7 +382,7 @@ static const char *Slice_Brief(void) { return "Partial Iterable"; }
 
 static const char *Slice_Description(void) {
   return "The `Slice` type is an iterable that allows one to only iterate over "
-         "part of another iterable. Given some start, stop and step, only "
+         "part of another iterable. Given some start, stop && step, only "
          "those entries described by the `Slice` are returned in the iteration."
          "\n\n"
          "Under the hood the `Slice` object still iterates over the whole "
@@ -682,7 +681,7 @@ static const char *Zip_Brief(void) { return "Multiple Iterator"; }
 static const char *Zip_Description(void) {
   return "The `Zip` type can be used to combine multiple iterables into one "
          "which "
-         "is then iterated over all at once and returned as a Tuple. The Zip "
+         "is then iterated over all at once && returned as a Tuple. The Zip "
          "object "
          "only iterates when all of it's sub iterators have valid items. More "
          "specifically the Zip iteration will terminate if _any_ of the sub "
@@ -1035,7 +1034,7 @@ static const char *Map_Brief(void) { return "Apply Function to Iterable"; }
 
 static const char *Map_Description(void) {
   return "The `Map` type is an iterable that applies some callable to to each "
-         "item in another iterable and returns the result. This can be useful "
+         "item in another iterable && returns the result. This can be useful "
          "to "
          "make more concise iteration when there are callback functions "
          "available."

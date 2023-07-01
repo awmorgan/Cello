@@ -20,7 +20,7 @@ static const char *Cmp_Description(void) {
          "returns "
          "`< 0` if the first object is _less than_ the second, `> 0` if the "
          "first "
-         "object is _greater than_ the second, and `0` if they are _equal_. "
+         "object is _greater than_ the second,&&`0` if they are _equal_. "
          "\n\n"
          "For objects that manage their own data this class may need to be "
          "overridden to ensure that objects of the same _value_ are still "
@@ -75,7 +75,7 @@ static struct Method *Cmp_Methods(void) {
   static struct Method methods[] = {
       {"cmp", "int cmp(var self, var obj);",
        "The return value of `cmp` is `< 0` if `self` is less than `obj`, `> 0` "
-       "if `self` is greater than `obj` and `0` if they are equal."},
+       "if `self` is greater than `obj`&&`0` if they are equal."},
       {"eq", "bool eq(var self, var obj);",
        "Returns true if the object `self` is equal to the object `obj`."},
       {"neq", "bool neq(var self, var obj);",
@@ -101,12 +101,12 @@ var Cmp = Cello(Cmp, Instance(Doc, Cmp_Name, Cmp_Brief, Cmp_Description,
 int cmp(var self, var obj) {
 
   struct Cmp *c = instance(self, Cmp);
-  if (c and c->cmp) {
+  if (c && c->cmp) {
     return c->cmp(self, obj);
   }
 
   size_t s = size(type_of(self));
-  if (type_of(self) == type_of(obj) and s) {
+  if (type_of(self) == type_of(obj) && s) {
     return memcmp(self, obj, s);
   }
 
@@ -117,11 +117,11 @@ int cmp(var self, var obj) {
 }
 
 bool eq(var self, var obj) { return cmp(self, obj) == 0; }
-bool neq(var self, var obj) { return!eq(self, obj); }
+bool neq(var self, var obj) { return !eq(self, obj); }
 bool gt(var self, var obj) { return cmp(self, obj) > 0; }
 bool lt(var self, var obj) { return cmp(self, obj) < 0; }
-bool ge(var self, var obj) { return!lt(self, obj); }
-bool le(var self, var obj) { return!gt(self, obj); }
+bool ge(var self, var obj) { return !lt(self, obj); }
+bool le(var self, var obj) { return !gt(self, obj); }
 
 static const char *Sort_Name(void) { return "Sort"; }
 

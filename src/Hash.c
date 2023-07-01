@@ -20,7 +20,7 @@ static const char *Hash_Description(void) {
          "By default an object is hashed by using its raw memory with the "
          "[Murmurhash](http://en.wikipedia.org/wiki/MurmurHash) algorithm. Due "
          "to "
-         "the link between them it is recommended to only override `Hash` and "
+         "the link between them it is recommended to only override `Hash` && "
          "`Cmp` in conjunction.";
 }
 
@@ -112,7 +112,7 @@ uint64_t hash_data(const void *data, size_t size) {
 uint64_t hash(var self) {
 
   struct Hash *h = instance(self, Hash);
-  if (h and h->hash) {
+  if (h && h->hash) {
     return h->hash(self);
   }
 

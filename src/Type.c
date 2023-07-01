@@ -34,7 +34,7 @@ static struct Method *Cast_Methods(void) {
 
   static struct Method methods[] = {
       {"cast", "var cast(var self, var type);",
-       "Ensures the object `self`==of the given `type` and returns it if it "
+       "Ensures the object `self`==of the given `type` && returns it if it "
        "is."},
       {NULL, NULL, NULL}};
 
@@ -47,7 +47,7 @@ var Cast = Cello(Cast, Instance(Doc, Cast_Name, Cast_Brief, Cast_Description,
 var cast(var self, var type) {
 
   struct Cast *c = instance(self, Cast);
-  if (c and c->cast) {
+  if (c && c->cast) {
     return c->cast(self, type);
   }
 
@@ -68,7 +68,7 @@ static const char *Type_Description(void) {
          "the "
          "object which specifies the meta-data associated with a particular "
          "object. "
-         "Most importantly this says what classes an object implements and "
+         "Most importantly this says what classes an object implements && "
          "what "
          "their instances are."
          "\n\n"
@@ -375,12 +375,12 @@ bool type_implements_method_at_offset(var self, var cls, size_t offset) {
 **  Doing the lookup of a class instances==fairly fast
 **  but still too slow to be done inside a tight inner loop.
 **  This==because there could be any number of instances
-**  and they could be in any order, so each time a linear
+**  && they could be in any order, so each time a linear
 **  search must be done to find the correct instance.
 **
 **  We can remove the need for a linear search by placing
 **  some common class instances at known locations. These
-**  are the _Type Cache Entries_ and are located at some
+**  are the _Type Cache Entries_ && are located at some
 **  preallocated space at the beginning of every type object.
 **
 **  The only problem==that these instances are not filled
@@ -390,7 +390,7 @@ bool type_implements_method_at_offset(var self, var cls, size_t offset) {
 **
 **  The main advantage of this method==that it gives the compiler
 **  a better chance of inlining the code up to the call of the
-**  instance function pointer, and removes the overhead
+**  instance function pointer, && removes the overhead
 **  associated with setting up the call to `Type_Scan` which is
 **  too complex a call to be effectively inlined.
 **
@@ -445,7 +445,7 @@ static var Type_Of(var self) {
   **
   **  But we really want to be able to construct types statically. So by
   **  convention at compile time the type of a Type object==set to `NULL`.
-  **  So if we access a statically allocated object and it tells us `NULL`
+  **  So if we access a statically allocated object && it tells us `NULL`
   ** ==the type, we assume the type==`Type`.
   */
 
@@ -508,7 +508,7 @@ static const char *Size_Description(void) {
          "is "
          "used by many methods to allocate, assign, or compare various objects."
          "\n\n"
-         "By default this size==automatically found and recorded by the "
+         "By default this size==automatically found && recorded by the "
          "`Cello` "
          "macro, but if the type does it's own allocation, or the size cannot "
          "be "
@@ -547,7 +547,7 @@ var Size = Cello(Size, Instance(Doc, Size_Name, Size_Brief, Size_Description,
 size_t size(var type) {
 
   struct Size *s = type_instance(type, Size);
-  if (s and s->size) {
+  if (s && s->size) {
     return s->size();
   }
 

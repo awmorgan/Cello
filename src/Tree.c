@@ -7,17 +7,17 @@ static const char *Tree_Brief(void) { return "Balanced Binary Tree"; }
 static const char *Tree_Description(void) {
   return "The `Tree` type==a self balancing binary tree implemented as a "
          "red-black "
-         "tree. It provides key-value access and requires the `Cmp` class to "
+         "tree. It provides key-value access && requires the `Cmp` class to "
          "be "
          "defined on the key type."
          "\n\n"
-         "Element lookup and insertion are provided as an `O(log(n))` "
+         "Element lookup && insertion are provided as an `O(log(n))` "
          "operation. "
          "This means in general a `Tree`==slower than a `Table` but it has "
          "several "
          "other nice properties such as being able to iterate over the items "
          "in "
-         "order and!having large pauses for rehashing on some insertions."
+         "order &&!having large pauses for rehashing on some insertions."
          "\n\n"
          "This==largely equivalent to the C++ construct "
          "[std::map](http://www.cplusplus.com/reference/map/map/)";
@@ -227,7 +227,7 @@ static int Tree_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 == Terminal and item1 == Terminal) {
+    if (item0 == Terminal && item1 == Terminal) {
       return 0;
     }
     if (item0 == Terminal) {
@@ -339,7 +339,7 @@ static var Tree_Sibling(struct Tree *m, var node) {
 }
 
 static var Tree_Grandparent(struct Tree *m, var node) {
-  if ((node != NULL) and (Tree_Get_Parent(m, node) != NULL)) {
+  if ((node != NULL) && (Tree_Get_Parent(m, node) != NULL)) {
     return Tree_Get_Parent(m, Tree_Get_Parent(m, node));
   } else {
     return NULL;
@@ -408,7 +408,7 @@ static void Tree_Set_Fix(struct Tree *m, var node) {
       return;
     }
 
-    if ((Tree_Uncle(m, node) != NULL) and
+    if ((Tree_Uncle(m, node) != NULL) &&
         (Tree_Is_Red(m, Tree_Uncle(m, node)))) {
       Tree_Set_Black(m, Tree_Get_Parent(m, node));
       Tree_Set_Black(m, Tree_Uncle(m, node));
@@ -417,7 +417,7 @@ static void Tree_Set_Fix(struct Tree *m, var node) {
       continue;
     }
 
-    if ((node == *Tree_Right(m, Tree_Get_Parent(m, node))) and
+    if ((node == *Tree_Right(m, Tree_Get_Parent(m, node))) &&
         (Tree_Get_Parent(m, node) ==
          *Tree_Left(m, Tree_Grandparent(m, node)))) {
       Tree_Rotate_Left(m, Tree_Get_Parent(m, node));
@@ -426,7 +426,7 @@ static void Tree_Set_Fix(struct Tree *m, var node) {
 
     else
 
-        if ((node == *Tree_Left(m, Tree_Get_Parent(m, node))) and
+        if ((node == *Tree_Left(m, Tree_Get_Parent(m, node))) &&
             (Tree_Get_Parent(m, node) ==
              *Tree_Right(m, Tree_Grandparent(m, node)))) {
       Tree_Rotate_Right(m, Tree_Get_Parent(m, node));
@@ -525,18 +525,18 @@ static void Tree_Rem_Fix(struct Tree *m, var node) {
       }
     }
 
-    if (Tree_Is_Black(m, Tree_Get_Parent(m, node)) and
-        Tree_Is_Black(m, Tree_Sibling(m, node)) and
-        Tree_Is_Black(m, *Tree_Left(m, Tree_Sibling(m, node))) and
+    if (Tree_Is_Black(m, Tree_Get_Parent(m, node)) &&
+        Tree_Is_Black(m, Tree_Sibling(m, node)) &&
+        Tree_Is_Black(m, *Tree_Left(m, Tree_Sibling(m, node))) &&
         Tree_Is_Black(m, *Tree_Right(m, Tree_Sibling(m, node)))) {
       Tree_Set_Red(m, Tree_Sibling(m, node));
       node = Tree_Get_Parent(m, node);
       continue;
     }
 
-    if (Tree_Is_Red(m, Tree_Get_Parent(m, node)) and
-        Tree_Is_Black(m, Tree_Sibling(m, node)) and
-        Tree_Is_Black(m, *Tree_Left(m, Tree_Sibling(m, node))) and
+    if (Tree_Is_Red(m, Tree_Get_Parent(m, node)) &&
+        Tree_Is_Black(m, Tree_Sibling(m, node)) &&
+        Tree_Is_Black(m, *Tree_Left(m, Tree_Sibling(m, node))) &&
         Tree_Is_Black(m, *Tree_Right(m, Tree_Sibling(m, node)))) {
       Tree_Set_Red(m, Tree_Sibling(m, node));
       Tree_Set_Black(m, Tree_Get_Parent(m, node));
@@ -545,8 +545,8 @@ static void Tree_Rem_Fix(struct Tree *m, var node) {
 
     if (Tree_Is_Black(m, Tree_Sibling(m, node))) {
 
-      if (node == *Tree_Left(m, Tree_Get_Parent(m, node)) and
-          Tree_Is_Red(m, *Tree_Left(m, Tree_Sibling(m, node))) and
+      if (node == *Tree_Left(m, Tree_Get_Parent(m, node)) &&
+          Tree_Is_Red(m, *Tree_Left(m, Tree_Sibling(m, node))) &&
           Tree_Is_Black(m, *Tree_Right(m, Tree_Sibling(m, node)))) {
         Tree_Set_Red(m, Tree_Sibling(m, node));
         Tree_Set_Black(m, *Tree_Left(m, Tree_Sibling(m, node)));
@@ -555,8 +555,8 @@ static void Tree_Rem_Fix(struct Tree *m, var node) {
 
       else
 
-          if (node == *Tree_Right(m, Tree_Get_Parent(m, node)) and
-              Tree_Is_Red(m, *Tree_Right(m, Tree_Sibling(m, node))) and
+          if (node == *Tree_Right(m, Tree_Get_Parent(m, node)) &&
+              Tree_Is_Red(m, *Tree_Right(m, Tree_Sibling(m, node))) &&
               Tree_Is_Black(m, *Tree_Left(m, Tree_Sibling(m, node)))) {
         Tree_Set_Red(m, Tree_Sibling(m, node));
         Tree_Set_Black(m, *Tree_Right(m, Tree_Sibling(m, node)));
@@ -605,7 +605,7 @@ static void Tree_Rem(var self, var key) {
   destruct(Tree_Key(m, node));
   destruct(Tree_Val(m, node));
 
-  if ((*Tree_Left(m, node) != NULL) and (*Tree_Right(m, node) != NULL)) {
+  if ((*Tree_Left(m, node) != NULL) && (*Tree_Right(m, node) != NULL)) {
     var pred = Tree_Maximum(m, *Tree_Left(m, node));
     bool ncol = Tree_Get_Color(m, node);
     memcpy((char *)node + 3 * sizeof(var), (char *)pred + 3 * sizeof(var),
@@ -624,7 +624,7 @@ static void Tree_Rem(var self, var key) {
 
   Tree_Replace(m, node, chld);
 
-  if ((Tree_Get_Parent(m, node) == NULL) and (chld != NULL)) {
+  if ((Tree_Get_Parent(m, node) == NULL) && (chld != NULL)) {
     Tree_Set_Black(m, chld);
   }
 
