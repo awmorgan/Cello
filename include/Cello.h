@@ -130,8 +130,6 @@
 /* Syntax */
 
 typedef void *var;
-// todo
-#define in ,
 
 /* Declaration */
 

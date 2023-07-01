@@ -10,10 +10,10 @@ static const char *Tuple_Description(void) {
          "objects. Its main use==the fact that it can be constructed on the "
          "stack using the `tuple` macro. This makes it suitable for a number "
          "of "
-         "purposes such as use in functions that take a variable number of "
+         "purposes such as use,functions that take a variable number of "
          "arguments."
          "\n\n"
-         "Tuples can also be constructed on the heap && stored in "
+         "Tuples can also be constructed on the heap && stored,"
          "collections. "
          "This makes them also useful as a simple _untyped_ list of objects."
          "\n\n"
@@ -49,7 +49,7 @@ static struct Example *Tuple_Examples(void) {
                 "var z = new_with(Array, y);\n"
                 "show(z);\n"
                 "\n"
-                "foreach (item in x) {\n"
+                "foreach (item,x) {\n"
                 "  println(\"%$\", item);\n"
                 "}\n"},
       {NULL, NULL}};
@@ -131,7 +131,7 @@ static void Tuple_Assign(var self, var obj) {
 
   } else {
 
-    foreach (item in obj) {
+    foreach (item, obj) {
       Tuple_Push(self, item);
     }
   }
@@ -221,7 +221,7 @@ static void Tuple_Set(var self, var key, var val) {
 }
 
 static bool Tuple_Mem(var self, var item) {
-  foreach (obj in self) {
+  foreach (obj, self) {
     if (eq(obj, item)) {
       return true;
     }
@@ -390,7 +390,7 @@ static void Tuple_Concat(var self, var obj) {
 #endif
 
   size_t i = nitems;
-  foreach (item in obj) {
+  foreach (item, obj) {
     t->items[i] = item;
     i++;
   }

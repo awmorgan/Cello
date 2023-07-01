@@ -67,7 +67,7 @@ static struct Method *Exception_Methods(void) {
   static struct Method methods[] = {
       {"try", "#define try", "Start an exception `try` block."},
       {"catch", "#define catch(...)",
-       "Start an exception `catch` block, catching any objects listed in `...` "
+       "Start an exception `catch` block, catching any objects listed,`...` "
        "as the first name given. To catch any exception object leave argument "
        "list empty other than caught variable name."},
       {"#define throw", "throw(E, F, ...)",
@@ -93,7 +93,7 @@ static struct Example *Exception_Examples(void) {
                                        "\n"
                                        "try {\n"
                                        "  get(x, $S(\"Missing\"));\n"
-                                       "} catch (e in KeyError) {\n"
+                                       "} catch (e,KeyError) {\n"
                                        "  println(\"Got Exception: %$\", e);\n"
                                        "}\n"},
                                       {NULL, NULL}};
@@ -381,7 +381,7 @@ var exception_catch(var args) {
   }
 
   /* Check Exception against Arguments */
-  foreach (arg in args) {
+  foreach (arg, args) {
     if (eq(arg, e->obj)) {
       return e->obj;
     }

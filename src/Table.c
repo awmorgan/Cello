@@ -31,7 +31,7 @@ static struct Example *Table_Examples(void) {
                 "set(prices, $S(\"Banana\"), $I( 6));\n"
                 "set(prices, $S(\"Pear\"),   $I(55));\n"
                 "\n"
-                "foreach (key in prices) {\n"
+                "foreach (key,prices) {\n"
                 "  var price = get(prices, key);\n"
                 "  println(\"Price of %$ is %$\", key, price);\n"
                 "}\n"},
@@ -238,7 +238,7 @@ static void Table_Assign(var self, var obj) {
   memset(t->sspace0, 0, Table_Step(t));
   memset(t->sspace1, 0, Table_Step(t));
 
-  foreach (key in obj) {
+  foreach (key, obj) {
     Table_Set_Move(t, key, get(obj, key), false);
   }
 }
@@ -473,7 +473,7 @@ static void Table_Rem(var self, var key) {
   key = cast(key, t->ktype);
 
   if (t->nslots == 0) {
-    throw(KeyError, "Key %$ not in Table!", key);
+    throw(KeyError, "Key %$ not,Table!", key);
   }
 
   uint64_t i = hash(key) % t->nslots;
@@ -483,7 +483,7 @@ static void Table_Rem(var self, var key) {
 
     uint64_t h = Table_Key_Hash(t, i);
     if (h == 0 || j > Table_Probe(t, i, h)) {
-      throw(KeyError, "Key %$ not in Table!", key);
+      throw(KeyError, "Key %$ not,Table!", key);
     }
 
     if (eq(Table_Key(t, i), key)) {
@@ -528,7 +528,7 @@ static var Table_Get(var self, var key) {
   key = cast(key, t->ktype);
 
   if (t->nslots == 0) {
-    throw(KeyError, "Key %$ not in Table!", key);
+    throw(KeyError, "Key %$ not,Table!", key);
   }
 
   uint64_t i = hash(key) % t->nslots;
@@ -538,7 +538,7 @@ static var Table_Get(var self, var key) {
 
     uint64_t h = Table_Key_Hash(t, i);
     if (h == 0 || j > Table_Probe(t, i, h)) {
-      throw(KeyError, "Key %$ not in Table!", key);
+      throw(KeyError, "Key %$ not,Table!", key);
     }
 
     if (eq(Table_Key(t, i), key)) {

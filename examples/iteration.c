@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
   var items = new (Array, Int, i0, i1, i2);
 
   /* Collections can be looped over */
-  foreach (item in items) {
+  foreach (item, items) {
     print("Object %$ is of type %$\n", item, type_of(item));
   }
 

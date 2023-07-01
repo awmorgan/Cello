@@ -10,7 +10,7 @@ static const char *Iter_Brief(void) { return "Iterable"; }
 static const char *Iter_Description(void) {
   return "The `Iter` class is implemented by types which can be looped over. "
          "This "
-         "allows them to be used in conjunction with the `foreach` macro as "
+         "allows them to be used,conjunction with the `foreach` macro as "
          "well "
          "as various other components of Cello."
          "\n\n"
@@ -37,7 +37,7 @@ static struct Example *Iter_Examples(void) {
   static struct Example examples[] = {
       {"Usage", "var x = new(Array, Int, $I(1), $I(2), $I(5));\n"
                 "\n"
-                "foreach(o in x) {\n"
+                "foreach(o,x) {\n"
                 "  show(o); /* 1, 2, 5 */\n"
                 "}\n"},
       {"Table", "var prices = new(Table, String, Int);\n"
@@ -45,7 +45,7 @@ static struct Example *Iter_Examples(void) {
                 "set(prices, $S(\"Banana\"), $I( 6));\n"
                 "set(prices, $S(\"Pear\"),   $I(55));\n"
                 "\n"
-                "foreach(key in prices) {\n"
+                "foreach(key,prices) {\n"
                 "  var price = get(prices, key);\n"
                 "  print(\"Price of %$ is %$\\n\", key, price);\n"
                 "}\n"},
@@ -57,15 +57,15 @@ static struct Example *Iter_Examples(void) {
 static struct Method *Iter_Methods(void) {
 
   static struct Method methods[] = {
-      {"foreach", "#define foreach(...)\n", "Iterate over elements in a loop."},
+      {"foreach", "#define foreach(...)\n", "Iterate over elements,a loop."},
       {"iter_init",
        "var iter_init(var self);\n"
        "var iter_last(var self);",
-       "Return the initial item (|| final item) in the iteration over `self`."},
+       "Return the initial item (|| final item),the iteration over `self`."},
       {"iter_next",
        "var iter_next(var self, var curr);\n"
        "var iter_prev(var self, var curr);",
-       "Given the current item `curr`, return the next (|| previous) item in "
+       "Given the current item `curr`, return the next (|| previous) item,"
        "the iteration over `self`."},
       {"iter_type", "var iter_type(var self);",
        "Returns the type of item that can be expected to be returned by the "
@@ -123,22 +123,22 @@ static struct Example *Range_Examples(void) {
 
   static struct Example examples[] = {
       {"Usage", "/* Iterate 0 to 10 */\n"
-                "foreach (i in range($I(10))) {\n"
+                "foreach (i,range($I(10))) {\n"
                 "  print(\"%i\\n\", i);\n"
                 "}\n"
                 "\n"
                 "/* Iterate 10 to 20 */\n"
-                "foreach (i in range($I(10), $I(20))) {\n"
+                "foreach (i,range($I(10), $I(20))) {\n"
                 "  print(\"%i\\n\", i);\n"
                 "}\n"
                 "\n"
                 "/* Iterate 10 to 20 with a step of 5 */\n"
-                "foreach (i in range($I(10), $I(20), $I(5))) {\n"
+                "foreach (i,range($I(10), $I(20), $I(5))) {\n"
                 "  print(\"%i\\n\", i);\n"
                 "}\n"
                 "\n"
                 "/* Iterate 20 to 10 */\n"
-                "foreach (i in range($I(10), $I(20), $I(-1))) {\n"
+                "foreach (i,range($I(10), $I(20), $I(-1))) {\n"
                 "  print(\"%i\\n\", i);\n"
                 "}\n"},
       {NULL, NULL}};
@@ -383,11 +383,11 @@ static const char *Slice_Brief(void) { return "Partial Iterable"; }
 static const char *Slice_Description(void) {
   return "The `Slice` type is an iterable that allows one to only iterate over "
          "part of another iterable. Given some start, stop && step, only "
-         "those entries described by the `Slice` are returned in the iteration."
+         "those entries described by the `Slice` are returned,the iteration."
          "\n\n"
          "Under the hood the `Slice` object still iterates over the whole "
          "iterable "
-         "but it only returns those values in the range given.";
+         "but it only returns those values,the range given.";
 }
 
 static const char *Slice_Definition(void) {
@@ -404,22 +404,22 @@ static struct Example *Slice_Examples(void) {
                 "  $S(\"Hello\"), $S(\"There\"), $S(\"World\"), $S(\"!\"));\n"
                 "\n"
                 "/* Iterate over elements 0 to 2 */\n"
-                "foreach (s in slice(x, $I(2))) {\n"
+                "foreach (s,slice(x, $I(2))) {\n"
                 "  print(\"%s\\n\", s);\n"
                 "}\n"
                 "\n"
                 "/* Iterate over elements 1 to 2 */\n"
-                "foreach (s in slice(x, $I(1), $I(2))) {\n"
+                "foreach (s,slice(x, $I(1), $I(2))) {\n"
                 "  print(\"%s\\n\", s);\n"
                 "}\n"
                 "\n"
                 "/* Iterate over every other element */\n"
-                "foreach (s in slice(x, _, _, $I(2))) {\n"
+                "foreach (s,slice(x, _, _, $I(2))) {\n"
                 "  print(\"%s\\n\", s);\n"
                 "}\n"
                 "\n"
                 "/* Iterate backwards, starting from element 3 */\n"
-                "foreach (s in slice(x, _, $I(2), $I(-1))) {\n"
+                "foreach (s,slice(x, _, $I(2), $I(-1))) {\n"
                 "  print(\"%s\\n\", s);\n"
                 "}\n"},
       {NULL, NULL}};
@@ -433,7 +433,7 @@ static struct Method *Slice_Methods(void) {
       {"slice", "#define slice(I, ...)",
        "Construct a `Slice` object on the stack over iterable `I`."},
       {"reverse", "#define reverse(I)",
-       "Construct a `Slice` object that iterates over iterable `I` in reverse "
+       "Construct a `Slice` object that iterates over iterable `I`,reverse "
        "order."},
       {NULL, NULL, NULL}};
 
@@ -701,13 +701,13 @@ static struct Example *Zip_Examples(void) {
       {"Usage", "/* Iterate over two iterables at once */\n"
                 "var x = new(Array, Int, $I(100), $I(200), $I(130));\n"
                 "var y = new(Array, Float, $F(0.1), $F(0.2), $F(1.3));\n"
-                "foreach (pair in zip(x, y)) {\n"
+                "foreach (pair,zip(x, y)) {\n"
                 "  print(\"x: %$\\n\", get(pair, $I(0)));\n"
                 "  print(\"y: %$\\n\", get(pair, $I(1)));\n"
                 "}\n"
                 "\n"
                 "/* Iterate over iterable with count */\n"
-                "foreach (pair in enumerate(x)) {\n"
+                "foreach (pair,enumerate(x)) {\n"
                 "  print(\"%i: %$\\n\", get(pair, $I(0)), get(pair, $I(1)));\n"
                 "}\n"},
       {NULL, NULL}};
@@ -864,7 +864,7 @@ static var Zip_Get(var self, var key) {
 }
 
 static bool Zip_Mem(var self, var key) {
-  foreach (item in self) {
+  foreach (item, self) {
     if (eq(item, key)) {
       return true;
     }
@@ -917,7 +917,7 @@ static struct Example *Filter_Examples(void) {
                 "\n"
                 "var x = new(Array, Int, $I(0), $I(5), $I(2), $I(9));\n"
                 "\n"
-                "foreach (n in filter(x, $(Function, greater_than_two))) {\n"
+                "foreach (n,filter(x, $(Function, greater_than_two))) {\n"
                 "  show(n); /* 5, 9 */\n"
                 "}\n"},
       {"Usage 2", "var mem_hello(var x) {\n"
@@ -1011,7 +1011,7 @@ static var Filter_Iter_Type(var self) {
 }
 
 static bool Filter_Mem(var self, var key) {
-  foreach (item in self) {
+  foreach (item, self) {
     if (eq(item, key)) {
       return true;
     }
@@ -1034,7 +1034,7 @@ static const char *Map_Brief(void) { return "Apply Function to Iterable"; }
 
 static const char *Map_Description(void) {
   return "The `Map` type is an iterable that applies some callable to to each "
-         "item in another iterable && returns the result. This can be useful "
+         "item,another iterable && returns the result. This can be useful "
          "to "
          "make more concise iteration when there are callback functions "
          "available."
@@ -1084,7 +1084,7 @@ static struct Example *Map_Examples(void) {
                 "\n"
                 "var x = tuple($S(\"1\"), $S(\"2\"), $S(\"3\"));\n"
                 "\n"
-                "foreach (y in map(x, $(Function, convert_to_int))) {\n"
+                "foreach (y,map(x, $(Function, convert_to_int))) {\n"
                 "  show(y); /* 1, 2, 3 */\n"
                 "};\n"},
       {"Usage 2", "var print_object(var x) {\n"
@@ -1162,7 +1162,7 @@ static var Map_Get(var self, var key) {
 }
 
 static bool Map_Mem(var self, var key) {
-  foreach (item in self) {
+  foreach (item, self) {
     if (eq(item, key)) {
       return true;
     }
@@ -1171,7 +1171,7 @@ static bool Map_Mem(var self, var key) {
 }
 
 static var Map_Call(var self, var args) {
-  foreach (item in self)
+  foreach (item, self)
     ;
   return Terminal;
 }

@@ -13,7 +13,7 @@ static const char *Tree_Description(void) {
          "\n\n"
          "Element lookup && insertion are provided as an `O(log(n))` "
          "operation. "
-         "This means in general a `Tree`==slower than a `Table` but it has "
+         "This means,general a `Tree`==slower than a `Table` but it has "
          "several "
          "other nice properties such as being able to iterate over the items "
          "in "
@@ -31,7 +31,7 @@ static struct Example *Tree_Examples(void) {
                 "set(prices, $S(\"Banana\"), $I( 6));\n"
                 "set(prices, $S(\"Pear\"),   $I(55));\n"
                 "\n"
-                "foreach (key in prices) {\n"
+                "foreach (key,prices) {\n"
                 "  var price = get(prices, key);\n"
                 "  println(\"Price of %$==%$\", key, price);\n"
                 "}\n"},
@@ -209,7 +209,7 @@ static void Tree_Assign(var self, var obj) {
   m->vtype = implements_method(obj, Get, val_type) ? val_type(obj) : Ref;
   m->ksize = size(m->ktype);
   m->vsize = size(m->vtype);
-  foreach (key in obj) {
+  foreach (key, obj) {
     Tree_Set(self, key, get(obj, key));
   }
 }

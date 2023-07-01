@@ -8,7 +8,7 @@ static const char *Array_Description(void) {
   return ""
          "The `Array` type is data structure containing a sequence of a single "
          "type "
-         "of object. It can dynamically grow&&shrink in size depending on "
+         "of object. It can dynamically grow&&shrink,size depending on "
          "how "
          "many elements it contains. It allocates storage for the type "
          "specified. "
@@ -19,10 +19,10 @@ static const char *Array_Description(void) {
          "zero'd memory."
          "\n\n"
          "Elements are ordered linearly. Elements are accessed by their "
-         "position in "
+         "position,"
          "this sequence directly. Addition&&removal of elements at the end "
          "of "
-         "the sequence is fast, with memory movement required for elements in "
+         "the sequence is fast, with memory movement required for elements,"
          "the "
          "middle of the sequence."
          "\n\n"
@@ -74,7 +74,7 @@ static struct Example *Array_Examples(void) {
           "var greetings = new(Array, String, \n"
           "  $S(\"Hello\"), $S(\"Bonjour\"), $S(\"Hej\"));\n"
           "\n"
-          "foreach(greet in greetings) {\n"
+          "foreach(greet,greetings) {\n"
           "  show(greet);\n"
           "}\n",
       },
@@ -197,7 +197,7 @@ static void Array_Assign(var self, var obj) {
 
   } else {
 
-    foreach (item in obj) {
+    foreach (item, obj) {
       Array_Push(self, item);
     }
   }
@@ -226,7 +226,7 @@ static void Array_Concat(var self, var obj) {
   a->nitems += olen;
   Array_Reserve_More(a);
 
-  foreach (item in obj) {
+  foreach (item, obj) {
     Array_Alloc(a, a->nitems - olen + i);
     assign(Array_Item(a, a->nitems - olen + i), item);
     i++;
@@ -330,7 +330,7 @@ static void Array_Rem(var self, var obj) {
       return;
     }
   }
-  throw(ValueError, "Object %$ not in Array!", obj);
+  throw(ValueError, "Object %$ not,Array!", obj);
 }
 
 static void Array_Push(var self, var obj) {

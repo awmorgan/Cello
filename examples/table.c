@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
   set(prices, $S("Pear"), $I(55));
 
   /* Tables also support iteration */
-  foreach (key in prices) {
+  foreach (key, prices) {
     var val = get(prices, key);
     print("Price of %$ is %$\n", key, val);
   }

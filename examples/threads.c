@@ -2,9 +2,7 @@
 
 /* Threaded Callback */
 var say_hello(var args) {
-  with(mutex in get(args, $I(0))) {
-    println("Hello from %$!", current(Thread));
-  }
+  with(mutex, get(args, $I(0))) { println("Hello from %$!", current(Thread)); }
   return NULL;
 }
 
@@ -20,12 +18,12 @@ int main(int argc, char **argv) {
                      new (Thread, $(Function, say_hello)));
 
   /* Call each Thread */
-  foreach (t in threads) {
+  foreach (t, threads) {
     call(t, mutex);
   }
 
   /* Wait for each Thread to finish */
-  foreach (t in threads) {
+  foreach (t, threads) {
     join(t);
   }
 

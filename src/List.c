@@ -69,7 +69,7 @@ static struct Example *List_Examples(void) {
           "var greetings = new(List, String, \n"
           "  $S(\"Hello\"), $S(\"Bonjour\"), $S(\"Hej\"));\n"
           "\n"
-          "foreach(greet in greetings) {\n"
+          "foreach(greet,greetings) {\n"
           "  show(greet);\n"
           "}\n",
       },
@@ -195,7 +195,7 @@ static void List_Assign(var self, var obj) {
 }
 
 static void List_Concat(var self, var obj) {
-  foreach (item in obj) {
+  foreach (item, obj) {
     List_Push(self, item);
   }
 }
@@ -323,7 +323,7 @@ static void List_Rem(var self, var obj) {
     item = *List_Next(l, item);
   }
 
-  throw(ValueError, "Object %$ not in List!", obj);
+  throw(ValueError, "Object %$ not,List!", obj);
 }
 
 static void List_Push(var self, var obj) {
