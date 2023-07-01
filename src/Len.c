@@ -42,4 +42,4 @@ var Len = Cello(Len, Instance(Doc, Len_Name, Len_Brief, Len_Description,
 
 size_t len(var self) { return method(self, Len, len); }
 
-bool empty(var self) { return len(self) is 0; }
+bool empty(var self) { return len(self) == 0; }

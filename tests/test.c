@@ -96,19 +96,19 @@ PT_FUNC(test_array_get) {
 
   var a0 = new (Array, Int, $I(1), $I(5), $I(10));
 
-  PT_ASSERT(len(a0) is 3);
+  PT_ASSERT(len(a0) == 3);
   PT_ASSERT(mem(a0, $I(1)));
   PT_ASSERT(mem(a0, $I(5)));
 
   rem(a0, $I(5));
 
-  PT_ASSERT(len(a0) is 2);
+  PT_ASSERT(len(a0) == 2);
   PT_ASSERT(mem(a0, $I(1)));
   PT_ASSERT(not mem(a0, $I(5)));
 
   resize(a0, 0);
 
-  PT_ASSERT(len(a0) is 0);
+  PT_ASSERT(len(a0) == 0);
   PT_ASSERT(not mem(a0, $I(1)));
 
   del(a0);
@@ -143,7 +143,7 @@ PT_FUNC(test_array_hash) {
 
   var a0 = new (Array, String, $S("Hello"), $S("World"));
 
-  PT_ASSERT(hash(a0) is(hash($S("Hello")) ^ hash($S("World"))));
+  PT_ASSERT(hash(a0) == (hash($S("Hello")) ^ hash($S("World"))));
 
   del(a0);
 }
@@ -153,8 +153,8 @@ PT_FUNC(test_array_iter) {
   var a0 = new (Array, Int);
   var a1 = new (Array, Float);
 
-  PT_ASSERT(iter_type(a0) is Int);
-  PT_ASSERT(iter_type(a1) is Float);
+  PT_ASSERT(iter_type(a0) == Int);
+  PT_ASSERT(iter_type(a1) == Float);
 
   del(a0);
   del(a1);
@@ -180,7 +180,7 @@ PT_FUNC(test_array_iter) {
     counter++;
   }
 
-  PT_ASSERT(counter is 3);
+  PT_ASSERT(counter == 3);
 
   counter = 0;
 
@@ -190,7 +190,7 @@ PT_FUNC(test_array_iter) {
     }
   }
 
-  PT_ASSERT(counter is 9);
+  PT_ASSERT(counter == 9);
   del(a0);
 }
 
@@ -198,15 +198,15 @@ PT_FUNC(test_array_len) {
 
   var a0 = new (Array, String, $S("Hello"), $S("World"));
 
-  PT_ASSERT(len(a0) is 2);
+  PT_ASSERT(len(a0) == 2);
 
   append(a0, $S("!"));
 
-  PT_ASSERT(len(a0) is 3);
+  PT_ASSERT(len(a0) == 3);
 
   resize(a0, 0);
 
-  PT_ASSERT(len(a0) is 0);
+  PT_ASSERT(len(a0) == 0);
 
   del(a0);
 }
@@ -215,29 +215,29 @@ PT_FUNC(test_array_push) {
 
   var a0 = new (Array, Int);
 
-  PT_ASSERT(len(a0) is 0);
+  PT_ASSERT(len(a0) == 0);
 
   push(a0, $I(1));
 
-  PT_ASSERT(len(a0) is 1);
+  PT_ASSERT(len(a0) == 1);
   PT_ASSERT(eq(get(a0, $I(0)), $I(1)));
 
   push(a0, $I(3));
 
-  PT_ASSERT(len(a0) is 2);
+  PT_ASSERT(len(a0) == 2);
   PT_ASSERT(eq(get(a0, $I(0)), $I(1)));
   PT_ASSERT(eq(get(a0, $I(1)), $I(3)));
 
   push_at(a0, $I(10), $I(0));
 
-  PT_ASSERT(len(a0) is 3);
+  PT_ASSERT(len(a0) == 3);
   PT_ASSERT(eq(get(a0, $I(0)), $I(10)));
   PT_ASSERT(eq(get(a0, $I(1)), $I(1)));
   PT_ASSERT(eq(get(a0, $I(2)), $I(3)));
 
   push_at(a0, $I(20), $I(1));
 
-  PT_ASSERT(len(a0) is 4);
+  PT_ASSERT(len(a0) == 4);
   PT_ASSERT(eq(get(a0, $I(0)), $I(10)));
   PT_ASSERT(eq(get(a0, $I(1)), $I(20)));
   PT_ASSERT(eq(get(a0, $I(2)), $I(1)));
@@ -245,25 +245,25 @@ PT_FUNC(test_array_push) {
 
   pop_at(a0, $I(2));
 
-  PT_ASSERT(len(a0) is 3);
+  PT_ASSERT(len(a0) == 3);
   PT_ASSERT(eq(get(a0, $I(0)), $I(10)));
   PT_ASSERT(eq(get(a0, $I(1)), $I(20)));
   PT_ASSERT(eq(get(a0, $I(2)), $I(3)));
 
   pop_at(a0, $I(0));
 
-  PT_ASSERT(len(a0) is 2);
+  PT_ASSERT(len(a0) == 2);
   PT_ASSERT(eq(get(a0, $I(0)), $I(20)));
   PT_ASSERT(eq(get(a0, $I(1)), $I(3)));
 
   pop(a0);
 
-  PT_ASSERT(len(a0) is 1);
+  PT_ASSERT(len(a0) == 1);
   PT_ASSERT(eq(get(a0, $I(0)), $I(20)));
 
   pop(a0);
 
-  PT_ASSERT(len(a0) is 0);
+  PT_ASSERT(len(a0) == 0);
 
   del(a0);
 }
@@ -276,11 +276,11 @@ PT_FUNC(test_array_resize) {
 
   a0 = new (Array, Int, $I(1), $I(2), $I(3));
 
-  PT_ASSERT(len(a0) is 3);
+  PT_ASSERT(len(a0) == 3);
 
   resize(a0, 0);
 
-  PT_ASSERT(len(a0) is 0);
+  PT_ASSERT(len(a0) == 0);
   PT_ASSERT(empty(a0));
 
   del(a0);
@@ -352,7 +352,7 @@ PT_FUNC(test_box_new) {
   var b1 = new (Box, s0);
 
   PT_ASSERT(b1);
-  PT_ASSERT(deref(b1) is s0);
+  PT_ASSERT(deref(b1) == s0);
 
   del(b1);
 }
@@ -363,7 +363,7 @@ PT_FUNC(test_box_assign) {
   var b0 = assign($(Box, NULL), s0);
 
   PT_ASSERT(b0);
-  PT_ASSERT(deref(b0) is s0);
+  PT_ASSERT(deref(b0) == s0);
 
   destruct(b0);
 }
@@ -376,8 +376,8 @@ PT_FUNC(test_box_pointer) {
   var b0 = $(Box, s0);
   var b1 = $(Box, s1);
 
-  PT_ASSERT(deref(b0) is s0);
-  PT_ASSERT(deref(b1) is s1);
+  PT_ASSERT(deref(b0) == s0);
+  PT_ASSERT(deref(b1) == s1);
 
   del(s0);
   del(s1);
@@ -430,15 +430,15 @@ PT_FUNC(test_file_start) {
   struct File *file = new (File, $S("./tests/test.bin"), $S("w"));
   with(f0 in file) { PT_ASSERT(f0); };
 
-  PT_ASSERT(file->file is NULL);
+  PT_ASSERT(file->file == NULL);
 
   del(file);
 }
 
 PT_FUNC(test_file_stream) {
 
-  static char testoutput1[] = "This is a test\n";
-  static char testoutput2[] = "This is a sample\n";
+  static char testoutput1[] = "This==a test\n";
+  static char testoutput2[] = "This==a sample\n";
   static char testinput[512];
 
   var f0 = $(File, NULL);
@@ -473,14 +473,14 @@ PT_FUNC(test_float_assign) {
   PT_ASSERT(float1);
   PT_ASSERT(float2);
 
-  PT_ASSERT(c_float(float0) is 1.0);
-  PT_ASSERT(c_float(float1) is 24.313);
-  PT_ASSERT(c_float(float2) is 1.0);
+  PT_ASSERT(c_float(float0) == 1.0);
+  PT_ASSERT(c_float(float1) == 24.313);
+  PT_ASSERT(c_float(float2) == 1.0);
 
   assign(float2, float1);
 
-  PT_ASSERT(not(float2 is float1));
-  PT_ASSERT(c_float(float2) is 24.313);
+  PT_ASSERT(not(float2 == float1));
+  PT_ASSERT(c_float(float2) == 24.313);
 
   del(float1);
   del(float2);
@@ -488,11 +488,11 @@ PT_FUNC(test_float_assign) {
 
 PT_FUNC(test_float_c_float) {
 
-  PT_ASSERT(c_float($F(10.0)) is 10.0);
-  PT_ASSERT(c_float($F(531.1231)) is 531.1231);
-  PT_ASSERT(c_float($F(21312.4535)) is 21312.4535);
-  PT_ASSERT(c_float($F(1352.21)) is 1352.21);
-  PT_ASSERT(c_float($F(676.342)) is 676.342);
+  PT_ASSERT(c_float($F(10.0)) == 10.0);
+  PT_ASSERT(c_float($F(531.1231)) == 531.1231);
+  PT_ASSERT(c_float($F(21312.4535)) == 21312.4535);
+  PT_ASSERT(c_float($F(1352.21)) == 1352.21);
+  PT_ASSERT(c_float($F(676.342)) == 676.342);
 }
 
 PT_FUNC(test_float_cmp) {
@@ -523,10 +523,10 @@ PT_FUNC(test_float_hash) {
   union type_interp r2 = {0.6};
   union type_interp r3 = {82.13};
 
-  PT_ASSERT(hash($F(34.0)) is r0.c_int);
-  PT_ASSERT(hash($F(11.0)) is r1.c_int);
-  PT_ASSERT(hash($F(0.6)) is r2.c_int);
-  PT_ASSERT(hash($F(82.13)) is r3.c_int);
+  PT_ASSERT(hash($F(34.0)) == r0.c_int);
+  PT_ASSERT(hash($F(11.0)) == r1.c_int);
+  PT_ASSERT(hash($F(0.6)) == r2.c_int);
+  PT_ASSERT(hash($F(82.13)) == r3.c_int);
 }
 
 PT_FUNC(test_float_show) {
@@ -634,14 +634,14 @@ PT_FUNC(test_int_assign) {
   PT_ASSERT(int1);
   PT_ASSERT(int2);
 
-  PT_ASSERT(c_int(int0) is 1);
-  PT_ASSERT(c_int(int1) is 24313);
-  PT_ASSERT(c_int(int2) is 1);
+  PT_ASSERT(c_int(int0) == 1);
+  PT_ASSERT(c_int(int1) == 24313);
+  PT_ASSERT(c_int(int2) == 1);
 
   assign(int2, int1);
 
-  PT_ASSERT(not(int2 is int1));
-  PT_ASSERT(c_int(int2) is 24313);
+  PT_ASSERT(not(int2 == int1));
+  PT_ASSERT(c_int(int2) == 24313);
 
   del(int1);
   del(int2);
@@ -649,10 +649,10 @@ PT_FUNC(test_int_assign) {
 
 PT_FUNC(test_int_c_int) {
 
-  PT_ASSERT(c_int($I(34)) is 34);
-  PT_ASSERT(c_int($I(11)) is 11);
-  PT_ASSERT(c_int($I(06)) is 06);
-  PT_ASSERT(c_int($I(8213)) is 8213);
+  PT_ASSERT(c_int($I(34)) == 34);
+  PT_ASSERT(c_int($I(11)) == 11);
+  PT_ASSERT(c_int($I(06)) == 06);
+  PT_ASSERT(c_int($I(8213)) == 8213);
 }
 
 PT_FUNC(test_int_cmp) {
@@ -673,10 +673,10 @@ PT_FUNC(test_int_cmp) {
 
 PT_FUNC(test_int_hash) {
 
-  PT_ASSERT(hash($I(34)) is 34);
-  PT_ASSERT(hash($I(11)) is 11);
-  PT_ASSERT(hash($I(06)) is 06);
-  PT_ASSERT(hash($I(8213)) is 8213);
+  PT_ASSERT(hash($I(34)) == 34);
+  PT_ASSERT(hash($I(11)) == 11);
+  PT_ASSERT(hash($I(06)) == 06);
+  PT_ASSERT(hash($I(8213)) == 8213);
 }
 
 PT_FUNC(test_int_show) {
@@ -798,19 +798,19 @@ PT_FUNC(test_list_get) {
 
   var l0 = new (List, Int, $I(1), $I(5), $I(10));
 
-  PT_ASSERT(len(l0) is 3);
+  PT_ASSERT(len(l0) == 3);
   PT_ASSERT(mem(l0, $I(1)));
   PT_ASSERT(mem(l0, $I(5)));
 
   rem(l0, $I(5));
 
-  PT_ASSERT(len(l0) is 2);
+  PT_ASSERT(len(l0) == 2);
   PT_ASSERT(mem(l0, $I(1)));
   PT_ASSERT(not mem(l0, $I(5)));
 
   resize(l0, 0);
 
-  PT_ASSERT(len(l0) is 0);
+  PT_ASSERT(len(l0) == 0);
   PT_ASSERT(not mem(l0, $I(1)));
 
   del(l0);
@@ -845,7 +845,7 @@ PT_FUNC(test_list_hash) {
 
   var l0 = new (List, String, $S("Hello"), $S("World"));
 
-  PT_ASSERT(hash(l0) is(hash($S("Hello")) ^ hash($S("World"))));
+  PT_ASSERT(hash(l0) == (hash($S("Hello")) ^ hash($S("World"))));
 
   del(l0);
 }
@@ -855,8 +855,8 @@ PT_FUNC(test_list_iter) {
   var l0 = new (List, Int);
   var l1 = new (List, Float);
 
-  PT_ASSERT(iter_type(l0) is Int);
-  PT_ASSERT(iter_type(l1) is Float);
+  PT_ASSERT(iter_type(l0) == Int);
+  PT_ASSERT(iter_type(l1) == Float);
 
   del(l0);
   del(l1);
@@ -882,7 +882,7 @@ PT_FUNC(test_list_iter) {
     counter++;
   }
 
-  PT_ASSERT(counter is 3);
+  PT_ASSERT(counter == 3);
 
   counter = 0;
 
@@ -892,7 +892,7 @@ PT_FUNC(test_list_iter) {
     }
   }
 
-  PT_ASSERT(counter is 9);
+  PT_ASSERT(counter == 9);
   del(l0);
 }
 
@@ -900,15 +900,15 @@ PT_FUNC(test_list_len) {
 
   var l0 = new (List, String, $S("Hello"), $S("World"));
 
-  PT_ASSERT(len(l0) is 2);
+  PT_ASSERT(len(l0) == 2);
 
   append(l0, $S("!"));
 
-  PT_ASSERT(len(l0) is 3);
+  PT_ASSERT(len(l0) == 3);
 
   resize(l0, 0);
 
-  PT_ASSERT(len(l0) is 0);
+  PT_ASSERT(len(l0) == 0);
 
   del(l0);
 }
@@ -917,29 +917,29 @@ PT_FUNC(test_list_push) {
 
   var l0 = new (List, Int);
 
-  PT_ASSERT(len(l0) is 0);
+  PT_ASSERT(len(l0) == 0);
 
   push(l0, $I(1));
 
-  PT_ASSERT(len(l0) is 1);
+  PT_ASSERT(len(l0) == 1);
   PT_ASSERT(eq(get(l0, $I(0)), $I(1)));
 
   push(l0, $I(3));
 
-  PT_ASSERT(len(l0) is 2);
+  PT_ASSERT(len(l0) == 2);
   PT_ASSERT(eq(get(l0, $I(0)), $I(1)));
   PT_ASSERT(eq(get(l0, $I(1)), $I(3)));
 
   push_at(l0, $I(10), $I(0));
 
-  PT_ASSERT(len(l0) is 3);
+  PT_ASSERT(len(l0) == 3);
   PT_ASSERT(eq(get(l0, $I(0)), $I(10)));
   PT_ASSERT(eq(get(l0, $I(1)), $I(1)));
   PT_ASSERT(eq(get(l0, $I(2)), $I(3)));
 
   push_at(l0, $I(20), $I(1));
 
-  PT_ASSERT(len(l0) is 4);
+  PT_ASSERT(len(l0) == 4);
   PT_ASSERT(eq(get(l0, $I(0)), $I(10)));
   PT_ASSERT(eq(get(l0, $I(1)), $I(20)));
   PT_ASSERT(eq(get(l0, $I(2)), $I(1)));
@@ -947,25 +947,25 @@ PT_FUNC(test_list_push) {
 
   pop_at(l0, $I(2));
 
-  PT_ASSERT(len(l0) is 3);
+  PT_ASSERT(len(l0) == 3);
   PT_ASSERT(eq(get(l0, $I(0)), $I(10)));
   PT_ASSERT(eq(get(l0, $I(1)), $I(20)));
   PT_ASSERT(eq(get(l0, $I(2)), $I(3)));
 
   pop_at(l0, $I(0));
 
-  PT_ASSERT(len(l0) is 2);
+  PT_ASSERT(len(l0) == 2);
   PT_ASSERT(eq(get(l0, $I(0)), $I(20)));
   PT_ASSERT(eq(get(l0, $I(1)), $I(3)));
 
   pop(l0);
 
-  PT_ASSERT(len(l0) is 1);
+  PT_ASSERT(len(l0) == 1);
   PT_ASSERT(eq(get(l0, $I(0)), $I(20)));
 
   pop(l0);
 
-  PT_ASSERT(len(l0) is 0);
+  PT_ASSERT(len(l0) == 0);
 
   del(l0);
 }
@@ -978,11 +978,11 @@ PT_FUNC(test_list_resize) {
 
   l0 = new (List, Int, $I(1), $I(2), $I(3));
 
-  PT_ASSERT(len(l0) is 3);
+  PT_ASSERT(len(l0) == 3);
 
   resize(l0, 0);
 
-  PT_ASSERT(len(l0) is 0);
+  PT_ASSERT(len(l0) == 0);
   PT_ASSERT(empty(l0));
 
   del(l0);
@@ -1064,8 +1064,8 @@ PT_FUNC(test_map_len) {
   var m = map(x, $(Function, convert_to_int));
   var n = map(y, $(Function, convert_to_int));
 
-  PT_ASSERT(len(m) is len(x));
-  PT_ASSERT(len(n) is len(y));
+  PT_ASSERT(len(m) == len(x));
+  PT_ASSERT(len(n) == len(y));
 }
 
 PT_FUNC(test_map_new) {
@@ -1189,9 +1189,9 @@ PT_FUNC(test_range_assign) {
   var y = assign(new (Range), x);
 
   PT_ASSERT(eq(x, y));
-  PT_ASSERT(c_int(get(y, $I(0))) is 1);
-  PT_ASSERT(c_int(get(y, $I(1))) is 3);
-  PT_ASSERT(len(y) is 2);
+  PT_ASSERT(c_int(get(y, $I(0))) == 1);
+  PT_ASSERT(c_int(get(y, $I(1))) == 3);
+  PT_ASSERT(len(y) == 2);
 
   del(x);
   del(y);
@@ -1222,26 +1222,26 @@ PT_FUNC(test_range_get) {
   var y = range($I(1), $I(20));
   var z = range($I(3), $I(21), $I(2));
 
-  PT_ASSERT(c_int(get(x, $I(100))) is 100);
-  PT_ASSERT(c_int(get(x, $I(10))) is 10);
-  PT_ASSERT(c_int(get(x, $I(5))) is 5);
+  PT_ASSERT(c_int(get(x, $I(100))) == 100);
+  PT_ASSERT(c_int(get(x, $I(10))) == 10);
+  PT_ASSERT(c_int(get(x, $I(5))) == 5);
 
-  PT_ASSERT(c_int(get(x, $I(-1))) is 999);
-  PT_ASSERT(c_int(get(x, $I(-2))) is 998);
-  PT_ASSERT(c_int(get(x, $I(-3))) is 997);
+  PT_ASSERT(c_int(get(x, $I(-1))) == 999);
+  PT_ASSERT(c_int(get(x, $I(-2))) == 998);
+  PT_ASSERT(c_int(get(x, $I(-3))) == 997);
 
-  PT_ASSERT(c_int(get(y, $I(15))) is 16);
-  PT_ASSERT(c_int(get(y, $I(10))) is 11);
-  PT_ASSERT(c_int(get(y, $I(5))) is 6);
+  PT_ASSERT(c_int(get(y, $I(15))) == 16);
+  PT_ASSERT(c_int(get(y, $I(10))) == 11);
+  PT_ASSERT(c_int(get(y, $I(5))) == 6);
 
-  PT_ASSERT(c_int(get(z, $I(0))) is 3);
-  PT_ASSERT(c_int(get(z, $I(1))) is 5);
-  PT_ASSERT(c_int(get(z, $I(3))) is 9);
+  PT_ASSERT(c_int(get(z, $I(0))) == 3);
+  PT_ASSERT(c_int(get(z, $I(1))) == 5);
+  PT_ASSERT(c_int(get(z, $I(3))) == 9);
 }
 
 PT_FUNC(test_range_iter) {
 
-  PT_ASSERT(iter_type(range($I(10))) is Int);
+  PT_ASSERT(iter_type(range($I(10))) == Int);
 
   size_t j;
   var x = range($I(1000));
@@ -1250,19 +1250,19 @@ PT_FUNC(test_range_iter) {
 
   j = 0;
   foreach (i in x) {
-    PT_ASSERT(c_int(i) is j);
+    PT_ASSERT(c_int(i) == j);
     j++;
   }
 
   j = 1;
   foreach (i in y) {
-    PT_ASSERT(c_int(i) is j);
+    PT_ASSERT(c_int(i) == j);
     j++;
   }
 
   j = 3;
   foreach (i in z) {
-    PT_ASSERT(c_int(i) is j);
+    PT_ASSERT(c_int(i) == j);
     j += 2;
   }
 }
@@ -1273,9 +1273,9 @@ PT_FUNC(test_range_len) {
   var y = range($I(1), $I(20));
   var z = range($I(3), $I(21), $I(2));
 
-  PT_ASSERT(len(x) is 1000);
-  PT_ASSERT(len(y) is 19);
-  PT_ASSERT(len(z) is 9);
+  PT_ASSERT(len(x) == 1000);
+  PT_ASSERT(len(y) == 19);
+  PT_ASSERT(len(z) == 9);
 }
 
 PT_FUNC(test_range_new) {
@@ -1312,7 +1312,7 @@ PT_FUNC(test_ref_assign) {
   var r0 = assign($(Ref, NULL), s0);
 
   PT_ASSERT(r0);
-  PT_ASSERT(deref(r0) is s0);
+  PT_ASSERT(deref(r0) == s0);
 
   del(s0);
 }
@@ -1325,8 +1325,8 @@ PT_FUNC(test_ref_pointer) {
   var r0 = $(Ref, s0);
   var r1 = $(Ref, s1);
 
-  PT_ASSERT(deref(r0) is s0);
-  PT_ASSERT(deref(r1) is NULL);
+  PT_ASSERT(deref(r0) == s0);
+  PT_ASSERT(deref(r1) == NULL);
 
   del(s0);
 }
@@ -1345,9 +1345,9 @@ PT_FUNC(test_slice_assign) {
   var s1 = assign(new (Slice, x), s0);
 
   PT_ASSERT(eq(s0, s1));
-  PT_ASSERT(c_int(get(s1, $I(0))) is 100);
-  PT_ASSERT(c_int(get(s1, $I(1))) is 10);
-  PT_ASSERT(c_int(get(s1, $I(2))) is 30);
+  PT_ASSERT(c_int(get(s1, $I(0))) == 100);
+  PT_ASSERT(c_int(get(s1, $I(1))) == 10);
+  PT_ASSERT(c_int(get(s1, $I(2))) == 30);
 
   del(s0);
   del(s1);
@@ -1374,42 +1374,42 @@ PT_FUNC(test_slice_get) {
   var s2 = slice(x, $I(0), $I(4), $I(2));
   var s3 = slice(x, _, _, $I(2));
 
-  PT_ASSERT(c_int(get(s0, $I(0))) is 100);
-  PT_ASSERT(c_int(get(s0, $I(1))) is 10);
+  PT_ASSERT(c_int(get(s0, $I(0))) == 100);
+  PT_ASSERT(c_int(get(s0, $I(1))) == 10);
 
-  PT_ASSERT(c_int(get(s1, $I(0))) is 10);
-  PT_ASSERT(c_int(get(s1, $I(1))) is 30);
+  PT_ASSERT(c_int(get(s1, $I(0))) == 10);
+  PT_ASSERT(c_int(get(s1, $I(1))) == 30);
 
-  PT_ASSERT(c_int(get(s2, $I(0))) is 100);
-  PT_ASSERT(c_int(get(s2, $I(1))) is 30);
+  PT_ASSERT(c_int(get(s2, $I(0))) == 100);
+  PT_ASSERT(c_int(get(s2, $I(1))) == 30);
 
-  PT_ASSERT(c_int(get(s3, $I(0))) is 100);
-  PT_ASSERT(c_int(get(s3, $I(1))) is 30);
+  PT_ASSERT(c_int(get(s3, $I(0))) == 100);
+  PT_ASSERT(c_int(get(s3, $I(1))) == 30);
 
   var s4 = slice(x, $I(-2));
   var s5 = slice(x, $I(-3), $I(-2));
   var s6 = slice(x, _, _, $I(-1));
   var s7 = slice(x, $I(-4), _, $I(1));
 
-  PT_ASSERT(c_int(get(s4, $I(-1))) is 50);
-  PT_ASSERT(c_int(get(s4, $I(-2))) is 30);
+  PT_ASSERT(c_int(get(s4, $I(-1))) == 50);
+  PT_ASSERT(c_int(get(s4, $I(-2))) == 30);
 
-  PT_ASSERT(c_int(get(s5, $I(0))) is 50);
+  PT_ASSERT(c_int(get(s5, $I(0))) == 50);
 
-  PT_ASSERT(c_int(get(s6, $I(0))) is 1);
-  PT_ASSERT(c_int(get(s6, $I(1))) is 6);
-  PT_ASSERT(c_int(get(s6, $I(2))) is 50);
-  PT_ASSERT(c_int(get(s6, $I(3))) is 30);
-  PT_ASSERT(c_int(get(s6, $I(4))) is 10);
-  PT_ASSERT(c_int(get(s6, $I(5))) is 100);
+  PT_ASSERT(c_int(get(s6, $I(0))) == 1);
+  PT_ASSERT(c_int(get(s6, $I(1))) == 6);
+  PT_ASSERT(c_int(get(s6, $I(2))) == 50);
+  PT_ASSERT(c_int(get(s6, $I(3))) == 30);
+  PT_ASSERT(c_int(get(s6, $I(4))) == 10);
+  PT_ASSERT(c_int(get(s6, $I(5))) == 100);
 
-  PT_ASSERT(c_int(get(s7, $I(0))) is 30);
-  PT_ASSERT(c_int(get(s7, $I(1))) is 50);
-  PT_ASSERT(c_int(get(s7, $I(2))) is 6);
+  PT_ASSERT(c_int(get(s7, $I(0))) == 30);
+  PT_ASSERT(c_int(get(s7, $I(1))) == 50);
+  PT_ASSERT(c_int(get(s7, $I(2))) == 6);
 
-  PT_ASSERT(c_int(get(s0, $I(-1))) is 50);
-  PT_ASSERT(c_int(get(s1, $I(-1))) is 50);
-  PT_ASSERT(c_int(get(s6, $I(-1))) is 100);
+  PT_ASSERT(c_int(get(s0, $I(-1))) == 50);
+  PT_ASSERT(c_int(get(s1, $I(-1))) == 50);
+  PT_ASSERT(c_int(get(s6, $I(-1))) == 100);
 }
 
 PT_FUNC(test_slice_iter) {
@@ -1433,7 +1433,7 @@ PT_FUNC(test_slice_iter) {
   x = new (Array, Int);
   var y = slice(x);
 
-  PT_ASSERT(iter_type(y) is iter_type(x));
+  PT_ASSERT(iter_type(y) == iter_type(x));
 
   del(x);
 }
@@ -1446,10 +1446,10 @@ PT_FUNC(test_slice_len) {
   var s2 = slice(x, $I(0), $I(4), $I(2));
   var s3 = slice(x, _, _, $I(2));
 
-  PT_ASSERT(len(s0) is 4);
-  PT_ASSERT(len(s1) is 3);
-  PT_ASSERT(len(s2) is 2);
-  PT_ASSERT(len(s3) is 3);
+  PT_ASSERT(len(s0) == 4);
+  PT_ASSERT(len(s1) == 3);
+  PT_ASSERT(len(s2) == 2);
+  PT_ASSERT(len(s3) == 3);
 }
 
 PT_FUNC(test_slice_new) {
@@ -1549,7 +1549,7 @@ PT_FUNC(test_string_get) {
 
   var s0 = new (String, $S("Balloons"));
 
-  PT_ASSERT(len(s0) is 8);
+  PT_ASSERT(len(s0) == 8);
   PT_ASSERT(mem(s0, $S("Ball")));
   PT_ASSERT(mem(s0, $S("oon")));
   PT_ASSERT(mem(s0, $S("Balloons")));
@@ -1560,7 +1560,7 @@ PT_FUNC(test_string_get) {
 
   resize(s0, 0);
 
-  PT_ASSERT(len(s0) is 0);
+  PT_ASSERT(len(s0) == 0);
   PT_ASSERT_STR_EQ(c_str(s0), "");
 
   del(s0);
@@ -1572,18 +1572,18 @@ PT_FUNC(test_string_hash) {
   uint64_t v1 = 17415363727859751682ULL;
   uint64_t v2 = 11867268813077774525ULL;
 
-  PT_ASSERT(hash($S("Hello")) is v0);
-  PT_ASSERT(hash($S("There")) is v1);
-  PT_ASSERT(hash($S("People")) is v2);
+  PT_ASSERT(hash($S("Hello")) == v0);
+  PT_ASSERT(hash($S("There")) == v1);
+  PT_ASSERT(hash($S("People")) == v2);
 }
 
 PT_FUNC(test_string_len) {
 
-  PT_ASSERT(len($S("tooting")) is 7);
-  PT_ASSERT(len($S("guard")) is 5);
-  PT_ASSERT(len($S("keep")) is 4);
-  PT_ASSERT(len($S("Hello")) is 5);
-  PT_ASSERT(len($S("group")) is 5);
+  PT_ASSERT(len($S("tooting")) == 7);
+  PT_ASSERT(len($S("guard")) == 5);
+  PT_ASSERT(len($S("keep")) == 4);
+  PT_ASSERT(len($S("Hello")) == 5);
+  PT_ASSERT(len($S("group")) == 5);
 }
 
 PT_FUNC(test_string_new) {
@@ -1602,7 +1602,7 @@ PT_FUNC(test_string_new) {
 
   assign(s2, s1);
 
-  PT_ASSERT(not(s1 is s2));
+  PT_ASSERT(not(s1 == s2));
   PT_ASSERT_STR_EQ(c_str(s2), "There");
 
   del(s1);
@@ -1622,7 +1622,7 @@ PT_FUNC(test_string_resize) {
   resize(s0, 0);
 
   PT_ASSERT_STR_EQ(c_str(s0), "");
-  PT_ASSERT(len(s0) is 0);
+  PT_ASSERT(len(s0) == 0);
   PT_ASSERT(empty(s0));
 
   del(s0);
@@ -1672,11 +1672,11 @@ PT_FUNC(test_table_assign) {
            $S("jads"), $I(7), $S("kyad"), $I(2), $S("kyas"), $I(7), $S("hwdw"),
            $I(2), $S("awaa"), $I(7), $S("lkil"), $I(2));
 
-  PT_ASSERT(len(t0) is 0);
+  PT_ASSERT(len(t0) == 0);
 
   assign(t0, t1);
 
-  PT_ASSERT(len(t0) is 12);
+  PT_ASSERT(len(t0) == 12);
   PT_ASSERT(eq(get(t0, $S("asfa")), $I(0)));
   PT_ASSERT(eq(get(t0, $S("kyad")), $I(2)));
   PT_ASSERT(eq(get(t0, $S("lkil")), $I(2)));
@@ -1716,18 +1716,18 @@ PT_FUNC(test_table_get) {
   set(t0, $S("Hello"), $I(2));
   set(t0, $S("There"), $I(5));
 
-  PT_ASSERT(len(t0) is 2);
+  PT_ASSERT(len(t0) == 2);
   PT_ASSERT(mem(t0, $S("Hello")));
 
   rem(t0, $S("Hello"));
 
-  PT_ASSERT(len(t0) is 1);
+  PT_ASSERT(len(t0) == 1);
   PT_ASSERT(not mem(t0, $S("Hello")));
   PT_ASSERT(mem(t0, $S("There")));
 
   resize(t0, 0);
 
-  PT_ASSERT(len(t0) is 0);
+  PT_ASSERT(len(t0) == 0);
   PT_ASSERT(not mem(t0, $S("Hello")));
   PT_ASSERT(not mem(t0, $S("There")));
 
@@ -1773,8 +1773,8 @@ PT_FUNC(test_table_hash) {
   set(t0, $S("Hello"), $I(2));
   set(t0, $S("There"), $I(5));
 
-  PT_ASSERT(hash(t0) is(hash($S("Hello")) ^ hash($I(2)) ^ hash($S("There")) ^
-                        hash($I(5))));
+  PT_ASSERT(hash(t0) == (hash($S("Hello")) ^ hash($I(2)) ^ hash($S("There")) ^
+                         hash($I(5))));
 
   del(t0);
 }
@@ -1802,7 +1802,7 @@ PT_FUNC(test_table_len) {
   set(t0, $S("Hello"), $I(2));
   set(t0, $S("There"), $I(5));
 
-  PT_ASSERT(len(t0) is 2);
+  PT_ASSERT(len(t0) == 2);
 
   del(t0);
 }
@@ -1852,10 +1852,10 @@ PT_FUNC(test_table_new) {
   t0 = new (Table, Int, Float);
   t1 = new (Table, String, Int);
 
-  PT_ASSERT(key_type(t0) is Int);
-  PT_ASSERT(val_type(t0) is Float);
-  PT_ASSERT(key_type(t1) is String);
-  PT_ASSERT(val_type(t1) is Int);
+  PT_ASSERT(key_type(t0) == Int);
+  PT_ASSERT(val_type(t0) == Float);
+  PT_ASSERT(key_type(t1) == String);
+  PT_ASSERT(val_type(t1) == Int);
 
   del(t0);
   del(t1);
@@ -1871,11 +1871,11 @@ PT_FUNC(test_table_resize) {
   set(t0, $S("Hello"), $I(2));
   set(t0, $S("There"), $I(5));
 
-  PT_ASSERT(len(t0) is 2);
+  PT_ASSERT(len(t0) == 2);
 
   resize(t0, 0);
 
-  PT_ASSERT(len(t0) is 0);
+  PT_ASSERT(len(t0) == 0);
   PT_ASSERT(empty(t0));
 
   del(t0);
@@ -1914,7 +1914,7 @@ PT_FUNC(test_table_rehash) {
 
   PT_ASSERT(test_key isnt NULL);
   PT_ASSERT(eq(get(t0, test_key), value));
-  PT_ASSERT(len(t0) is max);
+  PT_ASSERT(len(t0) == max);
 
   del(t0);
 }
@@ -1954,7 +1954,7 @@ PT_FUNC(test_thread_call) {
   call(x, i);
   join(x);
 
-  PT_ASSERT(c_int(i) is 1);
+  PT_ASSERT(c_int(i) == 1);
 
   del(x);
 }
@@ -1970,7 +1970,7 @@ PT_FUNC(test_thread_get) {
 
   set(current(Thread), $S("Hello"), $I(1));
   PT_ASSERT(mem(current(Thread), $S("Hello")));
-  PT_ASSERT(c_int(get(current(Thread), $S("Hello"))) is 1);
+  PT_ASSERT(c_int(get(current(Thread), $S("Hello"))) == 1);
   rem(current(Thread), $S("Hello"));
   PT_ASSERT(not mem(current(Thread), $S("Hello")));
 }
@@ -1979,7 +1979,7 @@ PT_FUNC(test_thread_hash) {
   var x = new (Thread);
   int64_t h0 = hash(current(Thread));
   int64_t h1 = hash(current(Thread));
-  PT_ASSERT(h0 is h1);
+  PT_ASSERT(h0 == h1);
   del(x);
 }
 
@@ -2011,7 +2011,7 @@ void cello_sleep(int ms) {
 static var exception_sleep(var args) {
   try {
     cello_sleep(20);
-    PT_ASSERT(len(current(Exception)) is 1);
+    PT_ASSERT(len(current(Exception)) == 1);
   } catch (e) {
   }
   return NULL;
@@ -2023,7 +2023,7 @@ PT_FUNC(test_thread_exception) {
 
   call(t);
   cello_sleep(10);
-  PT_ASSERT(len(current(Exception)) is 0);
+  PT_ASSERT(len(current(Exception)) == 0);
   join(t);
 
   del(t);
@@ -2052,11 +2052,11 @@ PT_FUNC(test_tree_assign) {
            $S("jads"), $I(7), $S("kyad"), $I(2), $S("kyas"), $I(7), $S("hwdw"),
            $I(2), $S("awaa"), $I(7), $S("lkil"), $I(2));
 
-  PT_ASSERT(len(m0) is 0);
+  PT_ASSERT(len(m0) == 0);
 
   assign(m0, m1);
 
-  PT_ASSERT(len(m0) is 12);
+  PT_ASSERT(len(m0) == 12);
   PT_ASSERT(eq(get(m0, $S("asfa")), $I(0)));
   PT_ASSERT(eq(get(m0, $S("kyad")), $I(2)));
   PT_ASSERT(eq(get(m0, $S("lkil")), $I(2)));
@@ -2072,11 +2072,11 @@ PT_FUNC(test_tree_resize) {
   set(m0, $S("Hello"), $I(2));
   set(m0, $S("There"), $I(5));
 
-  PT_ASSERT(len(m0) is 2);
+  PT_ASSERT(len(m0) == 2);
 
   resize(m0, 0);
 
-  PT_ASSERT(len(m0) is 0);
+  PT_ASSERT(len(m0) == 0);
   PT_ASSERT(empty(m0));
 
   del(m0);
@@ -2112,18 +2112,18 @@ PT_FUNC(test_tree_get) {
   set(m0, $S("Hello"), $I(2));
   set(m0, $S("There"), $I(5));
 
-  PT_ASSERT(len(m0) is 2);
+  PT_ASSERT(len(m0) == 2);
   PT_ASSERT(mem(m0, $S("Hello")));
 
   rem(m0, $S("Hello"));
 
-  PT_ASSERT(len(m0) is 1);
+  PT_ASSERT(len(m0) == 1);
   PT_ASSERT(not mem(m0, $S("Hello")));
   PT_ASSERT(mem(m0, $S("There")));
 
   resize(m0, 0);
 
-  PT_ASSERT(len(m0) is 0);
+  PT_ASSERT(len(m0) == 0);
   PT_ASSERT(not mem(m0, $S("Hello")));
   PT_ASSERT(not mem(m0, $S("There")));
 
@@ -2165,10 +2165,10 @@ PT_FUNC(test_tree_get) {
   m0 = new (Tree, Int, Float);
   m1 = new (Tree, String, Int);
 
-  PT_ASSERT(key_type(m0) is Int);
-  PT_ASSERT(val_type(m0) is Float);
-  PT_ASSERT(key_type(m1) is String);
-  PT_ASSERT(val_type(m1) is Int);
+  PT_ASSERT(key_type(m0) == Int);
+  PT_ASSERT(val_type(m0) == Float);
+  PT_ASSERT(key_type(m1) == String);
+  PT_ASSERT(val_type(m1) == Int);
 
   del(m0);
   del(m1);
@@ -2180,8 +2180,8 @@ PT_FUNC(test_tree_hash) {
   set(m0, $S("Hello"), $I(2));
   set(m0, $S("There"), $I(5));
 
-  PT_ASSERT(hash(m0) is(hash($S("Hello")) ^ hash($I(2)) ^ hash($S("There")) ^
-                        hash($I(5))));
+  PT_ASSERT(hash(m0) == (hash($S("Hello")) ^ hash($I(2)) ^ hash($S("There")) ^
+                         hash($I(5))));
 
   del(m0);
 }
@@ -2209,7 +2209,7 @@ PT_FUNC(test_tree_len) {
   set(m0, $S("Hello"), $I(2));
   set(m0, $S("There"), $I(5));
 
-  PT_ASSERT(len(m0) is 2);
+  PT_ASSERT(len(m0) == 2);
 
   del(m0);
 }
@@ -2291,18 +2291,18 @@ PT_FUNC(test_tuple_assign) {
   var y = tuple($I(100), $I(200), $I(300));
   assign(x, y);
 
-  PT_ASSERT(c_int(get(x, $I(0))) is 100);
-  PT_ASSERT(c_int(get(x, $I(1))) is 200);
-  PT_ASSERT(c_int(get(x, $I(2))) is 300);
-  PT_ASSERT(len(y) is 3);
+  PT_ASSERT(c_int(get(x, $I(0))) == 100);
+  PT_ASSERT(c_int(get(x, $I(1))) == 200);
+  PT_ASSERT(c_int(get(x, $I(2))) == 300);
+  PT_ASSERT(len(y) == 3);
 
   var z = new (Array, Ref);
   assign(z, x);
 
-  PT_ASSERT(c_int(deref(get(z, $I(0)))) is 100);
-  PT_ASSERT(c_int(deref(get(z, $I(1)))) is 200);
-  PT_ASSERT(c_int(deref(get(z, $I(2)))) is 300);
-  PT_ASSERT(len(z) is 3);
+  PT_ASSERT(c_int(deref(get(z, $I(0)))) == 100);
+  PT_ASSERT(c_int(deref(get(z, $I(1)))) == 200);
+  PT_ASSERT(c_int(deref(get(z, $I(2)))) == 300);
+  PT_ASSERT(len(z) == 3);
 
   del(z);
   del(x);
@@ -2312,9 +2312,9 @@ PT_FUNC(test_tuple_resize) {
 
   var x = new (Tuple, $I(100), $I(200), $I(300));
 
-  PT_ASSERT(len(x) is 3);
+  PT_ASSERT(len(x) == 3);
   resize(x, 0);
-  PT_ASSERT(len(x) is 0);
+  PT_ASSERT(len(x) == 0);
 
   del(x);
 }
@@ -2334,11 +2334,11 @@ PT_FUNC(test_tuple_concat) {
   var x = new (Tuple, $I(100), $I(200), $I(300));
   concat(x, tuple($I(10), $I(20)));
 
-  PT_ASSERT(c_int(get(x, $I(0))) is 100);
-  PT_ASSERT(c_int(get(x, $I(1))) is 200);
-  PT_ASSERT(c_int(get(x, $I(2))) is 300);
-  PT_ASSERT(c_int(get(x, $I(3))) is 10);
-  PT_ASSERT(c_int(get(x, $I(4))) is 20);
+  PT_ASSERT(c_int(get(x, $I(0))) == 100);
+  PT_ASSERT(c_int(get(x, $I(1))) == 200);
+  PT_ASSERT(c_int(get(x, $I(2))) == 300);
+  PT_ASSERT(c_int(get(x, $I(3))) == 10);
+  PT_ASSERT(c_int(get(x, $I(4))) == 20);
 
   del(x);
 }
@@ -2347,17 +2347,17 @@ PT_FUNC(test_tuple_get) {
 
   var x = new (Tuple, $I(100), $I(200), $I(300));
 
-  PT_ASSERT(c_int(get(x, $I(0))) is 100);
-  PT_ASSERT(c_int(get(x, $I(1))) is 200);
-  PT_ASSERT(c_int(get(x, $I(2))) is 300);
+  PT_ASSERT(c_int(get(x, $I(0))) == 100);
+  PT_ASSERT(c_int(get(x, $I(1))) == 200);
+  PT_ASSERT(c_int(get(x, $I(2))) == 300);
 
-  PT_ASSERT(c_int(get(x, $I(-1))) is 300);
-  PT_ASSERT(c_int(get(x, $I(-2))) is 200);
-  PT_ASSERT(c_int(get(x, $I(-3))) is 100);
+  PT_ASSERT(c_int(get(x, $I(-1))) == 300);
+  PT_ASSERT(c_int(get(x, $I(-2))) == 200);
+  PT_ASSERT(c_int(get(x, $I(-3))) == 100);
 
   set(x, $I(1), $I(10));
 
-  PT_ASSERT(c_int(get(x, $I(1))) is 10);
+  PT_ASSERT(c_int(get(x, $I(1))) == 10);
 
   PT_ASSERT(mem(x, $I(10)));
   PT_ASSERT(mem(x, $I(100)));
@@ -2365,8 +2365,8 @@ PT_FUNC(test_tuple_get) {
 
   rem(x, $I(10));
 
-  PT_ASSERT(c_int(get(x, $I(0))) is 100);
-  PT_ASSERT(c_int(get(x, $I(1))) is 300);
+  PT_ASSERT(c_int(get(x, $I(0))) == 100);
+  PT_ASSERT(c_int(get(x, $I(1))) == 300);
 
   del(x);
 }
@@ -2375,20 +2375,20 @@ PT_FUNC(test_tuple_hash) {
 
   var x = tuple($S("Hello"), $S("World"), $S("!"));
 
-  PT_ASSERT(hash(x) is(hash($S("Hello")) ^ hash($S("World")) ^ hash($S("!"))));
+  PT_ASSERT(hash(x) == (hash($S("Hello")) ^ hash($S("World")) ^ hash($S("!"))));
 }
 
 PT_FUNC(test_tuple_iter) {
 
   size_t i = 0;
   foreach (x in tuple($I(10), $I(20), $I(30))) {
-    if (i is 0) {
+    if (i == 0) {
       PT_ASSERT(eq(x, $I(10)));
     }
-    if (i is 1) {
+    if (i == 1) {
       PT_ASSERT(eq(x, $I(20)));
     }
-    if (i is 2) {
+    if (i == 2) {
       PT_ASSERT(eq(x, $I(30)));
     }
     i++;
@@ -2401,9 +2401,9 @@ PT_FUNC(test_tuple_len) {
   var y = tuple($I(1), $I(2), $I(3));
   var z = tuple($I(1), $I(2), $I(3), $I(10));
 
-  PT_ASSERT(len(x) is 2);
-  PT_ASSERT(len(y) is 3);
-  PT_ASSERT(len(z) is 4);
+  PT_ASSERT(len(x) == 2);
+  PT_ASSERT(len(y) == 3);
+  PT_ASSERT(len(z) == 4);
 }
 
 PT_FUNC(test_tuple_new) {
@@ -2535,12 +2535,13 @@ PT_FUNC(test_type_cmp) {
 }
 
 PT_FUNC(test_type_hash) {
-  PT_ASSERT(hash(Type) is hash($S("Type")));
-  PT_ASSERT(hash(Int) is hash($S("Int")));
-  PT_ASSERT(hash(Array) is hash($S("Array")));
+  PT_ASSERT(hash(Type) == hash($S("Type")));
+  PT_ASSERT(hash(Int) == hash($S("Int")));
+  PT_ASSERT(hash(Array) == hash($S("Array")));
 }
 
-PT_FUNC(test_type_help) { /* TODO */ }
+PT_FUNC(test_type_help) { /* TODO */
+}
 
 PT_FUNC(test_type_show) {
   var s = new (String);
@@ -2593,7 +2594,7 @@ PT_FUNC(test_zip_iter) {
   foreach (i in zip(y, z)) {
   }
 
-  PT_ASSERT(iter_type(zip(x, y, z)) is Tuple);
+  PT_ASSERT(iter_type(zip(x, y, z)) == Tuple);
 
   x = new (Array, Int, $I(100), $I(200), $I(130));
   y = new (Array, Float, $F(0.1), $F(0.2), $F(1.3));
@@ -2613,11 +2614,11 @@ PT_FUNC(test_zip_len) {
   var y = tuple($I(10), $I(213), $I(12), $I(88), $I(99));
   var z = tuple($I(10), $I(213));
 
-  PT_ASSERT(len(zip(z)) is 2);
-  PT_ASSERT(len(zip(z, y)) is 2);
-  PT_ASSERT(len(zip(x, y, z)) is 2);
-  PT_ASSERT(len(zip(x, y)) is 5);
-  PT_ASSERT(len(zip(x)) is 6);
+  PT_ASSERT(len(zip(z)) == 2);
+  PT_ASSERT(len(zip(z, y)) == 2);
+  PT_ASSERT(len(zip(x, y, z)) == 2);
+  PT_ASSERT(len(zip(x, y)) == 5);
+  PT_ASSERT(len(zip(x)) == 6);
 }
 
 PT_FUNC(test_zip_new) {
@@ -2664,7 +2665,7 @@ PT_FUNC(test_exception_throw) {
   PT_ASSERT(r1 == 2);
   PT_ASSERT(r2 == 3);
 
-  PT_ASSERT(len(current(Exception)) is 0);
+  PT_ASSERT(len(current(Exception)) == 0);
 }
 
 PT_FUNC(test_exception_catch) {
@@ -2695,7 +2696,7 @@ PT_FUNC(test_exception_catch) {
   PT_ASSERT(not reached1);
   PT_ASSERT(not reached2);
 
-  PT_ASSERT(len(current(Exception)) is 0);
+  PT_ASSERT(len(current(Exception)) == 0);
 }
 
 PT_FUNC(test_exception_catch_all) {
@@ -2717,7 +2718,7 @@ PT_FUNC(test_exception_catch_all) {
 
   PT_ASSERT(reached0);
   PT_ASSERT(reached1);
-  PT_ASSERT(len(current(Exception)) is 0);
+  PT_ASSERT(len(current(Exception)) == 0);
 }
 
 PT_FUNC(test_exception_catch_outer) {
@@ -2727,16 +2728,16 @@ PT_FUNC(test_exception_catch_outer) {
 
   try {
 
-    PT_ASSERT(len(current(Exception)) is 1);
+    PT_ASSERT(len(current(Exception)) == 1);
 
     try {
-      PT_ASSERT(len(current(Exception)) is 2);
+      PT_ASSERT(len(current(Exception)) == 2);
       exception_divide(2, 0);
     } catch (e in TypeError) {
       reached0 = true;
     }
 
-    PT_ASSERT(len(current(Exception)) is 1);
+    PT_ASSERT(len(current(Exception)) == 1);
 
   } catch (e) {
     reached1 = true;
@@ -2745,7 +2746,7 @@ PT_FUNC(test_exception_catch_outer) {
   PT_ASSERT(not reached0);
   PT_ASSERT(reached1);
 
-  PT_ASSERT(len(current(Exception)) is 0);
+  PT_ASSERT(len(current(Exception)) == 0);
 }
 
 PT_SUITE(suite_exception) {

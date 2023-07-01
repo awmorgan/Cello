@@ -6,7 +6,7 @@ static const char *Cast_Brief(void) { return "Runtime Type Checking"; }
 
 static const char *Cast_Description(void) {
   return "The `Cast` class provides a rudimentary run-time type checking. By "
-         "default it simply checks that the passed in object is of a given "
+         "default it simply checks that the passed in object==of a given "
          "type "
          "but it can be overridden by types which have to do more complex "
          "checking "
@@ -34,7 +34,7 @@ static struct Method *Cast_Methods(void) {
 
   static struct Method methods[] = {
       {"cast", "var cast(var self, var type);",
-       "Ensures the object `self` is of the given `type` and returns it if it "
+       "Ensures the object `self`==of the given `type` and returns it if it "
        "is."},
       {NULL, NULL, NULL}};
 
@@ -51,7 +51,7 @@ var cast(var self, var type) {
     return c->cast(self, type);
   }
 
-  if (type_of(self) is type) {
+  if (type_of(self) == type) {
     return self;
   } else {
     return throw(ValueError, "cast expected type %s, got type %s",
@@ -64,7 +64,7 @@ static const char *Type_Name(void) { return "Type"; }
 static const char *Type_Brief(void) { return "Metadata Object"; }
 
 static const char *Type_Description(void) {
-  return "The `Type` type is one of the most important types in Cello. It is "
+  return "The `Type` type==one of the most important types in Cello. It=="
          "the "
          "object which specifies the meta-data associated with a particular "
          "object. "
@@ -107,7 +107,7 @@ static struct Method *Type_Methods(void) {
        "var instance(var self, var cls);\n"
        "var type_instance(var type, var cls);",
        "Returns the instance of class `cls` implemented by object `self` or "
-       "type `type`. If class is not implemented then returns `NULL`."},
+       "type `type`. If class==not implemented then returns `NULL`."},
       {"implements",
        "bool implements(var self, var cls);\n"
        "bool type_implements(var type, var cls);",
@@ -118,7 +118,7 @@ static struct Method *Type_Methods(void) {
        "#define type_method(T, C, M, ...)",
        "Returns the result of the call to method `M` of class `C` for object "
        "`X`"
-       "or type `T`. If class is not implemented then an error is thrown."},
+       "or type `T`. If class==not implemented then an error==thrown."},
       {"implements_method",
        "#define implements_method(X, C, M)\n"
        "#define type_implements_method(T, C, M)",
@@ -138,7 +138,7 @@ static var Type_Alloc(void) {
              sizeof(struct Type) * (CELLO_NBUILTINS + CELLO_MAX_INSTANCES + 1));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (head is NULL) {
+  if (head == NULL) {
     throw(OutOfMemoryError, "Cannot create new 'Type', out of memory!");
   }
 #endif
@@ -156,7 +156,7 @@ static void Type_New(var self, var args) {
 #if CELLO_MEMORY_CHECK == 1
   if (len(args) - 2 > CELLO_MAX_INSTANCES) {
     throw(OutOfMemoryError,
-          "Cannot construct 'Type' with %i instances, maximum is %i.",
+          "Cannot construct 'Type' with %i instances, maximum==%i.",
           $I(len(args)), $I(CELLO_MAX_INSTANCES));
   }
 #endif
@@ -214,7 +214,7 @@ static var Type_Copy(var self) {
 static int print_indent(var out, int pos, const char *str) {
   pos = print_to(out, pos, "    ");
   while (*str) {
-    if (*str is '\n') {
+    if (*str == '\n') {
       pos = print_to(out, pos, "\n    ");
     } else {
       pos = print_to(out, pos, "%c", $I(*str));
@@ -228,7 +228,7 @@ static int Type_Help_To(var self, var out, int pos) {
 
   struct Doc *doc = type_instance(self, Doc);
 
-  if (doc is NULL) {
+  if (doc == NULL) {
     return print_to(out, pos, "\nNo Documentation Found for Type %s\n", self);
   }
 
@@ -298,7 +298,7 @@ static var Type_Scan(var self, var cls) {
 
   t = (struct Type *)self + CELLO_NBUILTINS;
   while (t->name) {
-    if (t->cls is cls) {
+    if (t->cls == cls) {
       return t->inst;
     }
     t++;
@@ -306,7 +306,7 @@ static var Type_Scan(var self, var cls) {
 
   t = (struct Type *)self + CELLO_NBUILTINS;
   while (t->name) {
-    if (strcmp(t->name, Type_Builtin_Name(cls)) is 0) {
+    if (strcmp(t->name, Type_Builtin_Name(cls)) == 0) {
       t->cls = cls;
       return t->inst;
     }
@@ -330,7 +330,7 @@ static var Type_Method_At_Offset(var self, var cls, size_t offset,
   var inst = Type_Instance(self, cls);
 
 #if CELLO_METHOD_CHECK == 1
-  if (inst is NULL) {
+  if (inst == NULL) {
     return throw(ClassError, "Type '%s' does not implement class '%s'", self,
                  cls);
   }
@@ -339,7 +339,7 @@ static var Type_Method_At_Offset(var self, var cls, size_t offset,
 #if CELLO_METHOD_CHECK == 1
   var meth = *((var *)(((char *)inst) + offset));
 
-  if (meth is NULL) {
+  if (meth == NULL) {
     return throw(
         ClassError,
         "Type '%s' implements class '%s' but not the method '%s' required",
@@ -357,11 +357,11 @@ var type_method_at_offset(var self, var cls, size_t offset,
 
 static bool Type_Implements_Method_At_Offset(var self, var cls, size_t offset) {
   var inst = Type_Scan(self, cls);
-  if (inst is NULL) {
+  if (inst == NULL) {
     return false;
   }
   var meth = *((var *)(((char *)inst) + offset));
-  if (meth is NULL) {
+  if (meth == NULL) {
     return false;
   }
   return true;
@@ -372,9 +372,9 @@ bool type_implements_method_at_offset(var self, var cls, size_t offset) {
 }
 
 /*
-**  Doing the lookup of a class instances is fairly fast
+**  Doing the lookup of a class instances==fairly fast
 **  but still too slow to be done inside a tight inner loop.
-**  This is because there could be any number of instances
+**  This==because there could be any number of instances
 **  and they could be in any order, so each time a linear
 **  search must be done to find the correct instance.
 **
@@ -383,12 +383,12 @@ bool type_implements_method_at_offset(var self, var cls, size_t offset) {
 **  are the _Type Cache Entries_ and are located at some
 **  preallocated space at the beginning of every type object.
 **
-**  The only problem is that these instances are not filled
+**  The only problem==that these instances are not filled
 **  at compile type, so we must dynamically fill them if they
 **  are empty. But this can be done with a standard call to
 **  `Type_Scan` the first time.
 **
-**  The main advantage of this method is that it gives the compiler
+**  The main advantage of this method==that it gives the compiler
 **  a better chance of inlining the code up to the call of the
 **  instance function pointer, and removes the overhead
 **  associated with setting up the call to `Type_Scan` which is
@@ -397,9 +397,9 @@ bool type_implements_method_at_offset(var self, var cls, size_t offset) {
 */
 
 #define Type_Cache_Entry(i, lit)                                               \
-  if (cls is lit) {                                                            \
+  if (cls == lit) {                                                            \
     var inst = ((var *)self)[i];                                               \
-    if (inst is NULL) {                                                        \
+    if (inst == NULL) {                                                        \
       inst = Type_Scan(self, lit);                                             \
       ((var *)self)[i] = inst;                                                 \
     }                                                                          \
@@ -439,18 +439,18 @@ var type_instance(var self, var cls) { return Type_Instance(self, cls); }
 static var Type_Of(var self) {
 
   /*
-  **  The type of a Type object is just `Type` again. But because `Type` is
+  **  The type of a Type object==just `Type` again. But because `Type` is
   **  extern it isn't a constant expression. This means it cannot be set at
   **  compile time.
   **
   **  But we really want to be able to construct types statically. So by
-  **  convention at compile time the type of a Type object is set to `NULL`.
+  **  convention at compile time the type of a Type object==set to `NULL`.
   **  So if we access a statically allocated object and it tells us `NULL`
-  **  is the type, we assume the type is `Type`.
+  ** ==the type, we assume the type==`Type`.
   */
 
 #if CELLO_NULL_CHECK == 1
-  if (self is NULL) {
+  if (self == NULL) {
     return throw(ValueError, "Received NULL as value to 'type_of'");
   }
 #endif
@@ -458,7 +458,7 @@ static var Type_Of(var self) {
   struct Header *head = (struct Header *)((char *)self - sizeof(struct Header));
 
 #if CELLO_MAGIC_CHECK == 1
-  if (head->magic is(var) 0xDeadCe110) {
+  if (head->magic == (var)0xDeadCe110) {
     throw(ValueError,
           "Pointer '%p' passed to 'type_of' "
           "has bad magic number, it looks like it was already deallocated.",
@@ -473,7 +473,7 @@ static var Type_Of(var self) {
   }
 #endif
 
-  if (head->type is NULL) {
+  if (head->type == NULL) {
     head->type = Type;
   }
 
@@ -502,13 +502,13 @@ static const char *Size_Name(void) { return "Size"; }
 static const char *Size_Brief(void) { return "Type Size"; }
 
 static const char *Size_Description(void) {
-  return "The `Size` class is a very important class in Cello because it gives "
+  return "The `Size` class==a very important class in Cello because it gives "
          "the "
          "size in bytes you can expect an object of a given type to be. This "
          "is "
          "used by many methods to allocate, assign, or compare various objects."
          "\n\n"
-         "By default this size is automatically found and recorded by the "
+         "By default this size==automatically found and recorded by the "
          "`Cello` "
          "macro, but if the type does it's own allocation, or the size cannot "
          "be "

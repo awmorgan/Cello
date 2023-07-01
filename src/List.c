@@ -90,7 +90,7 @@ static var List_Alloc(struct List *l) {
   var item = calloc(1, 2 * sizeof(var) + sizeof(struct Header) + l->tsize);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (item is NULL) {
+  if (item == NULL) {
     throw(OutOfMemoryError, "Cannot allocate List entry, out of memory!");
   }
 #endif
@@ -209,13 +209,13 @@ static int List_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 is Terminal and item1 is Terminal) {
+    if (item0 == Terminal and item1 == Terminal) {
       return 0;
     }
-    if (item0 is Terminal) {
+    if (item0 == Terminal) {
       return -1;
     }
-    if (item1 is Terminal) {
+    if (item1 == Terminal) {
       return 1;
     }
     int c = cmp(item0, item1);
@@ -267,13 +267,13 @@ static void List_Unlink(struct List *l, var item) {
   var next = *List_Next(l, item);
   var prev = *List_Prev(l, item);
 
-  if (item is l->head and item is l->tail) {
+  if (item == l->head and item == l->tail) {
     l->head = NULL;
     l->tail = NULL;
-  } else if (item is l->head) {
+  } else if (item == l->head) {
     l->head = next;
     *List_Prev(l, next) = NULL;
-  } else if (item is l->tail) {
+  } else if (item == l->tail) {
     l->tail = prev;
     *List_Next(l, prev) = NULL;
   } else {
@@ -283,12 +283,12 @@ static void List_Unlink(struct List *l, var item) {
 }
 
 static void List_Link(struct List *l, var item, var prev, var next) {
-  if (prev is NULL) {
+  if (prev == NULL) {
     l->head = item;
   } else {
     *List_Next(l, prev) = item;
   }
-  if (next is NULL) {
+  if (next == NULL) {
     l->tail = item;
   } else {
     *List_Prev(l, next) = item;
@@ -341,7 +341,7 @@ static void List_Push_At(var self, var obj, var key) {
   assign(item, obj);
 
   int64_t i = c_int(key);
-  if (i is 0) {
+  if (i == 0) {
     List_Link(l, item, NULL, l->head);
   } else {
     var curr = List_At(l, i);
@@ -355,7 +355,7 @@ static void List_Pop(var self) {
   struct List *l = self;
 
 #if CELLO_BOUND_CHECK == 1
-  if (l->nitems is 0) {
+  if (l->nitems == 0) {
     throw(IndexOutOfBoundsError, "Cannot pop. List is empty!");
     return;
   }
@@ -380,7 +380,7 @@ static void List_Set(var self, var key, var val) {
 
 static var List_Iter_Init(var self) {
   struct List *l = self;
-  if (l->nitems is 0) {
+  if (l->nitems == 0) {
     return Terminal;
   }
   return l->head;
@@ -394,7 +394,7 @@ static var List_Iter_Next(var self, var curr) {
 
 static var List_Iter_Last(var self) {
   struct List *l = self;
-  if (l->nitems is 0) {
+  if (l->nitems == 0) {
     return Terminal;
   }
   return l->tail;
@@ -428,7 +428,7 @@ static int List_Show(var self, var output, int pos) {
 static void List_Resize(var self, size_t n) {
   struct List *l = self;
 
-  if (n is 0) {
+  if (n == 0) {
     List_Clear(self);
     return;
   }

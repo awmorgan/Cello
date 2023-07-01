@@ -229,7 +229,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
 
   while (true) {
 
-    if (*fmt is '\0') {
+    if (*fmt == '\0') {
       break;
     }
 
@@ -252,7 +252,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
     }
 
     /* Match %% */
-    if (*fmt is '%' && *(fmt + 1) is '%') {
+    if (*fmt == '%' && *(fmt + 1) == '%') {
       int off = format_to(out, pos, "%%");
       if (off < 0) {
         throw(FormatError, "Unable to output '%%%%'!");
@@ -279,11 +279,11 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
       var a = get(args, $I(index));
       index++;
 
-      if (*fmt is '$') {
+      if (*fmt == '$') {
         pos = show_to(a, out, pos);
       }
 
-      if (*fmt is 's') {
+      if (*fmt == 's') {
         int off = format_to(out, pos, fmt_buf, c_str(a));
         if (off < 0) {
           throw(FormatError, "Unable to output String!");
@@ -307,7 +307,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
         pos += off;
       }
 
-      if (*fmt is 'c') {
+      if (*fmt == 'c') {
         int off = format_to(out, pos, fmt_buf, c_int(a));
         if (off < 0) {
           throw(FormatError, "Unable to output Char!");
@@ -315,7 +315,7 @@ int print_to_with(var out, int pos, const char *fmt, var args) {
         pos += off;
       }
 
-      if (*fmt is 'p') {
+      if (*fmt == 'p') {
         int off = format_to(out, pos, fmt_buf, a);
         if (off < 0) {
           throw(FormatError, "Unable to output Object!");
@@ -359,7 +359,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
 
   while (true) {
 
-    if (*fmt is '\0') {
+    if (*fmt == '\0') {
       break;
     }
 
@@ -379,7 +379,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
     }
 
     /* Match %% */
-    if (*fmt is '%' and *(fmt + 1) is '%') {
+    if (*fmt == '%' and *(fmt + 1) == '%') {
       int err = format_from(input, pos, "%%");
       if (err < 0) {
         throw(FormatError, "Unable to input '%%%%'!");
@@ -408,11 +408,11 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
       var a = get(args, $I(index));
       index++;
 
-      if (*fmt is '$') {
+      if (*fmt == '$') {
         pos = look_from(a, input, pos);
       }
 
-      else if (*fmt is 's') {
+      else if (*fmt == 's') {
         int err = format_from(input, pos, fmt_buf, c_str(a), &off);
         if (err < 1) {
           throw(FormatError, "Unable to input String!");
@@ -421,7 +421,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
       }
 
       /* TODO: Test */
-      else if (*fmt is ']') {
+      else if (*fmt == ']') {
         int err = format_from(input, pos, fmt_buf, c_str(a), &off);
         if (err < 1) {
           throw(FormatError, "Unable to input Scanset!");
@@ -459,7 +459,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
         }
       }
 
-      else if (*fmt is 'c') {
+      else if (*fmt == 'c') {
         char tmp = '\0';
         int err = format_from(input, pos, fmt_buf, &tmp, &off);
         if (err < 1) {
@@ -469,7 +469,7 @@ int scan_from_with(var input, int pos, const char *fmt, var args) {
         assign(a, $I(tmp));
       }
 
-      else if (*fmt is 'p') {
+      else if (*fmt == 'p') {
         void *tmp = NULL;
         int err = format_from(input, pos, fmt_buf, &tmp, &off);
         if (err < 1) {

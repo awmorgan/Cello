@@ -177,14 +177,14 @@ var range_stack(var self, var args) {
     r->step = 1;
     break;
   case 2:
-    r->start = get(args, $I(0)) is _ ? 0 : c_int(get(args, $I(0)));
+    r->start = get(args, $I(0)) == _ ? 0 : c_int(get(args, $I(0)));
     r->stop = c_int(get(args, $I(1)));
     r->step = 1;
     break;
   case 3:
-    r->start = get(args, $I(0)) is _ ? 0 : c_int(get(args, $I(0)));
+    r->start = get(args, $I(0)) == _ ? 0 : c_int(get(args, $I(0)));
     r->stop = c_int(get(args, $I(1)));
-    r->step = get(args, $I(2)) is _ ? 1 : c_int(get(args, $I(2)));
+    r->step = get(args, $I(2)) == _ ? 1 : c_int(get(args, $I(2)));
     break;
   }
 
@@ -343,11 +343,11 @@ static bool Range_Mem(var self, var key) {
     return false;
   }
   if (r->step > 0) {
-    return i >= r->start and i < r->stop and (i - r->start) % r->step is 0;
+    return i >= r->start and i < r->stop and (i - r->start) % r->step == 0;
   }
   if (r->step < 0) {
     return i >= r->start and i < r->stop and
-           (i - (r->stop - 1)) % -r->step is 0;
+           (i - (r->stop - 1)) % -r->step == 0;
   }
   return false;
 }
@@ -443,14 +443,14 @@ static struct Method *Slice_Methods(void) {
 
 static int64_t Slice_Arg(int part, size_t n, var arg) {
 
-  if (arg is _) {
-    if (part is 0) {
+  if (arg == _) {
+    if (part == 0) {
       return 0;
     }
-    if (part is 1) {
+    if (part == 1) {
       return n;
     }
-    if (part is 2) {
+    if (part == 2) {
       return 1;
     }
   }
@@ -766,12 +766,12 @@ static var Zip_Iter_Init(var self) {
   struct Tuple *values = z->values;
   struct Tuple *iters = z->iters;
   size_t num = len(iters);
-  if (num is 0) {
+  if (num == 0) {
     return Terminal;
   }
   for (size_t i = 0; i < num; i++) {
     var init = iter_init(iters->items[i]);
-    if (init is Terminal) {
+    if (init == Terminal) {
       return Terminal;
     }
     values->items[i] = init;
@@ -784,12 +784,12 @@ static var Zip_Iter_Last(var self) {
   struct Tuple *values = z->values;
   struct Tuple *iters = z->iters;
   size_t num = len(iters);
-  if (num is 0) {
+  if (num == 0) {
     return Terminal;
   }
   for (size_t i = 0; i < num; i++) {
     var last = iter_last(iters->items[i]);
-    if (last is Terminal) {
+    if (last == Terminal) {
       return Terminal;
     }
     values->items[i] = last;
@@ -802,12 +802,12 @@ static var Zip_Iter_Next(var self, var curr) {
   struct Tuple *values = z->values;
   struct Tuple *iters = z->iters;
   size_t num = len(iters);
-  if (num is 0) {
+  if (num == 0) {
     return Terminal;
   }
   for (size_t i = 0; i < num; i++) {
     var next = iter_next(iters->items[i], get(curr, $I(i)));
-    if (next is Terminal) {
+    if (next == Terminal) {
       return Terminal;
     }
     values->items[i] = next;
@@ -820,12 +820,12 @@ static var Zip_Iter_Prev(var self, var curr) {
   struct Tuple *values = z->values;
   struct Tuple *iters = z->iters;
   size_t num = len(iters);
-  if (num is 0) {
+  if (num == 0) {
     return Terminal;
   }
   for (size_t i = 0; i < num; i++) {
     var prev = iter_prev(iters->items[i], get(curr, $I(i)));
-    if (prev is Terminal) {
+    if (prev == Terminal) {
       return Terminal;
     }
     values->items[i] = prev;
@@ -840,7 +840,7 @@ static size_t Zip_Len(var self) {
   struct Tuple *values = z->values;
   struct Tuple *iters = z->iters;
   size_t num = len(iters);
-  if (num is 0) {
+  if (num == 0) {
     return 0;
   }
   size_t mlen = len(iters->items[0]);
@@ -958,7 +958,7 @@ static var Filter_Iter_Init(var self) {
   struct Filter *f = self;
   var curr = iter_init(f->iter);
   while (true) {
-    if (curr is Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal or call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_next(f->iter, curr);
@@ -971,7 +971,7 @@ static var Filter_Iter_Last(var self) {
   struct Filter *f = self;
   var curr = iter_last(f->iter);
   while (true) {
-    if (curr is Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal or call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_prev(f->iter, curr);
@@ -984,7 +984,7 @@ static var Filter_Iter_Next(var self, var curr) {
   struct Filter *f = self;
   curr = iter_next(f->iter, curr);
   while (true) {
-    if (curr is Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal or call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_next(f->iter, curr);
@@ -997,7 +997,7 @@ static var Filter_Iter_Prev(var self, var curr) {
   struct Filter *f = self;
   curr = iter_prev(f->iter, curr);
   while (true) {
-    if (curr is Terminal or call_with(f->func, curr)) {
+    if (curr == Terminal or call_with(f->func, curr)) {
       return curr;
     } else {
       curr = iter_prev(f->iter, curr);
@@ -1110,7 +1110,7 @@ static void Map_New(var self, var args) {
 static var Map_Iter_Init(var self) {
   struct Map *m = self;
   m->curr = iter_init(m->iter);
-  if (m->curr is Terminal) {
+  if (m->curr == Terminal) {
     return m->curr;
   } else {
     return call_with(m->func, m->curr);
@@ -1120,7 +1120,7 @@ static var Map_Iter_Init(var self) {
 static var Map_Iter_Last(var self) {
   struct Map *m = self;
   m->curr = iter_last(m->iter);
-  if (m->curr is Terminal) {
+  if (m->curr == Terminal) {
     return m->curr;
   } else {
     return call_with(m->func, m->curr);
@@ -1130,7 +1130,7 @@ static var Map_Iter_Last(var self) {
 static var Map_Iter_Next(var self, var curr) {
   struct Map *m = self;
   m->curr = iter_next(m->iter, m->curr);
-  if (m->curr is Terminal) {
+  if (m->curr == Terminal) {
     return m->curr;
   } else {
     return call_with(m->func, m->curr);
@@ -1140,7 +1140,7 @@ static var Map_Iter_Next(var self, var curr) {
 static var Map_Iter_Prev(var self, var curr) {
   struct Map *m = self;
   m->curr = iter_prev(m->iter, m->curr);
-  if (m->curr is Terminal) {
+  if (m->curr == Terminal) {
     return m->curr;
   } else {
     return call_with(m->func, m->curr);
@@ -1155,7 +1155,7 @@ static size_t Map_Len(var self) {
 static var Map_Get(var self, var key) {
   struct Map *m = self;
   m->curr = get(m->iter, key);
-  if (m->curr is Terminal) {
+  if (m->curr == Terminal) {
     return m->curr;
   } else {
     return call_with(m->func, m->curr);

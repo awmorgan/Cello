@@ -342,7 +342,7 @@ void exception_signals(void) {
 
 void exception_try(jmp_buf *env) {
   struct Exception *e = current(Exception);
-  if (e->depth is EXCEPTION_MAX_DEPTH) {
+  if (e->depth == EXCEPTION_MAX_DEPTH) {
     fprintf(stderr, "Cello Fatal Error: Exception Buffer Overflow!\n");
     abort();
   }
@@ -376,7 +376,7 @@ var exception_catch(var args) {
   }
 
   /* If no Arguments catch all */
-  if (len(args) is 0) {
+  if (len(args) == 0) {
     return e->obj;
   }
 

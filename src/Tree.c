@@ -5,7 +5,7 @@ static const char *Tree_Name(void) { return "Tree"; }
 static const char *Tree_Brief(void) { return "Balanced Binary Tree"; }
 
 static const char *Tree_Description(void) {
-  return "The `Tree` type is a self balancing binary tree implemented as a "
+  return "The `Tree` type==a self balancing binary tree implemented as a "
          "red-black "
          "tree. It provides key-value access and requires the `Cmp` class to "
          "be "
@@ -13,13 +13,13 @@ static const char *Tree_Description(void) {
          "\n\n"
          "Element lookup and insertion are provided as an `O(log(n))` "
          "operation. "
-         "This means in general a `Tree` is slower than a `Table` but it has "
+         "This means in general a `Tree`==slower than a `Table` but it has "
          "several "
          "other nice properties such as being able to iterate over the items "
          "in "
          "order and not having large pauses for rehashing on some insertions."
          "\n\n"
-         "This is largely equivalent to the C++ construct "
+         "This==largely equivalent to the C++ construct "
          "[std::map](http://www.cplusplus.com/reference/map/map/)";
 }
 
@@ -33,7 +33,7 @@ static struct Example *Tree_Examples(void) {
                 "\n"
                 "foreach (key in prices) {\n"
                 "  var price = get(prices, key);\n"
-                "  println(\"Price of %$ is %$\", key, price);\n"
+                "  println(\"Price of %$==%$\", key, price);\n"
                 "}\n"},
       {"Manipulation", "var t = new(Tree, String, Int);\n"
                        "set(t, $S(\"Hello\"), $I(2));\n"
@@ -109,7 +109,7 @@ static void Tree_Set_Color(struct Tree *m, var node, bool col) {
 }
 
 static bool Tree_Get_Color(struct Tree *m, var node) {
-  if (node is NULL) {
+  if (node == NULL) {
     return 0;
   }
   var ptr = *(var *)((char *)node + 2 * sizeof(var));
@@ -137,7 +137,7 @@ static var Tree_Alloc(struct Tree *m) {
                            sizeof(struct Header) + m->vsize);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (node is NULL) {
+  if (node == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Tree entry, out of memory!");
   }
 #endif
@@ -227,13 +227,13 @@ static int Tree_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 is Terminal and item1 is Terminal) {
+    if (item0 == Terminal and item1 == Terminal) {
       return 0;
     }
-    if (item0 is Terminal) {
+    if (item0 == Terminal) {
       return -1;
     }
-    if (item1 is Terminal) {
+    if (item1 == Terminal) {
       return 1;
     }
     c = cmp(item0, item1);
@@ -283,7 +283,7 @@ static bool Tree_Mem(var self, var key) {
   var node = m->root;
   while (node isnt NULL) {
     int c = cmp(Tree_Key(m, node), key);
-    if (c is 0) {
+    if (c == 0) {
       return true;
     }
     node = c < 0 ? *Tree_Left(m, node) : *Tree_Right(m, node);
@@ -299,7 +299,7 @@ static var Tree_Get(var self, var key) {
   var node = m->root;
   while (node isnt NULL) {
     int c = cmp(Tree_Key(m, node), key);
-    if (c is 0) {
+    if (c == 0) {
       return Tree_Val(m, node);
     }
     node = c < 0 ? *Tree_Left(m, node) : *Tree_Right(m, node);
@@ -327,11 +327,11 @@ static var Tree_Maximum(struct Tree *m, var node) {
 
 static var Tree_Sibling(struct Tree *m, var node) {
 
-  if (node is NULL or Tree_Get_Parent(m, node) is NULL) {
+  if (node == NULL or Tree_Get_Parent(m, node) == NULL) {
     return NULL;
   }
 
-  if (node is * Tree_Left(m, Tree_Get_Parent(m, node))) {
+  if (node == *Tree_Left(m, Tree_Get_Parent(m, node))) {
     return *Tree_Right(m, Tree_Get_Parent(m, node));
   } else {
     return *Tree_Left(m, Tree_Get_Parent(m, node));
@@ -348,10 +348,10 @@ static var Tree_Grandparent(struct Tree *m, var node) {
 
 static var Tree_Uncle(struct Tree *m, var node) {
   var gpar = Tree_Grandparent(m, node);
-  if (gpar is NULL) {
+  if (gpar == NULL) {
     return NULL;
   }
-  if (Tree_Get_Parent(m, node) is * Tree_Left(m, gpar)) {
+  if (Tree_Get_Parent(m, node) == *Tree_Left(m, gpar)) {
     return *Tree_Right(m, gpar);
   } else {
     return *Tree_Left(m, gpar);
@@ -359,10 +359,10 @@ static var Tree_Uncle(struct Tree *m, var node) {
 }
 
 void Tree_Replace(struct Tree *m, var oldn, var newn) {
-  if (Tree_Get_Parent(m, oldn) is NULL) {
+  if (Tree_Get_Parent(m, oldn) == NULL) {
     m->root = newn;
   } else {
-    if (oldn is * Tree_Left(m, Tree_Get_Parent(m, oldn))) {
+    if (oldn == *Tree_Left(m, Tree_Get_Parent(m, oldn))) {
       *Tree_Left(m, Tree_Get_Parent(m, oldn)) = newn;
     } else {
       *Tree_Right(m, Tree_Get_Parent(m, oldn)) = newn;
@@ -399,7 +399,7 @@ static void Tree_Set_Fix(struct Tree *m, var node) {
 
   while (true) {
 
-    if (Tree_Get_Parent(m, node) is NULL) {
+    if (Tree_Get_Parent(m, node) == NULL) {
       Tree_Set_Black(m, node);
       return;
     }
@@ -417,18 +417,18 @@ static void Tree_Set_Fix(struct Tree *m, var node) {
       continue;
     }
 
-    if ((node is * Tree_Right(m, Tree_Get_Parent(m, node))) and
-        (Tree_Get_Parent(m, node) is *
-         Tree_Left(m, Tree_Grandparent(m, node)))) {
+    if ((node == *Tree_Right(m, Tree_Get_Parent(m, node))) and
+        (Tree_Get_Parent(m, node) ==
+         *Tree_Left(m, Tree_Grandparent(m, node)))) {
       Tree_Rotate_Left(m, Tree_Get_Parent(m, node));
       node = *Tree_Left(m, node);
     }
 
     else
 
-        if ((node is * Tree_Left(m, Tree_Get_Parent(m, node))) and
-            (Tree_Get_Parent(m, node) is *
-             Tree_Right(m, Tree_Grandparent(m, node)))) {
+        if ((node == *Tree_Left(m, Tree_Get_Parent(m, node))) and
+            (Tree_Get_Parent(m, node) ==
+             *Tree_Right(m, Tree_Grandparent(m, node)))) {
       Tree_Rotate_Right(m, Tree_Get_Parent(m, node));
       node = *Tree_Right(m, node);
     }
@@ -436,7 +436,7 @@ static void Tree_Set_Fix(struct Tree *m, var node) {
     Tree_Set_Black(m, Tree_Get_Parent(m, node));
     Tree_Set_Red(m, Tree_Grandparent(m, node));
 
-    if (node is * Tree_Left(m, Tree_Get_Parent(m, node))) {
+    if (node == *Tree_Left(m, Tree_Get_Parent(m, node))) {
       Tree_Rotate_Right(m, Tree_Grandparent(m, node));
     } else {
       Tree_Rotate_Left(m, Tree_Grandparent(m, node));
@@ -453,7 +453,7 @@ static void Tree_Set(var self, var key, var val) {
 
   var node = m->root;
 
-  if (node is NULL) {
+  if (node == NULL) {
     var node = Tree_Alloc(m);
     assign(Tree_Key(m, node), key);
     assign(Tree_Val(m, node), val);
@@ -467,7 +467,7 @@ static void Tree_Set(var self, var key, var val) {
 
     int c = cmp(Tree_Key(m, node), key);
 
-    if (c is 0) {
+    if (c == 0) {
       assign(Tree_Key(m, node), key);
       assign(Tree_Val(m, node), val);
       return;
@@ -475,7 +475,7 @@ static void Tree_Set(var self, var key, var val) {
 
     if (c < 0) {
 
-      if (*Tree_Left(m, node) is NULL) {
+      if (*Tree_Left(m, node) == NULL) {
         var newn = Tree_Alloc(m);
         assign(Tree_Key(m, newn), key);
         assign(Tree_Val(m, newn), val);
@@ -491,7 +491,7 @@ static void Tree_Set(var self, var key, var val) {
 
     if (c > 0) {
 
-      if (*Tree_Right(m, node) is NULL) {
+      if (*Tree_Right(m, node) == NULL) {
         var newn = Tree_Alloc(m);
         assign(Tree_Key(m, newn), key);
         assign(Tree_Val(m, newn), val);
@@ -511,14 +511,14 @@ static void Tree_Rem_Fix(struct Tree *m, var node) {
 
   while (true) {
 
-    if (Tree_Get_Parent(m, node) is NULL) {
+    if (Tree_Get_Parent(m, node) == NULL) {
       return;
     }
 
     if (Tree_Is_Red(m, Tree_Sibling(m, node))) {
       Tree_Set_Red(m, Tree_Get_Parent(m, node));
       Tree_Set_Black(m, Tree_Sibling(m, node));
-      if (node is * Tree_Left(m, Tree_Get_Parent(m, node))) {
+      if (node == *Tree_Left(m, Tree_Get_Parent(m, node))) {
         Tree_Rotate_Left(m, Tree_Get_Parent(m, node));
       } else {
         Tree_Rotate_Right(m, Tree_Get_Parent(m, node));
@@ -545,7 +545,7 @@ static void Tree_Rem_Fix(struct Tree *m, var node) {
 
     if (Tree_Is_Black(m, Tree_Sibling(m, node))) {
 
-      if (node is * Tree_Left(m, Tree_Get_Parent(m, node)) and
+      if (node == *Tree_Left(m, Tree_Get_Parent(m, node)) and
           Tree_Is_Red(m, *Tree_Left(m, Tree_Sibling(m, node))) and
           Tree_Is_Black(m, *Tree_Right(m, Tree_Sibling(m, node)))) {
         Tree_Set_Red(m, Tree_Sibling(m, node));
@@ -555,7 +555,7 @@ static void Tree_Rem_Fix(struct Tree *m, var node) {
 
       else
 
-          if (node is * Tree_Right(m, Tree_Get_Parent(m, node)) and
+          if (node == *Tree_Right(m, Tree_Get_Parent(m, node)) and
               Tree_Is_Red(m, *Tree_Right(m, Tree_Sibling(m, node))) and
               Tree_Is_Black(m, *Tree_Left(m, Tree_Sibling(m, node)))) {
         Tree_Set_Red(m, Tree_Sibling(m, node));
@@ -569,7 +569,7 @@ static void Tree_Rem_Fix(struct Tree *m, var node) {
 
     Tree_Set_Black(m, Tree_Get_Parent(m, node));
 
-    if (node is * Tree_Left(m, Tree_Get_Parent(m, node))) {
+    if (node == *Tree_Left(m, Tree_Get_Parent(m, node))) {
       Tree_Set_Black(m, *Tree_Right(m, Tree_Sibling(m, node)));
       Tree_Rotate_Left(m, Tree_Get_Parent(m, node));
     } else {
@@ -590,7 +590,7 @@ static void Tree_Rem(var self, var key) {
   var node = m->root;
   while (node isnt NULL) {
     int c = cmp(Tree_Key(m, node), key);
-    if (c is 0) {
+    if (c == 0) {
       found = true;
       break;
     }
@@ -615,7 +615,7 @@ static void Tree_Rem(var self, var key) {
   }
 
   var chld =
-      *Tree_Right(m, node) is NULL ? *Tree_Left(m, node) : *Tree_Right(m, node);
+      *Tree_Right(m, node) == NULL ? *Tree_Left(m, node) : *Tree_Right(m, node);
 
   if (Tree_Is_Black(m, node)) {
     Tree_Set_Color(m, node, Tree_Get_Color(m, chld));
@@ -624,7 +624,7 @@ static void Tree_Rem(var self, var key) {
 
   Tree_Replace(m, node, chld);
 
-  if ((Tree_Get_Parent(m, node) is NULL) and (chld isnt NULL)) {
+  if ((Tree_Get_Parent(m, node) == NULL) and (chld isnt NULL)) {
     Tree_Set_Black(m, chld);
   }
 
@@ -634,7 +634,7 @@ static void Tree_Rem(var self, var key) {
 
 static var Tree_Iter_Init(var self) {
   struct Tree *m = self;
-  if (m->nitems is 0) {
+  if (m->nitems == 0) {
     return Terminal;
   }
   var node = m->root;
@@ -659,13 +659,13 @@ static var Tree_Iter_Next(var self, var curr) {
   }
 
   while (true) {
-    if (prnt is NULL) {
+    if (prnt == NULL) {
       return Terminal;
     }
-    if (node is * Tree_Left(m, prnt)) {
+    if (node == *Tree_Left(m, prnt)) {
       return Tree_Key(m, prnt);
     }
-    if (node is * Tree_Right(m, prnt)) {
+    if (node == *Tree_Right(m, prnt)) {
       prnt = Tree_Get_Parent(m, prnt);
       node = Tree_Get_Parent(m, node);
     }
@@ -676,7 +676,7 @@ static var Tree_Iter_Next(var self, var curr) {
 
 static var Tree_Iter_Last(var self) {
   struct Tree *m = self;
-  if (m->nitems is 0) {
+  if (m->nitems == 0) {
     return Terminal;
   }
   var node = m->root;
@@ -701,13 +701,13 @@ static var Tree_Iter_Prev(var self, var curr) {
   }
 
   while (true) {
-    if (prnt is NULL) {
+    if (prnt == NULL) {
       return Terminal;
     }
-    if (node is * Tree_Right(m, prnt)) {
+    if (node == *Tree_Right(m, prnt)) {
       return Tree_Key(m, prnt);
     }
-    if (node is * Tree_Left(m, prnt)) {
+    if (node == *Tree_Left(m, prnt)) {
       prnt = Tree_Get_Parent(m, prnt);
       node = Tree_Get_Parent(m, node);
     }
@@ -755,7 +755,7 @@ static void Tree_Mark(var self, var gc, void (*f)(var, void *)) {
 
 static void Tree_Resize(var self, size_t n) {
 
-  if (n is 0) {
+  if (n == 0) {
     Tree_Clear(self);
   } else {
     throw(FormatError,

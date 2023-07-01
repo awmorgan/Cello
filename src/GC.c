@@ -43,7 +43,7 @@ var Mark = Cello(Mark, Instance(Doc, Mark_Name, Mark_Brief, Mark_Description,
                                 Mark_Definition, NULL, Mark_Methods));
 
 void mark(var self, var gc, void (*f)(var, void *)) {
-  if (self is NULL) {
+  if (self == NULL) {
     return;
   }
   struct Mark *m = instance(self, Mark);
@@ -150,7 +150,7 @@ static void GC_Rehash(struct GC *gc, size_t new_size) {
   gc->entries = calloc(gc->nslots, sizeof(struct GCEntry));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (gc->entries is NULL) {
+  if (gc->entries == NULL) {
     throw(OutOfMemoryError, "Cannot allocate GC Pointer Table, out of memory!");
     return;
   }
@@ -193,7 +193,7 @@ static void GC_Set_Ptr(struct GC *gc, var ptr, bool root) {
   while (true) {
 
     uint64_t h = gc->entries[i].hash;
-    if (h is 0) {
+    if (h == 0) {
       gc->entries[i] = entry;
       return;
     }
@@ -216,7 +216,7 @@ static void GC_Set_Ptr(struct GC *gc, var ptr, bool root) {
 
 static bool GC_Mem_Ptr(struct GC *gc, var ptr) {
 
-  if (gc->nslots is 0) {
+  if (gc->nslots == 0) {
     return false;
   }
 
@@ -225,7 +225,7 @@ static bool GC_Mem_Ptr(struct GC *gc, var ptr) {
 
   while (true) {
     uint64_t h = gc->entries[i].hash;
-    if (h is 0 or j > GC_Probe(gc, i, h)) {
+    if (h == 0 or j > GC_Probe(gc, i, h)) {
       return false;
     }
     if (gc->entries[i].ptr == ptr) {
@@ -238,12 +238,12 @@ static bool GC_Mem_Ptr(struct GC *gc, var ptr) {
 
 static void GC_Rem_Ptr(struct GC *gc, var ptr) {
 
-  if (gc->nslots is 0) {
+  if (gc->nslots == 0) {
     return;
   }
 
   for (size_t i = 0; i < gc->freenum; i++) {
-    if (gc->freelist[i] is ptr) {
+    if (gc->freelist[i] == ptr) {
       gc->freelist[i] = NULL;
     }
   }
@@ -254,10 +254,10 @@ static void GC_Rem_Ptr(struct GC *gc, var ptr) {
   while (true) {
 
     uint64_t h = gc->entries[i].hash;
-    if (h is 0 or j > GC_Probe(gc, i, h)) {
+    if (h == 0 or j > GC_Probe(gc, i, h)) {
       return;
     }
-    if (gc->entries[i].ptr is ptr) {
+    if (gc->entries[i].ptr == ptr) {
 
       var freeitem = gc->entries[i].ptr;
       memset(&gc->entries[i], 0, sizeof(struct GCEntry));
@@ -298,8 +298,8 @@ static void GC_Recurse(struct GC *gc, var ptr) {
 
   var type = type_of(ptr);
 
-  if (type is Int or type is Float or type is String or type is Type or
-      type is File or type is Process or type is Function) {
+  if (type == Int or type == Float or type == String or type == Type or
+      type == File or type == Process or type == Function) {
     return;
   }
 
@@ -331,11 +331,11 @@ static void GC_Mark_Item(struct GC *gc, void *ptr) {
 
     uint64_t h = gc->entries[i].hash;
 
-    if (h is 0 or j > GC_Probe(gc, i, h)) {
+    if (h == 0 or j > GC_Probe(gc, i, h)) {
       return;
     }
 
-    if (gc->entries[i].ptr is ptr and not gc->entries[i].marked) {
+    if (gc->entries[i].ptr == ptr and not gc->entries[i].marked) {
       gc->entries[i].marked = true;
       GC_Recurse(gc, gc->entries[i].ptr);
       return;
@@ -373,7 +373,7 @@ static void GC_Mark_Stack_Fake(struct GC *gc) {}
 
 void GC_Mark(struct GC *gc) {
 
-  if (gc is NULL or gc->nitems is 0) {
+  if (gc == NULL or gc->nitems == 0) {
     return;
   }
 
@@ -382,7 +382,7 @@ void GC_Mark(struct GC *gc) {
 
   /* Mark Roots */
   for (size_t i = 0; i < gc->nslots; i++) {
-    if (gc->entries[i].hash is 0) {
+    if (gc->entries[i].hash == 0) {
       continue;
     }
     if (gc->entries[i].marked) {
@@ -416,7 +416,7 @@ static int GC_Show(var self, var out, int pos) {
 
   pos = print_to(out, pos, "<'GC' At 0x%p\n", self);
   for (size_t i = 0; i < gc->nslots; i++) {
-    if (gc->entries[i].hash is 0) {
+    if (gc->entries[i].hash == 0) {
       pos = print_to(out, pos, "| %i : \n", $I(i));
       continue;
     }
@@ -437,7 +437,7 @@ void GC_Sweep(struct GC *gc) {
   size_t i = 0;
   while (i < gc->nslots) {
 
-    if (gc->entries[i].hash is 0) {
+    if (gc->entries[i].hash == 0) {
       i++;
       continue;
     }
@@ -473,7 +473,7 @@ void GC_Sweep(struct GC *gc) {
   }
 
   for (size_t i = 0; i < gc->nslots; i++) {
-    if (gc->entries[i].hash is 0) {
+    if (gc->entries[i].hash == 0) {
       continue;
     }
     if (gc->entries[i].marked) {

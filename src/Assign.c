@@ -76,7 +76,7 @@ var assign(var self, var obj) {
   }
 
   size_t s = size(type_of(self));
-  if (type_of(self) is type_of(obj) and s) {
+  if (type_of(self) == type_of(obj) and s) {
     return memcpy(self, obj, s);
   }
 
@@ -154,7 +154,7 @@ void swap(var self, var obj) {
   }
 
   size_t n = size(type_of(self));
-  if (type_of(self) is type_of(obj) and n) {
+  if (type_of(self) == type_of(obj) and n) {
     memswap(self, obj, n);
     return;
   }

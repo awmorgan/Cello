@@ -117,7 +117,7 @@ static void Array_New(var self, var args) {
   a->nitems = len(args) - 1;
   a->nslots = a->nitems;
 
-  if (a->nslots is 0) {
+  if (a->nslots == 0) {
     a->data = NULL;
     return;
   }
@@ -125,7 +125,7 @@ static void Array_New(var self, var args) {
   a->data = malloc(a->nslots * Array_Step(a));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (a->data is NULL) {
+  if (a->data == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Array, out of memory!");
   }
 #endif
@@ -177,7 +177,7 @@ static void Array_Assign(var self, var obj) {
     a->nitems = len(obj);
     a->nslots = a->nitems;
 
-    if (a->nslots is 0) {
+    if (a->nslots == 0) {
       a->data = NULL;
       return;
     }
@@ -185,7 +185,7 @@ static void Array_Assign(var self, var obj) {
     a->data = malloc(a->nslots * Array_Step(a));
 
 #if CELLO_MEMORY_CHECK == 1
-    if (a->data is NULL) {
+    if (a->data == NULL) {
       throw(OutOfMemoryError, "Cannot allocate Array, out of memory!");
     }
 #endif
@@ -209,7 +209,7 @@ static void Array_Reserve_More(struct Array *a) {
     a->nslots = a->nitems + a->nitems / 2;
     a->data = realloc(a->data, Array_Step(a) * a->nslots);
 #if CELLO_MEMORY_CHECK == 1
-    if (a->data is NULL) {
+    if (a->data == NULL) {
       throw(OutOfMemoryError, "Cannot grow Array, out of memory!");
     }
 #endif
@@ -242,13 +242,13 @@ static int Array_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 is Terminal and item1 is Terminal) {
+    if (item0 == Terminal and item1 == Terminal) {
       return 0;
     }
-    if (item0 is Terminal) {
+    if (item0 == Terminal) {
       return -1;
     }
-    if (item1 is Terminal) {
+    if (item1 == Terminal) {
       return 1;
     }
     int c = cmp(item0, item1);
@@ -370,7 +370,7 @@ static void Array_Pop(var self) {
   struct Array *a = self;
 
 #if CELLO_BOUND_CHECK == 1
-  if (a->nitems is 0) {
+  if (a->nitems == 0) {
     throw(IndexOutOfBoundsError, "Cannot pop. Array is empty!");
     return;
   }
@@ -418,7 +418,7 @@ static void Array_Set(var self, var key, var val) {
 
 static var Array_Iter_Init(var self) {
   struct Array *a = self;
-  if (a->nitems is 0) {
+  if (a->nitems == 0) {
     return Terminal;
   }
   return Array_Item(a, 0);
@@ -435,7 +435,7 @@ static var Array_Iter_Next(var self, var curr) {
 
 static var Array_Iter_Last(var self) {
   struct Array *a = self;
-  if (a->nitems is 0) {
+  if (a->nitems == 0) {
     return Terminal;
   }
   return Array_Item(a, a->nitems - 1);
@@ -502,7 +502,7 @@ static int Array_Show(var self, var output, int pos) {
 static void Array_Resize(var self, size_t n) {
   struct Array *a = self;
 
-  if (n is 0) {
+  if (n == 0) {
     Array_Clear(self);
     return;
   }
@@ -516,7 +516,7 @@ static void Array_Resize(var self, size_t n) {
   a->data = realloc(a->data, Array_Step(a) * a->nslots);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (a->data is NULL) {
+  if (a->data == NULL) {
     throw(OutOfMemoryError, "Cannot grow Array, out of memory!");
   }
 #endif

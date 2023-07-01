@@ -42,7 +42,7 @@ var C_Str =
 
 char *c_str(var self) {
 
-  if (type_of(self) is String) {
+  if (type_of(self) == String) {
     return ((struct String *)self)->val;
   }
 
@@ -107,7 +107,7 @@ static void String_New(var self, var args) {
   }
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif
@@ -117,8 +117,8 @@ static void String_Del(var self) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot destruct String, not on heap!");
   }
 #endif
@@ -131,8 +131,8 @@ static void String_Assign(var self, var obj) {
   char *val = c_str(obj);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
 #endif
@@ -140,7 +140,7 @@ static void String_Assign(var self, var obj) {
   s->val = realloc(s->val, strlen(val) + 1);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif
@@ -166,8 +166,8 @@ static void String_Clear(var self) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
 #endif
@@ -175,7 +175,7 @@ static void String_Clear(var self) {
   s->val = realloc(s->val, 1);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif
@@ -213,8 +213,8 @@ static void String_Concat(var self, var obj) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
 #endif
@@ -222,7 +222,7 @@ static void String_Concat(var self, var obj) {
   s->val = realloc(s->val, strlen(s->val) + strlen(c_str(obj)) + 1);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif
@@ -234,8 +234,8 @@ static void String_Resize(var self, size_t n) {
   struct String *s = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
 #endif
@@ -250,7 +250,7 @@ static void String_Resize(var self, size_t n) {
   }
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif
@@ -268,8 +268,8 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   va_end(va_tmp);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
 #endif
@@ -277,7 +277,7 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   s->val = realloc(s->val, pos + size + 1);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif
@@ -293,8 +293,8 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   va_end(va_tmp);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
 #endif
@@ -302,7 +302,7 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   s->val = realloc(s->val, pos + size + 1);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif
@@ -321,8 +321,8 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   va_end(va_tmp);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate String, not on heap!");
   }
 #endif
@@ -330,7 +330,7 @@ static int String_Format_To(var self, int pos, const char *fmt, va_list va) {
   s->val = realloc(s->val, pos + size + 1);
 
 #if CELLO_MEMORY_CHECK == 1
-  if (s->val is NULL) {
+  if (s->val == NULL) {
     throw(OutOfMemoryError, "Cannot allocate String, out of memory!");
   }
 #endif

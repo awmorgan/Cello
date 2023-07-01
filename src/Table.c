@@ -145,7 +145,7 @@ static void Table_New(var self, var args) {
   t->nslots = Table_Ideal_Size((nargs - 2) / 2);
   t->nitems = 0;
 
-  if (t->nslots is 0) {
+  if (t->nslots == 0) {
     t->data = NULL;
     return;
   }
@@ -155,7 +155,7 @@ static void Table_New(var self, var args) {
   t->sspace1 = calloc(1, Table_Step(t));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->data is NULL or t->sspace0 is NULL or t->sspace1 is NULL) {
+  if (t->data == NULL or t->sspace0 == NULL or t->sspace1 == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
 #endif
@@ -220,7 +220,7 @@ static void Table_Assign(var self, var obj) {
   t->nitems = 0;
   t->nslots = Table_Ideal_Size(len(obj));
 
-  if (t->nslots is 0) {
+  if (t->nslots == 0) {
     t->data = NULL;
     return;
   }
@@ -230,7 +230,7 @@ static void Table_Assign(var self, var obj) {
   t->sspace1 = realloc(t->sspace1, Table_Step(t));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->data is NULL or t->sspace0 is NULL or t->sspace1 is NULL) {
+  if (t->data == NULL or t->sspace0 == NULL or t->sspace1 == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
 #endif
@@ -256,13 +256,13 @@ static int Table_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 is Terminal and item1 is Terminal) {
+    if (item0 == Terminal and item1 == Terminal) {
       return 0;
     }
-    if (item0 is Terminal) {
+    if (item0 == Terminal) {
       return -1;
     }
-    if (item1 is Terminal) {
+    if (item1 == Terminal) {
       return 1;
     }
     c = cmp(item0, item1);
@@ -364,7 +364,7 @@ static void Table_Set_Move(var self, var key, var val, bool move) {
   while (true) {
 
     uint64_t h = Table_Key_Hash(t, i);
-    if (h is 0) {
+    if (h == 0) {
       memcpy((char *)t->data + i * Table_Step(t), t->sspace0, Table_Step(t));
       t->nitems++;
       return;
@@ -402,7 +402,7 @@ static void Table_Rehash(struct Table *t, size_t new_size) {
   t->data = calloc(t->nslots, Table_Step(t));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->data is NULL) {
+  if (t->data == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
 #endif
@@ -443,7 +443,7 @@ static bool Table_Mem(var self, var key) {
   struct Table *t = self;
   key = cast(key, t->ktype);
 
-  if (t->nslots is 0) {
+  if (t->nslots == 0) {
     return false;
   }
 
@@ -453,7 +453,7 @@ static bool Table_Mem(var self, var key) {
   while (true) {
 
     uint64_t h = Table_Key_Hash(t, i);
-    if (h is 0 or j > Table_Probe(t, i, h)) {
+    if (h == 0 or j > Table_Probe(t, i, h)) {
       return false;
     }
 
@@ -472,7 +472,7 @@ static void Table_Rem(var self, var key) {
   struct Table *t = self;
   key = cast(key, t->ktype);
 
-  if (t->nslots is 0) {
+  if (t->nslots == 0) {
     throw(KeyError, "Key %$ not in Table!", key);
   }
 
@@ -482,7 +482,7 @@ static void Table_Rem(var self, var key) {
   while (true) {
 
     uint64_t h = Table_Key_Hash(t, i);
-    if (h is 0 or j > Table_Probe(t, i, h)) {
+    if (h == 0 or j > Table_Probe(t, i, h)) {
       throw(KeyError, "Key %$ not in Table!", key);
     }
 
@@ -527,7 +527,7 @@ static var Table_Get(var self, var key) {
 
   key = cast(key, t->ktype);
 
-  if (t->nslots is 0) {
+  if (t->nslots == 0) {
     throw(KeyError, "Key %$ not in Table!", key);
   }
 
@@ -537,7 +537,7 @@ static var Table_Get(var self, var key) {
   while (true) {
 
     uint64_t h = Table_Key_Hash(t, i);
-    if (h is 0 or j > Table_Probe(t, i, h)) {
+    if (h == 0 or j > Table_Probe(t, i, h)) {
       throw(KeyError, "Key %$ not in Table!", key);
     }
 
@@ -559,7 +559,7 @@ static void Table_Set(var self, var key, var val) {
 
 static var Table_Iter_Init(var self) {
   struct Table *t = self;
-  if (t->nitems is 0) {
+  if (t->nitems == 0) {
     return Terminal;
   }
 
@@ -596,7 +596,7 @@ static var Table_Iter_Next(var self, var curr) {
 static var Table_Iter_Last(var self) {
 
   struct Table *t = self;
-  if (t->nitems is 0) {
+  if (t->nitems == 0) {
     return Terminal;
   }
 
@@ -662,7 +662,7 @@ static int Table_Show(var self, var output, int pos) {
 static void Table_Resize(var self, size_t n) {
   struct Table *t = self;
 
-  if (n is 0) {
+  if (n == 0) {
     Table_Clear(t);
     return;
   }

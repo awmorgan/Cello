@@ -106,7 +106,7 @@ int cmp(var self, var obj) {
   }
 
   size_t s = size(type_of(self));
-  if (type_of(self) is type_of(obj) and s) {
+  if (type_of(self) == type_of(obj) and s) {
     return memcmp(self, obj, s);
   }
 
@@ -116,7 +116,7 @@ int cmp(var self, var obj) {
   return 0;
 }
 
-bool eq(var self, var obj) { return cmp(self, obj) is 0; }
+bool eq(var self, var obj) { return cmp(self, obj) == 0; }
 bool neq(var self, var obj) { return not eq(self, obj); }
 bool gt(var self, var obj) { return cmp(self, obj) > 0; }
 bool lt(var self, var obj) { return cmp(self, obj) < 0; }

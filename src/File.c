@@ -160,7 +160,7 @@ static var File_Open(var self, var filename, var access) {
 
   f->file = fopen(c_str(filename), c_str(access));
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Could not open file: %s", filename);
   }
 
@@ -181,7 +181,7 @@ static void File_Close(var self) {
 static void File_Seek(var self, int64_t pos, int origin) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot seek file - no file open.");
   }
 
@@ -194,7 +194,7 @@ static void File_Seek(var self, int64_t pos, int origin) {
 static int64_t File_Tell(var self) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot tell file - no file open.");
   }
 
@@ -209,7 +209,7 @@ static int64_t File_Tell(var self) {
 static void File_Flush(var self) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot flush file - no file open.");
   }
 
@@ -222,7 +222,7 @@ static void File_Flush(var self) {
 static bool File_EOF(var self) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot eof file - no file open.");
   }
 
@@ -232,7 +232,7 @@ static bool File_EOF(var self) {
 static size_t File_Read(var self, void *output, size_t size) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot read file - no file open.");
   }
 
@@ -248,7 +248,7 @@ static size_t File_Read(var self, void *output, size_t size) {
 static size_t File_Write(var self, void *input, size_t size) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot write file - no file open.");
   }
 
@@ -263,7 +263,7 @@ static size_t File_Write(var self, void *input, size_t size) {
 static int File_Format_To(var self, int pos, const char *fmt, va_list va) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot format to file - no file open.");
   }
 
@@ -273,7 +273,7 @@ static int File_Format_To(var self, int pos, const char *fmt, va_list va) {
 static int File_Format_From(var self, int pos, const char *fmt, va_list va) {
   struct File *f = self;
 
-  if (f->file is NULL) {
+  if (f->file == NULL) {
     throw(IOError, "Cannot format from file - no file open.");
   }
 
@@ -348,7 +348,7 @@ static var Process_Open(var self, var filename, var access) {
 
   p->proc = popen(c_str(filename), c_str(access));
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Could not open process: %s", filename);
   }
 
@@ -369,7 +369,7 @@ static void Process_Close(var self) {
 static void Process_Seek(var self, int64_t pos, int origin) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot seek process - no process open.");
   }
 
@@ -382,7 +382,7 @@ static void Process_Seek(var self, int64_t pos, int origin) {
 static int64_t Process_Tell(var self) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot tell process - no process open.");
   }
 
@@ -397,7 +397,7 @@ static int64_t Process_Tell(var self) {
 static void Process_Flush(var self) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot flush process - no process open.");
   }
 
@@ -410,7 +410,7 @@ static void Process_Flush(var self) {
 static bool Process_EOF(var self) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot eof process - no process open.");
   }
 
@@ -420,7 +420,7 @@ static bool Process_EOF(var self) {
 static size_t Process_Read(var self, void *output, size_t size) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot read process - no process open.");
   }
 
@@ -436,7 +436,7 @@ static size_t Process_Read(var self, void *output, size_t size) {
 static size_t Process_Write(var self, void *input, size_t size) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot write process - no process open.");
   }
 
@@ -451,7 +451,7 @@ static size_t Process_Write(var self, void *input, size_t size) {
 static int Process_Format_To(var self, int pos, const char *fmt, va_list va) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot format to process - no process open.");
   }
 
@@ -461,7 +461,7 @@ static int Process_Format_To(var self, int pos, const char *fmt, va_list va) {
 static int Process_Format_From(var self, int pos, const char *fmt, va_list va) {
   struct Process *p = self;
 
-  if (p->proc is NULL) {
+  if (p->proc == NULL) {
     throw(IOError, "Cannot format from process - no process open.");
   }
 

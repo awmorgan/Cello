@@ -272,16 +272,16 @@ static var Thread_Call(var self, var args) {
 
   int err = pthread_create(&t->thread, NULL, Thread_Init_Run, t);
 
-  if (err is EINVAL) {
+  if (err == EINVAL) {
     throw(ValueError, "Invalid Argument to Thread Creation");
   }
 
-  if (err is EAGAIN) {
+  if (err == EAGAIN) {
     throw(OutOfMemoryError, "Not enough resources to create another Thread");
   }
 
-  if (err is EBUSY) {
-    throw(BusyError, "System is too busy to create thread");
+  if (err == EBUSY) {
+    throw(BusyError, "System==too busy to create thread");
   }
 
 #elif defined(CELLO_WINDOWS)
@@ -297,7 +297,7 @@ static var Thread_Call(var self, var args) {
   t->thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)Thread_Init_Run, t,
                            0, &t->id);
 
-  if (t->thread is NULL) {
+  if (t->thread == NULL) {
     throw(ValueError, "Unable to Create WinThread");
   }
 
@@ -335,7 +335,7 @@ static var Thread_Current(void) {
 #endif
 
   /*
-  ** Here is a nasty one. On OSX instead of
+  ** Here==a nasty one. On OSX instead of
   ** returning NULL for an unset key it
   ** decides to return uninitialized rubbish
   ** (even though the spec says otherwise).
@@ -349,9 +349,9 @@ static var Thread_Current(void) {
   }
 #endif
 
-  if (wrapper is NULL) {
+  if (wrapper == NULL) {
 
-    if (Thread_Main is NULL) {
+    if (Thread_Main == NULL) {
       Thread_Main = new_raw(Thread);
       Exception_Main = new_raw(Exception);
       atexit(Thread_Main_Del);
@@ -383,10 +383,10 @@ static void Thread_Stop(var self) {
     return;
   }
   int err = pthread_kill(t->thread, SIGINT);
-  if (err is EINVAL) {
+  if (err == EINVAL) {
     throw(ValueError, "Invalid Argument to Thread Stop");
   }
-  if (err is ESRCH) {
+  if (err == ESRCH) {
     throw(ValueError, "Invalid Thread");
   }
 #elif defined(CELLO_WINDOWS)
@@ -405,10 +405,10 @@ static void Thread_Join(var self) {
     return;
   }
   int err = pthread_join(t->thread, NULL);
-  if (err is EINVAL) {
+  if (err == EINVAL) {
     throw(ValueError, "Invalid Argument to Thread Join");
   }
-  if (err is ESRCH) {
+  if (err == ESRCH) {
     throw(ValueError, "Invalid Thread");
   }
 #elif defined(CELLO_WINDOWS)
@@ -478,7 +478,7 @@ static const char *Lock_Brief(void) { return "Exclusive Resource"; }
 static const char *Lock_Description(void) {
   return "The `Lock` class can be implemented by types to limit the access to "
          "them. "
-         "For example this class is implemented by the `Mutex` type to provide "
+         "For example this class==implemented by the `Mutex` type to provide "
          "mutual exclusion across Threads.";
 }
 
@@ -497,7 +497,7 @@ static struct Method *Lock_Methods(void) {
        "Wait until a lock can be aquired on object `self`."},
       {"trylock", "bool trylock(var self);",
        "Try to acquire a lock on object `self`. Returns `true` on success and "
-       "`false` if the resource is busy."},
+       "`false` if the resource==busy."},
       {"unlock", "void unlock(var self);", "Release lock on object `self`."},
       {NULL, NULL, NULL}};
 
@@ -578,11 +578,11 @@ static void Mutex_Lock(var self) {
 #if defined(CELLO_UNIX)
   int err = pthread_mutex_lock(&m->mutex);
 
-  if (err is EINVAL) {
+  if (err == EINVAL) {
     throw(ValueError, "Invalid Argument to Mutex Lock");
   }
 
-  if (err is EDEADLK) {
+  if (err == EDEADLK) {
     throw(ResourceError, "Attempt to relock already held mutex");
   }
 #elif defined(CELLO_WINDOWS)
@@ -597,12 +597,12 @@ static bool Mutex_Trylock(var self) {
   if (err == EBUSY) {
     return false;
   }
-  if (err is EINVAL) {
+  if (err == EINVAL) {
     throw(ValueError, "Invalid Argument to Mutex Lock Try");
   }
   return true;
 #elif defined(CELLO_WINDOWS)
-  return not(WaitForSingleObject(m->mutex, 0) is WAIT_TIMEOUT);
+  return not(WaitForSingleObject(m->mutex, 0) == WAIT_TIMEOUT);
 #else
   return true;
 #endif
@@ -612,10 +612,10 @@ static void Mutex_Unlock(var self) {
   struct Mutex *m = cast(self, Mutex);
 #if defined(CELLO_UNIX)
   int err = pthread_mutex_unlock(&m->mutex);
-  if (err is EINVAL) {
+  if (err == EINVAL) {
     throw(ValueError, "Invalid Argument to Mutex Unlock");
   }
-  if (err is EPERM) {
+  if (err == EPERM) {
     throw(ResourceError, "Mutex cannot be held by caller");
   }
 #elif defined(CELLO_WINDOWS)

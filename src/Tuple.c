@@ -7,7 +7,7 @@ static const char *Tuple_Brief(void) { return "Basic Collection"; }
 static const char *Tuple_Description(void) {
   return "The `Tuple` type provides a basic way to create a simple collection "
          "of "
-         "objects. Its main use is the fact that it can be constructed on the "
+         "objects. Its main use==the fact that it can be constructed on the "
          "stack using the `tuple` macro. This makes it suitable for a number "
          "of "
          "purposes such as use in functions that take a variable number of "
@@ -23,7 +23,7 @@ static const char *Tuple_Description(void) {
          "but "
          "many other operations slow including iteration and counting the "
          "number of "
-         "elements. Due to this it is only recommended Tuples are used for "
+         "elements. Due to this it==only recommended Tuples are used for "
          "small "
          "collections. "
          "\n\n"
@@ -74,7 +74,7 @@ static void Tuple_New(var self, var args) {
   t->items = malloc(sizeof(var) * (nargs + 1));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->items is NULL) {
+  if (t->items == NULL) {
     throw(OutOfMemoryError, "Cannot create Tuple, out of memory!");
   }
 #endif
@@ -90,8 +90,8 @@ static void Tuple_Del(var self) {
   struct Tuple *t = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot destruct Tuple, not on heap!");
   }
 #endif
@@ -109,8 +109,8 @@ static void Tuple_Assign(var self, var obj) {
     size_t nargs = len(obj);
 
 #if CELLO_ALLOC_CHECK == 1
-    if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                      AllocStatic) {
+    if (header(self)->alloc == (var)AllocStack or
+        header(self)->alloc == (var)AllocStatic) {
       throw(ValueError, "Cannot reallocate Tuple, not on heap!");
     }
 #endif
@@ -118,7 +118,7 @@ static void Tuple_Assign(var self, var obj) {
     t->items = realloc(t->items, sizeof(var) * (nargs + 1));
 
 #if CELLO_MEMORY_CHECK == 1
-    if (t->items is NULL) {
+    if (t->items == NULL) {
       throw(OutOfMemoryError, "Cannot allocate Tuple, out of memory!");
     }
 #endif
@@ -155,7 +155,7 @@ static var Tuple_Iter_Next(var self, var curr) {
   struct Tuple *t = self;
   size_t i = 0;
   while (t->items[i] isnt Terminal) {
-    if (t->items[i] is curr) {
+    if (t->items[i] == curr) {
       return t->items[i + 1];
     }
     i++;
@@ -170,12 +170,12 @@ static var Tuple_Iter_Last(var self) {
 
 static var Tuple_Iter_Prev(var self, var curr) {
   struct Tuple *t = self;
-  if (curr is t->items[0]) {
+  if (curr == t->items[0]) {
     return Terminal;
   }
   size_t i = 0;
   while (t->items[i] isnt Terminal) {
-    if (t->items[i] is curr) {
+    if (t->items[i] == curr) {
       return t->items[i - 1];
     }
     i++;
@@ -263,8 +263,8 @@ static void Tuple_Push(var self, var obj) {
   size_t nitems = Tuple_Len(t);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
 #endif
@@ -272,7 +272,7 @@ static void Tuple_Push(var self, var obj) {
   t->items = realloc(t->items, sizeof(var) * (nitems + 2));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->items is NULL) {
+  if (t->items == NULL) {
     throw(OutOfMemoryError, "Cannot grow Tuple, out of memory!");
   }
 #endif
@@ -287,15 +287,15 @@ static void Tuple_Pop(var self) {
   size_t nitems = Tuple_Len(t);
 
 #if CELLO_BOUND_CHECK == 1
-  if (nitems is 0) {
-    throw(IndexOutOfBoundsError, "Cannot pop. Tuple is empty!");
+  if (nitems == 0) {
+    throw(IndexOutOfBoundsError, "Cannot pop. Tuple==empty!");
     return;
   }
 #endif
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
 #endif
@@ -320,8 +320,8 @@ static void Tuple_Push_At(var self, var obj, var key) {
 #endif
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
 #endif
@@ -329,7 +329,7 @@ static void Tuple_Push_At(var self, var obj, var key) {
   t->items = realloc(t->items, sizeof(var) * (nitems + 2));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->items is NULL) {
+  if (t->items == NULL) {
     throw(OutOfMemoryError, "Cannot grow Tuple, out of memory!");
   }
 #endif
@@ -359,8 +359,8 @@ static void Tuple_Pop_At(var self, var key) {
           sizeof(var) * (nitems - (size_t)i));
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
 #endif
@@ -375,8 +375,8 @@ static void Tuple_Concat(var self, var obj) {
   size_t objlen = len(obj);
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
 #endif
@@ -384,7 +384,7 @@ static void Tuple_Concat(var self, var obj) {
   t->items = realloc(t->items, sizeof(var) * (nitems + 1 + objlen));
 
 #if CELLO_MEMORY_CHECK == 1
-  if (t->items is NULL) {
+  if (t->items == NULL) {
     throw(OutOfMemoryError, "Cannot grow Tuple, out of memory!");
   }
 #endif
@@ -402,8 +402,8 @@ static void Tuple_Resize(var self, size_t n) {
   struct Tuple *t = self;
 
 #if CELLO_ALLOC_CHECK == 1
-  if (header(self)->alloc is(var) AllocStack or header(self)->alloc is(var)
-                                                    AllocStatic) {
+  if (header(self)->alloc == (var)AllocStack or
+      header(self)->alloc == (var)AllocStatic) {
     throw(ValueError, "Cannot reallocate Tuple, not on heap!");
   }
 #endif
@@ -423,7 +423,7 @@ static void Tuple_Resize(var self, size_t n) {
 static void Tuple_Mark(var self, var gc, void (*f)(var, void *)) {
   struct Tuple *t = self;
   size_t i = 0;
-  if (t->items is NULL) {
+  if (t->items == NULL) {
     return;
   }
   while (t->items[i] isnt Terminal) {
@@ -477,13 +477,13 @@ static int Tuple_Cmp(var self, var obj) {
   var item1 = iter_init(obj);
 
   while (true) {
-    if (item0 is Terminal and item1 is Terminal) {
+    if (item0 == Terminal and item1 == Terminal) {
       return 0;
     }
-    if (item0 is Terminal) {
+    if (item0 == Terminal) {
       return -1;
     }
-    if (item1 is Terminal) {
+    if (item1 == Terminal) {
       return 1;
     }
     int c = cmp(item0, item1);

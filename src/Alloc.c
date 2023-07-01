@@ -127,7 +127,7 @@ static var alloc_by(var type, int method) {
     struct Header *head = calloc(1, sizeof(struct Header) + size(type));
 
 #if CELLO_MEMORY_CHECK == 1
-    if (head is NULL) {
+    if (head == NULL) {
       throw(OutOfMemoryError, "Cannot create new '%s', out of memory!", type);
     }
 #endif
@@ -166,25 +166,25 @@ void dealloc(var self) {
   }
 
 #if CELLO_ALLOC_CHECK == 1
-  if (self is NULL) {
+  if (self == NULL) {
     throw(ResourceError, "Attempt to deallocate NULL!");
   }
 
-  if (header(self)->alloc is(var) AllocStatic) {
+  if (header(self)->alloc == (var)AllocStatic) {
     throw(ResourceError,
           "Attempt to deallocate %$ "
           "which was allocated statically!",
           self);
   }
 
-  if (header(self)->alloc is(var) AllocStack) {
+  if (header(self)->alloc == (var)AllocStack) {
     throw(ResourceError,
           "Attempt to deallocate %$ "
           "which was allocated on the stack!",
           self);
   }
 
-  if (header(self)->alloc is(var) AllocData) {
+  if (header(self)->alloc == (var)AllocData) {
     throw(ResourceError,
           "Attempt to deallocate %$ "
           "which was allocated inside a data structure!",

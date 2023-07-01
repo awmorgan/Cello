@@ -82,7 +82,7 @@ var C_Float = Cello(C_Float, Instance(Doc, C_Float_Name, C_Float_Brief,
 
 int64_t c_int(var self) {
 
-  if (type_of(self) is Int) {
+  if (type_of(self) == Int) {
     return ((struct Int *)self)->val;
   }
 
@@ -91,7 +91,7 @@ int64_t c_int(var self) {
 
 double c_float(var self) {
 
-  if (type_of(self) is Float) {
+  if (type_of(self) == Float) {
     return ((struct Float *)self)->val;
   }
 
