@@ -50,3 +50,16 @@ benchmarks/Nbodies/nbodies_cpp
 benchmarks/Sudoku/sudoku_c
 benchmarks/Sudoku/sudoku_cello
 benchmarks/Sudoku/sudoku_cpp
+
+# example programs
+examples/cello_world
+examples/help
+examples/iteration
+examples/newtype
+examples/object
+examples/ranges
+examples/table
+examples/threads
+
+# mac debug symbols
+*.dSYM
