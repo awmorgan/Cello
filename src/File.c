@@ -1,30 +1,6 @@
 #include "Cello.h"
 
-static const char *Stream_Name(void) { return "Stream"; }
-
-static const char *Stream_Brief(void) { return "File-like"; }
-
-static const char *Stream_Description(void) {
-  return "The `Stream` class represents an abstract set of operations that can "
-         "be "
-         "performed on File-like objects.";
-}
-
-static const char *Stream_Definition(void) {
-  return "struct Stream {\n"
-         "  var  (*sopen)(var,var,var);\n"
-         "  void (*sclose)(var);\n"
-         "  void (*sseek)(var,int64_t,int);\n"
-         "  int64_t (*stell)(var);\n"
-         "  void (*sflush)(var);\n"
-         "  bool (*seof)(var);\n"
-         "  size_t (*sread)(var,void*,size_t);\n"
-         "  size_t (*swrite)(var,void*,size_t);\n"
-         "};\n";
-}
-
-var Stream = Cello(Stream, Instance(Doc, Stream_Name, Stream_Brief,
-                                    Stream_Description, Stream_Definition));
+var Stream = Cello(Stream);
 
 var sopen(var self, var resource, var options) {
   return method(self, Stream, sopen, resource, options);
@@ -48,22 +24,6 @@ size_t sread(var self, void *output, size_t size) {
 
 size_t swrite(var self, void *input, size_t size) {
   return method(self, Stream, swrite, input, size);
-}
-
-static const char *File_Name(void) { return "File"; }
-
-static const char *File_Brief(void) { return "Operating System File"; }
-
-static const char *File_Description(void) {
-  return "The `File` type is a wrapper of the native C `FILE` type "
-         "representing a "
-         "file in the operating system.";
-}
-
-static const char *File_Definition(void) {
-  return "struct File {\n"
-         "  FILE* file;\n"
-         "};\n";
 }
 
 static var File_Open(var self, var filename, var access);
@@ -212,32 +172,13 @@ static int File_Format_From(var self, int pos, const char *fmt, va_list va) {
   return vfscanf(f->file, fmt, va);
 }
 
-var File = Cello(
-    File,
-    Instance(Doc, File_Name, File_Brief, File_Description, File_Definition),
-    Instance(New, File_New, File_Del), Instance(Start, NULL, File_Close, NULL),
-    Instance(Stream, File_Open, File_Close, File_Seek, File_Tell, File_Flush,
-             File_EOF, File_Read, File_Write),
-    Instance(Format, File_Format_To, File_Format_From));
+var File = Cello(File,
 
-static const char *Process_Name(void) { return "Process"; }
-
-static const char *Process_Brief(void) { return "Operating System Process"; }
-
-static const char *Process_Description(void) {
-  return "The `Process` type is a wrapper for an operating system process as "
-         "constructed by the unix-like call `popen`. In this sense it is much "
-         "like "
-         "a standard file in the operating system but that instead of writing "
-         "data "
-         "to a location you are writing it as input to a process.";
-}
-
-static const char *Process_Definition(void) {
-  return "struct Process {\n"
-         "  FILE* proc;\n"
-         "};\n";
-}
+                 Instance(New, File_New, File_Del),
+                 Instance(Start, NULL, File_Close, NULL),
+                 Instance(Stream, File_Open, File_Close, File_Seek, File_Tell,
+                          File_Flush, File_EOF, File_Read, File_Write),
+                 Instance(Format, File_Format_To, File_Format_From));
 
 static var Process_Open(var self, var filename, var access);
 static void Process_Close(var self);
@@ -385,8 +326,7 @@ static int Process_Format_From(var self, int pos, const char *fmt, va_list va) {
 }
 
 var Process = Cello(Process,
-                    Instance(Doc, Process_Name, Process_Brief,
-                             Process_Description, Process_Definition),
+
                     Instance(New, Process_New, Process_Del),
                     Instance(Start, NULL, Process_Close, NULL),
                     Instance(Stream, Process_Open, Process_Close, Process_Seek,

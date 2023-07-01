@@ -1,29 +1,6 @@
 #include "Cello.h"
 
-static const char *Current_Name(void) { return "Current"; }
-
-static const char *Current_Brief(void) { return "Implicit Object"; }
-
-static const char *Current_Description(void) {
-  return "The `Current` class can be implemented by types which have implicit "
-         "instances associated with them. For example it can be used to "
-         "retrieve "
-         "the _current_ `Thread`, or it could be used to get the _current_ "
-         "Garbage "
-         "Collector."
-         "\n\n"
-         "This class may be implemented by types which express the [Singleton "
-         "Design Pattern](http://en.wikipedia.org/wiki/Singleton_pattern)";
-}
-
-static const char *Current_Definition(void) {
-  return "struct Current {\n"
-         "  var (*current)(void);\n"
-         "};\n";
-}
-
-var Current = Cello(Current, Instance(Doc, Current_Name, Current_Brief,
-                                      Current_Description, Current_Definition));
+var Current = Cello(Current);
 
 var current(var type) { return type_method(type, Current, current); }
 
@@ -43,17 +20,6 @@ struct Thread {
   HANDLE thread;
 #endif
 };
-
-static const char *Thread_Name(void) { return "Thread"; }
-
-static const char *Thread_Brief(void) { return "Concurrent Execution"; }
-
-static const char *Thread_Description(void) {
-  return "The `Thread` type provides a basic primitive for concurrent "
-         "execution. It acts as a basic wrapper around operating system "
-         "threads, "
-         "using WinThreads on Windows and pthreads otherwise.";
-}
 
 static void Thread_New(var self, var args) {
   struct Thread *t = self;
@@ -389,36 +355,15 @@ static void Thread_Mark(var self, var gc, void (*f)(var, void *)) {
 }
 
 var Thread = Cello(
-    Thread, Instance(Doc, Thread_Name, Thread_Brief, Thread_Description, NULL),
-    Instance(New, Thread_New, Thread_Del), Instance(Assign, Thread_Assign),
-    Instance(Cmp, Thread_Cmp), Instance(Hash, Thread_Hash),
-    Instance(Call, Thread_Call), Instance(Current, Thread_Current),
-    Instance(Mark, Thread_Mark),
+    Thread, Instance(New, Thread_New, Thread_Del),
+    Instance(Assign, Thread_Assign), Instance(Cmp, Thread_Cmp),
+    Instance(Hash, Thread_Hash), Instance(Call, Thread_Call),
+    Instance(Current, Thread_Current), Instance(Mark, Thread_Mark),
     Instance(Start, Thread_Start, Thread_Stop, Thread_Join, Thread_Running),
     Instance(C_Int, Thread_C_Int),
     Instance(Get, Thread_Get, Thread_Set, Thread_Mem, Thread_Rem));
 
-static const char *Lock_Name(void) { return "Lock"; }
-
-static const char *Lock_Brief(void) { return "Exclusive Resource"; }
-
-static const char *Lock_Description(void) {
-  return "The `Lock` class can be implemented by types to limit the access to "
-         "them. "
-         "For example this class==implemented by the `Mutex` type to provide "
-         "mutual exclusion across Threads.";
-}
-
-static const char *Lock_Definition(void) {
-  return "struct Lock {\n"
-         "  void (*lock)(var);\n"
-         "  void (*unlock)(var);\n"
-         "  bool (*trylock)(var);\n"
-         "};\n";
-}
-
-var Lock = Cello(Lock, Instance(Doc, Lock_Name, Lock_Brief, Lock_Description,
-                                Lock_Definition));
+var Lock = Cello(Lock);
 
 void lock(var self) { method(self, Lock, lock); }
 
@@ -433,16 +378,6 @@ struct Mutex {
   HANDLE mutex;
 #endif
 };
-
-static const char *Mutex_Name(void) { return "Mutex"; }
-
-static const char *Mutex_Brief(void) { return "Mutual Exclusion Lock"; }
-
-static const char *Mutex_Description(void) {
-  return "The `Mutex` type can be used to gain mutual exclusion across Threads "
-         "for "
-         "access to some resource.";
-}
 
 static void Mutex_New(var self, var args) {
   struct Mutex *m = self;
@@ -512,8 +447,6 @@ static void Mutex_Unlock(var self) {
 #endif
 }
 
-var Mutex = Cello(
-    Mutex, Instance(Doc, Mutex_Name, Mutex_Brief, Mutex_Description, NULL),
-    Instance(New, Mutex_New, Mutex_Del),
-    Instance(Lock, Mutex_Lock, Mutex_Unlock, Mutex_Trylock),
-    Instance(Start, Mutex_Lock, Mutex_Unlock, NULL));
+var Mutex = Cello(Mutex, Instance(New, Mutex_New, Mutex_Del),
+                  Instance(Lock, Mutex_Lock, Mutex_Unlock, Mutex_Trylock),
+                  Instance(Start, Mutex_Lock, Mutex_Unlock, NULL));

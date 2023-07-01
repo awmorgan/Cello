@@ -1,42 +1,8 @@
 #include "Cello.h"
 
-static const char *C_Int_Name(void) { return "C_Int"; }
+var C_Int = Cello(C_Int);
 
-static const char *C_Int_Brief(void) { return "Interpret as C Integer"; }
-
-static const char *C_Int_Description(void) {
-  return "The `C_Int` class should be overridden by types which are "
-         "representable "
-         "as a C style Integer of the type `int64_t`.";
-}
-
-static const char *C_Int_Definition(void) {
-  return "struct C_Int {\n"
-         "  int64_t (*c_int)(var);\n"
-         "};\n";
-}
-
-var C_Int = Cello(C_Int, Instance(Doc, C_Int_Name, C_Int_Brief,
-                                  C_Int_Description, C_Int_Definition));
-
-static const char *C_Float_Name(void) { return "C_Float"; }
-
-static const char *C_Float_Brief(void) { return "Interpret as C Float"; }
-
-static const char *C_Float_Description(void) {
-  return "The `C_Float` class should be overridden by types which are "
-         "representable "
-         "as a C style Float of the type `double`.";
-}
-
-static const char *C_Float_Definition(void) {
-  return "struct C_Float {\n"
-         "  double (*c_float)(var);\n"
-         "};\n";
-}
-
-var C_Float = Cello(C_Float, Instance(Doc, C_Float_Name, C_Float_Brief,
-                                      C_Float_Description, C_Float_Definition));
+var C_Float = Cello(C_Float);
 
 int64_t c_int(var self) {
 
@@ -54,20 +20,6 @@ double c_float(var self) {
   }
 
   return method(self, C_Float, c_float);
-}
-
-static const char *Int_Name(void) { return "Int"; }
-
-static const char *Int_Brief(void) { return "Integer Object"; }
-
-static const char *Int_Description(void) {
-  return "64-bit signed integer Object.";
-}
-
-static const char *Int_Definition(void) {
-  return "struct Int {\n"
-         "  int64_t val;\n"
-         "};\n";
 }
 
 static void Int_Assign(var self, var obj) {
@@ -94,25 +46,9 @@ static int Int_Look(var self, var input, int pos) {
   return scan_from(input, pos, "%li", self);
 }
 
-var Int = Cello(
-    Int, Instance(Doc, Int_Name, Int_Brief, Int_Description, Int_Definition),
-    Instance(Assign, Int_Assign), Instance(Cmp, Int_Cmp),
-    Instance(Hash, Int_Hash), Instance(C_Int, Int_C_Int),
-    Instance(Show, Int_Show, Int_Look));
-
-static const char *Float_Name(void) { return "Float"; }
-
-static const char *Float_Brief(void) { return "Floating Point Object"; }
-
-static const char *Float_Description(void) {
-  return "64-bit double precision float point Object.";
-}
-
-static const char *Float_Definition(void) {
-  return "struct Float {\n"
-         "  double val;\n"
-         "};\n";
-}
+var Int = Cello(Int, Instance(Assign, Int_Assign), Instance(Cmp, Int_Cmp),
+                Instance(Hash, Int_Hash), Instance(C_Int, Int_C_Int),
+                Instance(Show, Int_Show, Int_Look));
 
 static void Float_Assign(var self, var obj) {
   struct Float *f = self;
@@ -148,9 +84,7 @@ int Float_Look(var self, var input, int pos) {
   return scan_from(input, pos, "%f", self);
 }
 
-var Float = Cello(
-    Float,
-    Instance(Doc, Float_Name, Float_Brief, Float_Description, Float_Definition),
-    Instance(Assign, Float_Assign), Instance(Cmp, Float_Cmp),
-    Instance(Hash, Float_Hash), Instance(C_Float, Float_C_Float),
-    Instance(Show, Float_Show, Float_Look));
+var Float =
+    Cello(Float, Instance(Assign, Float_Assign), Instance(Cmp, Float_Cmp),
+          Instance(Hash, Float_Hash), Instance(C_Float, Float_C_Float),
+          Instance(Show, Float_Show, Float_Look));

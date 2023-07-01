@@ -1,30 +1,5 @@
 #include "Cello.h"
 
-static const char *List_Name(void) { return "List"; }
-
-static const char *List_Brief(void) { return "Linked List"; }
-
-static const char *List_Description(void) {
-  return "The `List` type is a linked list data structure. Elements can be "
-         "added "
-         "&& removed from the list && their memory is allocated && "
-         "deallocated "
-         "by the structure. Additionally destructors will be called on objects "
-         "once removed."
-         "\n\n"
-         "Elements are copied into the List using `assign` && will initially "
-         "have "
-         "zero'd memory."
-         "\n\n"
-         "Lists can provide fast insertion && removal at arbitrary locations "
-         "although most other operations will be slow due to having to "
-         "traverse "
-         "the linked list data structure."
-         "\n\n"
-         "This is largely equivalent to the C++ construct "
-         "[std::list](http://www.cplusplus.com/reference/list/list/)";
-}
-
 struct List {
   var type;
   var head;
@@ -405,10 +380,9 @@ static void List_Mark(var self, var gc, void (*f)(var, void *)) {
 }
 
 var List =
-    Cello(List, Instance(Doc, List_Name, List_Brief, List_Description, NULL),
-          Instance(New, List_New, List_Del), Instance(Assign, List_Assign),
-          Instance(Mark, List_Mark), Instance(Cmp, List_Cmp),
-          Instance(Hash, List_Hash),
+    Cello(List, Instance(New, List_New, List_Del),
+          Instance(Assign, List_Assign), Instance(Mark, List_Mark),
+          Instance(Cmp, List_Cmp), Instance(Hash, List_Hash),
           Instance(Push, List_Push, List_Pop, List_Push_At, List_Pop_At),
           Instance(Concat, List_Concat, List_Push), Instance(Len, List_Len),
           Instance(Get, List_Get, List_Set, List_Mem, List_Rem),

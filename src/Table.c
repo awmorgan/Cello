@@ -1,28 +1,5 @@
 #include "Cello.h"
 
-static const char *Table_Name(void) { return "Table"; }
-
-static const char *Table_Brief(void) { return "Hash table"; }
-
-static const char *Table_Description(void) {
-  return "The `Table` type is a hash table data structure that maps keys to "
-         "values. "
-         "It uses an open-addressing robin-hood hashing scheme which requires "
-         "`Hash` && `Cmp` to be defined on the key type. Keys && values are "
-         "copied into the collection using the `Assign` class && intially "
-         "have "
-         "zero'd memory."
-         "\n\n"
-         "Hash tables provide `O(1)` lookup, insertion && removal can but "
-         "require "
-         "long pauses when the table must be _rehashed_ && all entries "
-         "processed."
-         "\n\n"
-         "This is largely equivalent to the C++ construct "
-         "[std::unordered_map](http://www.cplusplus.com/reference/"
-         "unordered_map/unordered_map/)";
-}
-
 struct Table {
   var data;
   var ktype;
@@ -653,8 +630,7 @@ static void Table_Mark(var self, var gc, void (*f)(var, void *)) {
 }
 
 var Table = Cello(
-    Table, Instance(Doc, Table_Name, Table_Brief, Table_Description, NULL),
-    Instance(New, Table_New, Table_Del), Instance(Assign, Table_Assign),
+    Table, Instance(New, Table_New, Table_Del), Instance(Assign, Table_Assign),
     Instance(Mark, Table_Mark), Instance(Cmp, Table_Cmp),
     Instance(Hash, Table_Hash), Instance(Len, Table_Len),
     Instance(Get, Table_Get, Table_Set, Table_Mem, Table_Rem, Table_Key_Type,

@@ -1,23 +1,6 @@
 #include "Cello.h"
 
-static const char *C_Str_Name(void) { return "C_Str"; }
-
-static const char *C_Str_Brief(void) { return "Interpret as C String"; }
-
-static const char *C_Str_Description(void) {
-  return "The `C_Str` class should be overridden by types which are "
-         "representable "
-         "as a C style String.";
-}
-
-static const char *C_Str_Definition(void) {
-  return "struct C_Str {\n"
-         "  char* (*c_str)(var);\n"
-         "};\n";
-}
-
-var C_Str = Cello(C_Str, Instance(Doc, C_Str_Name, C_Str_Brief,
-                                  C_Str_Description, C_Str_Definition));
+var C_Str = Cello(C_Str);
 
 char *c_str(var self) {
 
@@ -26,24 +9,6 @@ char *c_str(var self) {
   }
 
   return method(self, C_Str, c_str);
-}
-
-static const char *String_Name(void) { return "String"; }
-
-static const char *String_Brief(void) { return "String Object"; }
-
-static const char *String_Description(void) {
-  return "The `String` type is a wrapper around the native C string type. This "
-         "includes strings that are allocated on either the Stack || the Heap."
-         "\n\n"
-         "For strings allocated on the heap a number of extra operations are "
-         "provided overs standard C strings such as concatenation.";
-}
-
-static const char *String_Definition(void) {
-  return "struct String {\n"
-         "  char* val;\n"
-         "};\n";
 }
 
 static void String_Assign(var self, var obj);
@@ -412,10 +377,7 @@ static int String_Look(var self, var input, int pos) {
   return pos;
 }
 
-var String = Cello(String,
-                   Instance(Doc, String_Name, String_Brief, String_Description,
-                            String_Definition),
-                   Instance(New, String_New, String_Del),
+var String = Cello(String, Instance(New, String_New, String_Del),
                    Instance(Assign, String_Assign), Instance(Cmp, String_Cmp),
                    Instance(Hash, String_Hash), Instance(Len, String_Len),
                    Instance(Get, NULL, NULL, String_Mem, String_Rem),

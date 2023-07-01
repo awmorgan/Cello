@@ -1,28 +1,5 @@
 #include "Cello.h"
 
-static const char *Tree_Name(void) { return "Tree"; }
-
-static const char *Tree_Brief(void) { return "Balanced Binary Tree"; }
-
-static const char *Tree_Description(void) {
-  return "The `Tree` type==a self balancing binary tree implemented as a "
-         "red-black "
-         "tree. It provides key-value access && requires the `Cmp` class to "
-         "be "
-         "defined on the key type."
-         "\n\n"
-         "Element lookup && insertion are provided as an `O(log(n))` "
-         "operation. "
-         "This means,general a `Tree`==slower than a `Table` but it has "
-         "several "
-         "other nice properties such as being able to iterate over the items "
-         "in "
-         "order &&!having large pauses for rehashing on some insertions."
-         "\n\n"
-         "This==largely equivalent to the C++ construct "
-         "[std::map](http://www.cplusplus.com/reference/map/map/)";
-}
-
 struct Tree {
   var root;
   var ktype;
@@ -730,14 +707,13 @@ static void Tree_Resize(var self, size_t n) {
   }
 }
 
-var Tree =
-    Cello(Tree, Instance(Doc, Tree_Name, Tree_Brief, Tree_Description, NULL),
-          Instance(New, Tree_New, Tree_Del), Instance(Assign, Tree_Assign),
-          Instance(Mark, Tree_Mark), Instance(Cmp, Tree_Cmp),
-          Instance(Hash, Tree_Hash), Instance(Len, Tree_Len),
-          Instance(Get, Tree_Get, Tree_Set, Tree_Mem, Tree_Rem, Tree_Key_Type,
-                   Tree_Val_Type),
-          Instance(Resize, Tree_Resize),
-          Instance(Iter, Tree_Iter_Init, Tree_Iter_Next, Tree_Iter_Last,
-                   Tree_Iter_Prev, Tree_Iter_Type),
-          Instance(Show, Tree_Show, NULL));
+var Tree = Cello(Tree, Instance(New, Tree_New, Tree_Del),
+                 Instance(Assign, Tree_Assign), Instance(Mark, Tree_Mark),
+                 Instance(Cmp, Tree_Cmp), Instance(Hash, Tree_Hash),
+                 Instance(Len, Tree_Len),
+                 Instance(Get, Tree_Get, Tree_Set, Tree_Mem, Tree_Rem,
+                          Tree_Key_Type, Tree_Val_Type),
+                 Instance(Resize, Tree_Resize),
+                 Instance(Iter, Tree_Iter_Init, Tree_Iter_Next, Tree_Iter_Last,
+                          Tree_Iter_Prev, Tree_Iter_Type),
+                 Instance(Show, Tree_Show, NULL));

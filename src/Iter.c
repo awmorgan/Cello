@@ -3,37 +3,7 @@
 var _ = CelloEmpty(_);
 var Terminal = CelloEmpty(Terminal);
 
-static const char *Iter_Name(void) { return "Iter"; }
-
-static const char *Iter_Brief(void) { return "Iterable"; }
-
-static const char *Iter_Description(void) {
-  return "The `Iter` class is implemented by types which can be looped over. "
-         "This "
-         "allows them to be used,conjunction with the `foreach` macro as "
-         "well "
-         "as various other components of Cello."
-         "\n\n"
-         "To signal that an interation has finished an iteration should return "
-         "the "
-         "Cello object `Terminal`. Due to this - the `Terminal` object cannot "
-         "be "
-         "placed inside of Tuples because it artificially shortens their "
-         "length.";
-}
-
-static const char *Iter_Definition(void) {
-  return "struct Iter {\n"
-         "  var (*iter_init)(var);\n"
-         "  var (*iter_next)(var, var);\n"
-         "  var (*iter_prev)(var, var);\n"
-         "  var (*iter_last)(var);\n"
-         "  var (*iter_type)(var);\n"
-         "};\n";
-}
-
-var Iter = Cello(Iter, Instance(Doc, Iter_Name, Iter_Brief, Iter_Description,
-                                Iter_Definition));
+var Iter = Cello(Iter);
 
 var iter_init(var self) { return method(self, Iter, iter_init); }
 
@@ -48,33 +18,6 @@ var iter_prev(var self, var curr) {
 }
 
 var iter_type(var self) { return method(self, Iter, iter_type); }
-
-static const char *Range_Name(void) { return "Range"; }
-
-static const char *Range_Brief(void) { return "Integer Sequence"; }
-
-static const char *Range_Description(void) {
-  return "The `Range` type is a basic iterable which acts as a virtual "
-         "sequence of integers, starting from some value, stopping at some "
-         "value "
-         "&& incrementing by some step."
-         "\n\n"
-         "This can be a useful replacement for the standard C `for` loop with "
-         "decent performance but returning a Cello `Int`. It is constructable "
-         "on "
-         "the stack with the `range` macro which makes it practical && easy "
-         "to "
-         "use.";
-}
-
-static const char *Range_Definition(void) {
-  return "struct Range {\n"
-         "  var value;\n"
-         "  int64_t start;\n"
-         "  int64_t stop;\n"
-         "  int64_t step;\n"
-         "};\n";
-}
 
 var range_stack(var self, var args) {
 
@@ -285,36 +228,13 @@ static int Range_Show(var self, var output, int pos) {
   return print_to(output, pos, "]>");
 }
 
-var Range = Cello(
-    Range,
-    Instance(Doc, Range_Name, Range_Brief, Range_Description, Range_Definition),
-    Instance(New, Range_New, Range_Del), Instance(Assign, Range_Assign),
-    Instance(Cmp, Range_Cmp), Instance(Len, Range_Len),
-    Instance(Get, Range_Get, NULL, Range_Mem, NULL),
-    Instance(Show, Range_Show, NULL),
-    Instance(Iter, Range_Iter_Init, Range_Iter_Next, Range_Iter_Last,
-             Range_Iter_Prev, Range_Iter_Type));
-
-static const char *Slice_Name(void) { return "Slice"; }
-
-static const char *Slice_Brief(void) { return "Partial Iterable"; }
-
-static const char *Slice_Description(void) {
-  return "The `Slice` type is an iterable that allows one to only iterate over "
-         "part of another iterable. Given some start, stop && step, only "
-         "those entries described by the `Slice` are returned,the iteration."
-         "\n\n"
-         "Under the hood the `Slice` object still iterates over the whole "
-         "iterable "
-         "but it only returns those values,the range given.";
-}
-
-static const char *Slice_Definition(void) {
-  return "struct Slice {\n"
-         "  var iter;\n"
-         "  var range;\n"
-         "};\n";
-}
+var Range = Cello(Range, Instance(New, Range_New, Range_Del),
+                  Instance(Assign, Range_Assign), Instance(Cmp, Range_Cmp),
+                  Instance(Len, Range_Len),
+                  Instance(Get, Range_Get, NULL, Range_Mem, NULL),
+                  Instance(Show, Range_Show, NULL),
+                  Instance(Iter, Range_Iter_Init, Range_Iter_Next,
+                           Range_Iter_Last, Range_Iter_Prev, Range_Iter_Type));
 
 static int64_t Slice_Arg(int part, size_t n, var arg) {
 
@@ -539,36 +459,13 @@ static int Slice_Show(var self, var output, int pos) {
   return print_to(output, pos, "]>");
 }
 
-var Slice = Cello(
-    Slice,
-    Instance(Doc, Slice_Name, Slice_Brief, Slice_Description, Slice_Definition),
-    Instance(New, Slice_New, Slice_Del), Instance(Assign, Slice_Assign),
-    Instance(Cmp, Slice_Cmp), Instance(Len, Slice_Len),
-    Instance(Get, Slice_Get, NULL, Slice_Mem, NULL),
-    Instance(Iter, Slice_Iter_Init, Slice_Iter_Next, Slice_Iter_Last,
-             Slice_Iter_Prev, Slice_Iter_Type),
-    Instance(Show, Slice_Show, NULL));
-
-static const char *Zip_Name(void) { return "Zip"; }
-
-static const char *Zip_Brief(void) { return "Multiple Iterator"; }
-
-static const char *Zip_Description(void) {
-  return "The `Zip` type can be used to combine multiple iterables into one "
-         "which "
-         "is then iterated over all at once && returned as a Tuple. The Zip "
-         "object "
-         "only iterates when all of it's sub iterators have valid items. More "
-         "specifically the Zip iteration will terminate if _any_ of the sub "
-         "iterators terminate.";
-}
-
-static const char *Zip_Definition(void) {
-  return "struct Zip {\n"
-         "  var iters;\n"
-         "  var values;\n"
-         "};\n";
-}
+var Slice = Cello(Slice, Instance(New, Slice_New, Slice_Del),
+                  Instance(Assign, Slice_Assign), Instance(Cmp, Slice_Cmp),
+                  Instance(Len, Slice_Len),
+                  Instance(Get, Slice_Get, NULL, Slice_Mem, NULL),
+                  Instance(Iter, Slice_Iter_Init, Slice_Iter_Next,
+                           Slice_Iter_Last, Slice_Iter_Prev, Slice_Iter_Type),
+                  Instance(Show, Slice_Show, NULL));
 
 var zip_stack(var self) {
   struct Zip *z = self;
@@ -716,38 +613,17 @@ static bool Zip_Mem(var self, var key) {
   return false;
 }
 
-var Zip = Cello(
-    Zip, Instance(Doc, Zip_Name, Zip_Brief, Zip_Description, Zip_Definition),
-    Instance(New, Zip_New, Zip_Del), Instance(Assign, Zip_Assign),
-    Instance(Len, Zip_Len), Instance(Get, Zip_Get, NULL, Zip_Mem, NULL),
-    Instance(Iter, Zip_Iter_Init, Zip_Iter_Next, Zip_Iter_Last, Zip_Iter_Prev,
-             Zip_Iter_Type));
+var Zip =
+    Cello(Zip, Instance(New, Zip_New, Zip_Del), Instance(Assign, Zip_Assign),
+          Instance(Len, Zip_Len), Instance(Get, Zip_Get, NULL, Zip_Mem, NULL),
+          Instance(Iter, Zip_Iter_Init, Zip_Iter_Next, Zip_Iter_Last,
+                   Zip_Iter_Prev, Zip_Iter_Type));
 
 var enumerate_stack(var self) {
   struct Zip *z = self;
   struct Range *r = get(z->iters, $I(0));
   r->stop = len(get(z->iters, $I(1)));
   return self;
-}
-
-static const char *Filter_Name(void) { return "Filter"; }
-
-static const char *Filter_Brief(void) { return "Filtered Iterable"; }
-
-static const char *Filter_Description(void) {
-  return "The `Filter` type can be used to filter the results of some "
-         "iterable. "
-         "Given a callable object `Filter` iterable returns only those items "
-         "in "
-         "the original iterable for where calling the function returns a "
-         "non-`NULL` value.";
-}
-
-static const char *Filter_Definition(void) {
-  return "struct Filter {\n"
-         "  var iter;\n"
-         "  var func;\n"
-         "};\n";
 }
 
 static void Filter_New(var self, var args) {
@@ -823,47 +699,10 @@ static bool Filter_Mem(var self, var key) {
 }
 
 var Filter =
-    Cello(Filter,
-          Instance(Doc, Filter_Name, Filter_Brief, Filter_Description,
-                   Filter_Definition),
-          Instance(New, Filter_New, NULL),
+    Cello(Filter, Instance(New, Filter_New, NULL),
           Instance(Get, NULL, NULL, Filter_Mem, NULL),
           Instance(Iter, Filter_Iter_Init, Filter_Iter_Next, Filter_Iter_Last,
                    Filter_Iter_Prev, Filter_Iter_Type));
-
-static const char *Map_Name(void) { return "Map"; }
-
-static const char *Map_Brief(void) { return "Apply Function to Iterable"; }
-
-static const char *Map_Description(void) {
-  return "The `Map` type is an iterable that applies some callable to to each "
-         "item,another iterable && returns the result. This can be useful "
-         "to "
-         "make more concise iteration when there are callback functions "
-         "available."
-         "\n\n"
-         "If the mapping callable is a purely side-effect callable it is "
-         "possible "
-         "to use the `call` function on the `Map` object directly for a quick "
-         "way "
-         "to perform the iteration."
-         "\n\n"
-         "One downside of `Map` is that the `iter_type` becomes unknown (there "
-         "is "
-         "no way to know what type the callable will return so some objects "
-         "such "
-         "as `Array`s may revert to using `Ref` as the object type when "
-         "assigned a "
-         "`Map`.";
-}
-
-static const char *Map_Definition(void) {
-  return "struct Map {\n"
-         "  var iter;\n"
-         "  var curr;\n"
-         "  var func;\n"
-         "};\n";
-}
 
 static void Map_New(var self, var args) {
   struct Map *m = self;
@@ -941,9 +780,8 @@ static var Map_Call(var self, var args) {
   return Terminal;
 }
 
-var Map = Cello(
-    Map, Instance(Doc, Map_Name, Map_Brief, Map_Description, Map_Definition),
-    Instance(New, Map_New, NULL), Instance(Len, Map_Len),
-    Instance(Get, Map_Get, NULL, Map_Mem, NULL), Instance(Call, Map_Call),
-    Instance(Iter, Map_Iter_Init, Map_Iter_Next, Map_Iter_Last, Map_Iter_Prev,
-             NULL));
+var Map =
+    Cello(Map, Instance(New, Map_New, NULL), Instance(Len, Map_Len),
+          Instance(Get, Map_Get, NULL, Map_Mem, NULL), Instance(Call, Map_Call),
+          Instance(Iter, Map_Iter_Init, Map_Iter_Next, Map_Iter_Last,
+                   Map_Iter_Prev, NULL));

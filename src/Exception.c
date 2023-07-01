@@ -30,38 +30,6 @@ struct Exception {
   jmp_buf *buffers[EXCEPTION_MAX_DEPTH];
 };
 
-static const char *Exception_Name(void) { return "Exception"; }
-
-static const char *Exception_Brief(void) { return "Exception Object"; }
-
-static const char *Exception_Description(void) {
-  return "The `Exception` type provides an interface to the Cello Exception "
-         "System. "
-         "One instance of this type is created for each `Thread` and stores "
-         "the "
-         "various bits of data required for the exception system. It can be "
-         "retrieved using the `current` function, although !much can be "
-         "done "
-         "with it."
-         "\n\n"
-         "Exceptions are available via the `try`, `catch` and `throw` macros. "
-         "It is "
-         "important that the `catch` part of the exception block is always "
-         "evaluated otherwise the internal state of the exception system can "
-         "go out "
-         "of sync. For this reason please never use `return` inside a `try` "
-         "block. "
-         "\n\n"
-         "The `exception_signals` method can be used to register some "
-         "exception to "
-         "be thrown for any of the "
-         "[standard C "
-         "signals](https://en.wikipedia.org/wiki/C_signal_handling)."
-         "\n\n"
-         "To get the current exception object or message use the "
-         "`exception_message` or `exception_object` methods.";
-}
-
 static void Exception_New(var self, var args) {
   struct Exception *e = self;
   e->active = false;
@@ -282,14 +250,14 @@ static int Exception_Show(var self, var out, int pos) {
                   e->msg);
 }
 
-var Exception = Cello(
-    Exception,
-    Instance(Doc, Exception_Name, Exception_Brief, Exception_Description, NULL),
-    Instance(New, Exception_New, Exception_Del),
-    Instance(Assign, Exception_Assign), Instance(Len, Exception_Len),
-    Instance(Current, Exception_Current),
-    Instance(Start, NULL, NULL, NULL, Exception_Running),
-    Instance(Show, Exception_Show, NULL));
+var Exception =
+    Cello(Exception,
+
+          Instance(New, Exception_New, Exception_Del),
+          Instance(Assign, Exception_Assign), Instance(Len, Exception_Len),
+          Instance(Current, Exception_Current),
+          Instance(Start, NULL, NULL, NULL, Exception_Running),
+          Instance(Show, Exception_Show, NULL));
 
 void exception_signals(void) {
   signal(SIGABRT, Exception_Signal);

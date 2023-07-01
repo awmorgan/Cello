@@ -284,8 +284,6 @@ struct Function {
 
 /* Classes */
 
-extern var Doc;
-extern var Help;
 extern var Cast;
 extern var Size;
 extern var Alloc;
@@ -316,17 +314,6 @@ extern var Lock;
 extern var Mark;
 
 /* Signatures */
-
-struct Doc {
-  const char *(*name)(void);
-  const char *(*brief)(void);
-  const char *(*description)(void);
-  const char *(*definition)(void);
-};
-
-struct Help {
-  int (*help_to)(var, var, int);
-};
 
 struct Cast {
   var (*cast)(var, var);

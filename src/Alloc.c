@@ -21,38 +21,7 @@ var header_init(var head, var type, int alloc) {
   return ((char *)self) + sizeof(struct Header);
 }
 
-static const char *Alloc_Name(void) { return "Alloc"; }
-
-static const char *Alloc_Brief(void) { return "Memory Allocation"; }
-
-static const char *Alloc_Description(void) {
-  return "The `Alloc` class can be used to override how memory is allocated "
-         "for a "
-         "given data type. By default memory is allocated using `calloc` along "
-         "with "
-         "the `Size` class to determine the amount of memory to allocate."
-         "\n\n"
-         "A custom allocator should be careful to also initialise the header "
-         "for "
-         "the allocated memory using the function `header_init`. Cello objects "
-         "without a header wont be recognised as such as so will throw errors "
-         "when "
-         "used with Cello functions."
-         "\n\n"
-         "Allocated memory is automatically registered with the garbage "
-         "collector "
-         "unless the functions `alloc_raw`&&`dealloc_raw` are used.";
-}
-
-static const char *Alloc_Definition(void) {
-  return "struct Alloc {\n"
-         "  var (*alloc)(void);\n"
-         "  void (*dealloc)(var);\n"
-         "};";
-}
-
-var Alloc = Cello(Alloc, Instance(Doc, Alloc_Name, Alloc_Brief,
-                                  Alloc_Description, Alloc_Definition));
+var Alloc = Cello(Alloc);
 
 enum { ALLOC_STANDARD, ALLOC_RAW, ALLOC_ROOT };
 
@@ -144,50 +113,7 @@ void dealloc(var self) {
 void dealloc_raw(var self) { dealloc(self); }
 void dealloc_root(var self) { dealloc(self); }
 
-static const char *New_Name(void) { return "New"; }
-
-static const char *New_Brief(void) { return "Construction&&Destruction"; }
-
-static const char *New_Description(void) {
-  return "The `New` class allows the user to define constructors&&"
-         "destructors "
-         "for a type, accessible via `new`&&`del`. Objects allocated with "
-         "`new` "
-         "are allocated on the heap&&also registered with the Garbage "
-         "Collector "
-         "this means technically it isn't required to call `del` on them as "
-         "they "
-         "will be cleaned up at a later date."
-         "\n\n"
-         "The `new_root` function can be called to register a variable with "
-         "the "
-         "Garbage Collector but to indicate that it will be manually "
-         "destructed "
-         "with `del_root` by the user. This should be used for variables that "
-         "wont "
-         "be reachable by the Garbage Collector such as those in the data "
-         "segment "
-         "or only accessible via vanilla C structures."
-         "\n\n"
-         "The `new_raw`&&`del_raw` functions can be called to construct&&"
-         "destruct objects without going via the Garbage Collector."
-         "\n\n"
-         "It is also possible to simply call the `construct`&&`destruct` "
-         "functions if you wish to construct an already allocated object."
-         "\n\n"
-         "Constructors should assume that memory is zero'd for an object but "
-         "nothing else.";
-}
-
-static const char *New_Definition(void) {
-  return "struct New {\n"
-         "  void (*construct_with)(var, var);\n"
-         "  void (*destruct)(var);\n"
-         "};\n";
-}
-
-var New = Cello(
-    New, Instance(Doc, New_Name, New_Brief, New_Description, New_Definition));
+var New = Cello(New);
 
 var construct_with(var self, var args) {
   struct New *n = instance(self, New);
@@ -238,43 +164,7 @@ void del(var self) { del_by(self, ALLOC_STANDARD); }
 void del_raw(var self) { del_by(self, ALLOC_RAW); }
 void del_root(var self) { del_by(self, ALLOC_ROOT); }
 
-static const char *Copy_Name(void) { return "Copy"; }
-
-static const char *Copy_Brief(void) { return "Copyable"; }
-
-static const char *Copy_Description(void) {
-  return "The `Copy` class can be used to override the behaviour of an object "
-         "when "
-         "a copy is made of it. By default the `Copy` class allocates a new "
-         "empty "
-         "object of the same type&&uses the `Assign` class to set the "
-         "contents. The copy is then registered with the Garbage Collector as "
-         "if it "
-         "had been constructed with `new`. This means when using manual memory "
-         "management a copy must be deleted manually."
-         "\n\n"
-         "If the `copy` class is overridden then the implementer may manually "
-         "have "
-         "to register the object with the Garbage Collector if they wish for "
-         "it to "
-         "be tracked."
-         "\n\n"
-         "By convention `copy` follows the semantics of `Assign`, which "
-         "typically "
-         "means a _deep copy_ should be made,&&that an object will create a "
-         "copy of all of the sub-objects it references or contains - although "
-         "this "
-         "could vary depending on the type's overridden behaviours.";
-}
-
-static const char *Copy_Definition(void) {
-  return "struct Copy {\n"
-         "  var (*copy)(var);\n"
-         "};\n";
-}
-
-var Copy = Cello(Copy, Instance(Doc, Copy_Name, Copy_Brief, Copy_Description,
-                                Copy_Definition));
+var Copy = Cello(Copy);
 
 var copy(var self) {
 

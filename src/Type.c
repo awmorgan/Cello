@@ -1,26 +1,6 @@
 #include "Cello.h"
 
-static const char *Cast_Name(void) { return "Cast"; }
-
-static const char *Cast_Brief(void) { return "Runtime Type Checking"; }
-
-static const char *Cast_Description(void) {
-  return "The `Cast` class provides a rudimentary run-time type checking. By "
-         "default it simply checks that the passed in object==of a given "
-         "type "
-         "but it can be overridden by types which have to do more complex "
-         "checking "
-         "to ensure the types are correct.";
-}
-
-static const char *Cast_Definition(void) {
-  return "struct Cast {\n"
-         "  var (*cast)(var, var);\n"
-         "};\n";
-}
-
-var Cast = Cello(Cast, Instance(Doc, Cast_Name, Cast_Brief, Cast_Description,
-                                Cast_Definition));
+var Cast = Cello(Cast);
 
 var cast(var self, var type) {
 
@@ -35,29 +15,6 @@ var cast(var self, var type) {
     return throw(ValueError, "cast expected type %s, got type %s",
                  type_of(self), type);
   }
-}
-
-static const char *Type_Name(void) { return "Type"; }
-
-static const char *Type_Brief(void) { return "Metadata Object"; }
-
-static const char *Type_Description(void) {
-  return "The `Type` type==one of the most important types in Cello. It=="
-         "the "
-         "object which specifies the meta-data associated with a particular "
-         "object. "
-         "Most importantly this says what classes an object implements && "
-         "what "
-         "their instances are."
-         "\n\n"
-         "One can get the type of an object using the `type_of` function."
-         "\n\n"
-         "To see if an object implements a class `implements` can be used. To "
-         "call a member of a class with an object `method` can be used."
-         "\n\n"
-         "To see if a type implements a class `type_implements` can be used. "
-         "To "
-         "call a member of a class, implemented `type_method` can be used.";
 }
 
 enum { CELLO_NBUILTINS = 2 + (CELLO_CACHE_NUM / 3), CELLO_MAX_INSTANCES = 256 };
@@ -155,41 +112,11 @@ static int print_indent(var out, int pos, const char *str) {
   return pos;
 }
 
-static int Type_Help_To(var self, var out, int pos) {
-
-  struct Doc *doc = type_instance(self, Doc);
-
-  if (doc == NULL) {
-    return print_to(out, pos, "\nNo Documentation Found for Type %s\n", self);
-  }
-
-  pos = print_to(out, pos, "\n");
-  pos = print_to(out, pos, "# %s ", self);
-
-  if (doc->brief) {
-    pos = print_to(out, pos, " - %s\n\n", $S((char *)doc->brief()));
-  }
-
-  if (doc->description) {
-    pos = print_to(out, pos, "%s\n\n", $S((char *)doc->description()));
-  }
-
-  if (doc->definition) {
-    pos = print_to(out, pos, "\n### Definition\n\n");
-    pos = print_indent(out, pos, doc->definition());
-    pos = print_to(out, pos, "\n\n");
-  }
-
-  return pos;
-}
-
-var Type = CelloEmpty(
-    Type, Instance(Doc, Type_Name, Type_Brief, Type_Description, NULL),
-    Instance(Assign, Type_Assign), Instance(Copy, Type_Copy),
-    Instance(Alloc, Type_Alloc, NULL), Instance(New, Type_New, NULL),
-    Instance(Cmp, Type_Cmp), Instance(Hash, Type_Hash),
-    Instance(Show, Type_Show, NULL), Instance(C_Str, Type_C_Str),
-    Instance(Help, Type_Help_To));
+var Type =
+    CelloEmpty(Type, Instance(Assign, Type_Assign), Instance(Copy, Type_Copy),
+               Instance(Alloc, Type_Alloc, NULL), Instance(New, Type_New, NULL),
+               Instance(Cmp, Type_Cmp), Instance(Hash, Type_Hash),
+               Instance(Show, Type_Show, NULL), Instance(C_Str, Type_C_Str));
 
 static var Type_Scan(var self, var cls) {
 
@@ -402,32 +329,13 @@ bool implements_method_at_offset(var self, var cls, size_t offset) {
   return Type_Implements_Method_At_Offset(Type_Of(self), cls, offset);
 }
 
-static const char *Size_Name(void) { return "Size"; }
-
-static const char *Size_Brief(void) { return "Type Size"; }
-
-static const char *Size_Description(void) {
-  return "The `Size` class==a very important class in Cello because it gives "
-         "the "
-         "size in bytes you can expect an object of a given type to be. This "
-         "is "
-         "used by many methods to allocate, assign, or compare various objects."
-         "\n\n"
-         "By default this size==automatically found && recorded by the "
-         "`Cello` "
-         "macro, but if the type does it's own allocation, or the size cannot "
-         "be "
-         "found naturally then it may be necessary to override this method.";
-}
-
 static const char *Size_Definition(void) {
   return "struct Size {\n"
          "  size_t (*size)(void);\n"
          "};\n";
 }
 
-var Size = Cello(Size, Instance(Doc, Size_Name, Size_Brief, Size_Description,
-                                Size_Definition));
+var Size = Cello(Size);
 
 size_t size(var type) {
 

@@ -1,36 +1,6 @@
 #include "Cello.h"
 
-static const char *Format_Name(void) { return "Format"; }
-
-static const char *Format_Brief(void) {
-  return "Read or Write with Format String";
-}
-
-static const char *Format_Description(void) {
-  return "Format abstracts the class of operations such as `scanf`, `sprintf` "
-         "&& "
-         "`fprintf` with matching semantics. It provides general `printf` && "
-         "`scanf` functionality for several different types objects in a "
-         "uniform way. This class is essentially an in-between class, used by "
-         "the "
-         "`Show` class to read && write output."
-         "\n\n"
-         "It is important to note that the semantics of these operations match "
-         "`printf` && !the newly defined `Show` class. For example it is "
-         "perfectly valid to pass a C `int` to these functions, while the "
-         "`println` "
-         "function from `Show` must be passed only `var` objects.";
-}
-
-static const char *Format_Definition(void) {
-  return "struct Format {\n"
-         "  int (*format_to)(var,int,const char*,va_list);\n"
-         "  int (*format_from)(var,int,const char*,va_list);\n"
-         "};\n";
-}
-
-var Format = Cello(Format, Instance(Doc, Format_Name, Format_Brief,
-                                    Format_Description, Format_Definition));
+var Format = Cello(Format);
 
 int format_to_va(var self, int pos, const char *fmt, va_list va) {
   return method(self, Format, format_to, pos, fmt, va);
@@ -56,51 +26,7 @@ int format_from(var self, int pos, const char *fmt, ...) {
   return ret;
 }
 
-static const char *Show_Name(void) { return "Show"; }
-
-static const char *Show_Brief(void) { return "Convert To or From String"; }
-
-static const char *Show_Description(void) {
-  return "The `Show` class is used to convert objects to, && from, a `String` "
-         "representation. Objects which implement `Show` should expect the "
-         "input/output object to be one that support the `Format` class, such "
-         "as "
-         "`File` or `String`."
-         "\n\n"
-         "The `print`, `println` && `print_to` functions provide a mechanism "
-         "for "
-         "writing formatted strings with Cello objects. To do this they "
-         "provide a "
-         "new format specifier `%$` which uses an object's `Show` "
-         "functionality to "
-         "write that part of the string. All objects which don't support "
-         "`Show` can "
-         "still be shown via a default implementation."
-         "\n\n"
-         "All the Show methods which are variable arguments only take `var` "
-         "objects "
-         "as input. To print native C types wrap them in Cello types using `$`."
-         "\n\n"
-         "Standard format specifiers such as `%f` && `%d` will call functions "
-         "such "
-         "as `c_float` && `c_int` on their passed arguments to convert "
-         "objects to "
-         "C types before performing the standard C formatting behaviour."
-         "\n\n"
-         "See [printf](http://www.cplusplus.com/reference/cstdio/printf/) for "
-         "more "
-         "information on format specifiers.";
-}
-
-static const char *Show_Definition(void) {
-  return "struct Show {\n"
-         "  int (*show)(var, var, int);\n"
-         "  int (*look)(var, var, int);\n"
-         "};\n";
-}
-
-var Show = Cello(Show, Instance(Doc, Show_Name, Show_Brief, Show_Description,
-                                Show_Definition));
+var Show = Cello(Show);
 
 int show(var self) { return show_to(self, $(File, stdout), 0); }
 

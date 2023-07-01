@@ -1,45 +1,5 @@
 #include "Cello.h"
 
-static const char *Tuple_Name(void) { return "Tuple"; }
-
-static const char *Tuple_Brief(void) { return "Basic Collection"; }
-
-static const char *Tuple_Description(void) {
-  return "The `Tuple` type provides a basic way to create a simple collection "
-         "of "
-         "objects. Its main use==the fact that it can be constructed on the "
-         "stack using the `tuple` macro. This makes it suitable for a number "
-         "of "
-         "purposes such as use,functions that take a variable number of "
-         "arguments."
-         "\n\n"
-         "Tuples can also be constructed on the heap && stored,"
-         "collections. "
-         "This makes them also useful as a simple _untyped_ list of objects."
-         "\n\n"
-         "Internally Tuples are just an array of pointers terminated with a "
-         "pointer "
-         "to the Cello `Terminal` object. This makes positional access fast, "
-         "but "
-         "many other operations slow including iteration && counting the "
-         "number of "
-         "elements. Due to this it==only recommended Tuples are used for "
-         "small "
-         "collections. "
-         "\n\n"
-         "Because Tuples are terminated with the Cello `Terminal` object this "
-         "can't "
-         "naturally be included within them. This object should therefore only "
-         "be "
-         "returned from iteration functions.";
-}
-
-static const char *Tuple_Definition(void) {
-  return "struct Tuple {\n"
-         "  var* items;\n"
-         "};\n";
-}
-
 static void Tuple_New(var self, var args) {
   struct Tuple *t = self;
   size_t nargs = len(args);
@@ -487,9 +447,7 @@ static uint64_t Tuple_Hash(var self) {
 }
 
 var Tuple = Cello(
-    Tuple,
-    Instance(Doc, Tuple_Name, Tuple_Brief, Tuple_Description, Tuple_Definition),
-    Instance(New, Tuple_New, Tuple_Del), Instance(Assign, Tuple_Assign),
+    Tuple, Instance(New, Tuple_New, Tuple_Del), Instance(Assign, Tuple_Assign),
     Instance(Cmp, Tuple_Cmp), Instance(Hash, Tuple_Hash),
     Instance(Len, Tuple_Len),
     Instance(Get, Tuple_Get, Tuple_Set, Tuple_Mem, Tuple_Rem),

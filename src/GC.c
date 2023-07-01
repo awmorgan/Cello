@@ -1,34 +1,6 @@
 #include "Cello.h"
 
-static const char *Mark_Name(void) { return "Mark"; }
-
-static const char *Mark_Brief(void) { return "Markable by GC"; }
-
-static const char *Mark_Description(void) {
-  return "The `Mark` class can be overridden to customize the behaviour of the "
-         "Cello Garbage Collector on encountering a given type. By default the "
-         "allocated memory for a structure is scanned for pointers to other "
-         "Cello "
-         "objects, but if a type does its own memory allocation it may store "
-         "pointers to Cello objects in other locations."
-         "\n\n"
-         "If this is the case the `Mark` class can be overridden&&the "
-         "callback "
-         "function `f` must be called on all pointers which might be Cello "
-         "objects "
-         "which are managed by the class. Alternately the `mark` function can "
-         "be "
-         "called on any sub object to start a chain of recursive marking.";
-}
-
-static const char *Mark_Definition(void) {
-  return "struct Mark {\n"
-         "  void (*mark)(var, var, void(*)(var,void*));\n"
-         "};\n";
-}
-
-var Mark = Cello(Mark, Instance(Doc, Mark_Name, Mark_Brief, Mark_Description,
-                                Mark_Definition));
+var Mark = Cello(Mark);
 
 void mark(var self, var gc, void (*f)(var, void *)) {
   if (self == NULL) {
@@ -50,22 +22,6 @@ static const size_t GC_Primes[GC_PRIMES_COUNT] = {
     0,     1,      5,      11,     23,      53,      101,     197,
     389,   683,    1259,   2417,   4733,    9371,    18617,   37097,
     74093, 148073, 296099, 592019, 1100009, 2200013, 4400021, 8800019};
-
-static const char *GC_Name(void) { return "GC"; }
-
-static const char *GC_Brief(void) { return "Garbage Collector"; }
-
-static const char *GC_Description(void) {
-  return "The `GC` type provides an interface to the Cello Garbage Collector. "
-         "One "
-         "instance of this type is created for each thread&&can be "
-         "retrieved "
-         "using the `current` function. The Garbage Collector can be stopped "
-         "and "
-         "started using `start`&&`stop`&&objects can be added || removed "
-         "from "
-         "the Garbage Collector using `set`&&`rem`.";
-}
 
 struct GCEntry {
   var ptr;
@@ -534,8 +490,7 @@ static bool GC_Running(var self) {
   return gc->running;
 }
 
-var GC = Cello(GC, Instance(Doc, GC_Name, GC_Brief, GC_Description, NULL),
-               Instance(New, GC_New, GC_Del),
+var GC = Cello(GC, Instance(New, GC_New, GC_Del),
                Instance(Get, NULL, GC_Set, GC_Mem, GC_Rem),
                Instance(Start, GC_Start, GC_Stop, NULL, GC_Running),
                Instance(Show, GC_Show, NULL), Instance(Current, GC_Current));
