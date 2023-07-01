@@ -459,14 +459,6 @@ struct Mark {
 
 /* Functions */
 
-const char *name(var type);
-const char *brief(var type);
-const char *description(var type);
-const char *definition(var type);
-
-void help(var self);
-int help_to(var out, int pos, var self);
-
 var type_of(var self);
 var cast(var self, var type);
 var instance(var self, var cls);

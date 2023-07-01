@@ -163,7 +163,7 @@ PT_FUNC(test_array_iter) {
 
   int counter = 0;
 
-  foreach (item in a0) {
+  foreach (item, a0) {
 
     switch (counter) {
     case 0:
@@ -184,8 +184,8 @@ PT_FUNC(test_array_iter) {
 
   counter = 0;
 
-  foreach (item0 in a0) {
-    foreach (item1 in a0) {
+  foreach (item0, a0) {
+    foreach (item1, a0) {
       counter++;
     }
   }
@@ -428,7 +428,7 @@ PT_FUNC(test_file_new) {
 PT_FUNC(test_file_start) {
 
   struct File *file = new (File, $S("./tests/test.bin"), $S("w"));
-  with(f0 in file) { PT_ASSERT(f0); };
+  with(f0, file) { PT_ASSERT(f0); };
 
   PT_ASSERT(file->file == NULL);
 
@@ -577,7 +577,7 @@ PT_FUNC(test_filter_iter) {
   var x = new (Tuple, $S("Hello World"), $S("Hello Dan"), $S("Bonjour"));
 
   var y = new (Tuple);
-  foreach (item in filter(x, $(Function, mem_hello))) {
+  foreach (item, filter(x, $(Function, mem_hello))) {
     push(y, item);
   }
 
@@ -865,7 +865,7 @@ PT_FUNC(test_list_iter) {
 
   int counter = 0;
 
-  foreach (item in l0) {
+  foreach (item, l0) {
 
     switch (counter) {
     case 0:
@@ -886,8 +886,8 @@ PT_FUNC(test_list_iter) {
 
   counter = 0;
 
-  foreach (item0 in l0) {
-    foreach (item1 in l0) {
+  foreach (item0, l0) {
+    foreach (item1, l0) {
       counter++;
     }
   }
@@ -1053,7 +1053,7 @@ PT_FUNC(test_map_get) {
 PT_FUNC(test_map_iter) {
 
   var x = tuple($I(0), $S("Hello!"), $F(2.4));
-  foreach (_ in map(x, $(Function, assert_value)))
+  foreach (_, map(x, $(Function, assert_value)))
     ;
 }
 
@@ -1109,7 +1109,7 @@ static var increment(var args) {
 static var increment2(var args) {
   var mut = get(args, $I(0));
   var tot = get(args, $I(1));
-  with(m in mut) { assign(tot, $I(c_int(tot) + 1)); }
+  with(m, mut) { assign(tot, $I(c_int(tot) + 1)); }
   return NULL;
 }
 
@@ -1126,11 +1126,11 @@ PT_FUNC(test_mutex_lock) {
 
   PT_ASSERT(eq(total, $I(0)));
 
-  foreach (t in threads) {
+  foreach (t, threads) {
     call(deref(t), mutex, total);
   }
 
-  foreach (t in threads) {
+  foreach (t, threads) {
     join(deref(t));
   }
 
@@ -1162,11 +1162,11 @@ PT_FUNC(test_mutex_start) {
 
   PT_ASSERT(eq(total, $I(0)));
 
-  foreach (t in threads) {
+  foreach (t, threads) {
     call(deref(t), mutex, total);
   }
 
-  foreach (t in threads) {
+  foreach (t, threads) {
     join(deref(t));
   }
 
@@ -1249,19 +1249,19 @@ PT_FUNC(test_range_iter) {
   var z = range($I(3), $I(21), $I(2));
 
   j = 0;
-  foreach (i in x) {
+  foreach (i, x) {
     PT_ASSERT(c_int(i) == j);
     j++;
   }
 
   j = 1;
-  foreach (i in y) {
+  foreach (i, y) {
     PT_ASSERT(c_int(i) == j);
     j++;
   }
 
   j = 3;
-  foreach (i in z) {
+  foreach (i, z) {
     PT_ASSERT(c_int(i) == j);
     j += 2;
   }
@@ -1421,13 +1421,13 @@ PT_FUNC(test_slice_iter) {
   var s3 = slice(x, _, _, $I(2));
 
   /* TODO: Improve */
-  foreach (i in s0) {
+  foreach (i, s0) {
   }
-  foreach (i in s1) {
+  foreach (i, s1) {
   }
-  foreach (i in s2) {
+  foreach (i, s2) {
   }
-  foreach (i in s3) {
+  foreach (i, s3) {
   }
 
   x = new (Array, Int);
@@ -1785,12 +1785,12 @@ PT_FUNC(test_table_iter) {
   set(t0, $S("Hello"), $I(2));
   set(t0, $S("There"), $I(5));
 
-  foreach (key in t0) {
+  foreach (key, t0) {
 
     var val = get(t0, key);
 
-    PT_ASSERT((eq(key, $S("Hello")) and eq(val, $I(2))) or
-              (eq(key, $S("There")) and eq(val, $I(5))));
+    PT_ASSERT((eq(key, $S("Hello")) && eq(val, $I(2))) ||
+              (eq(key, $S("There")) && eq(val, $I(5))));
   }
 
   del(t0);
@@ -2192,12 +2192,12 @@ PT_FUNC(test_tree_iter) {
   set(m0, $S("Hello"), $I(2));
   set(m0, $S("There"), $I(5));
 
-  foreach (key in m0) {
+  foreach (key, m0) {
 
     var val = get(m0, key);
 
-    PT_ASSERT((eq(key, $S("Hello")) and eq(val, $I(2))) or
-              (eq(key, $S("There")) and eq(val, $I(5))));
+    PT_ASSERT((eq(key, $S("Hello")) && eq(val, $I(2))) ||
+              (eq(key, $S("There")) && eq(val, $I(5))));
   }
 
   del(m0);
@@ -2381,7 +2381,7 @@ PT_FUNC(test_tuple_hash) {
 PT_FUNC(test_tuple_iter) {
 
   size_t i = 0;
-  foreach (x in tuple($I(10), $I(20), $I(30))) {
+  foreach (x, tuple($I(10), $I(20), $I(30))) {
     if (i == 0) {
       PT_ASSERT(eq(x, $I(10)));
     }
@@ -2585,13 +2585,13 @@ PT_FUNC(test_zip_iter) {
   var z = tuple($I(10), $I(213));
 
   /* TODO: Improve */
-  foreach (i in zip(x)) {
+  foreach (i, zip(x)) {
   }
-  foreach (i in zip(x, y)) {
+  foreach (i, zip(x, y)) {
   }
-  foreach (i in zip(x, y, z)) {
+  foreach (i, zip(x, y, z)) {
   }
-  foreach (i in zip(y, z)) {
+  foreach (i, zip(y, z)) {
   }
 
   PT_ASSERT(iter_type(zip(x, y, z)) == Tuple);
@@ -2599,9 +2599,9 @@ PT_FUNC(test_zip_iter) {
   x = new (Array, Int, $I(100), $I(200), $I(130));
   y = new (Array, Float, $F(0.1), $F(0.2), $F(1.3));
 
-  foreach (pair in zip(x, y)) {
+  foreach (pair, zip(x, y)) {
   }
-  foreach (pair in enumerate(x)) {
+  foreach (pair, enumerate(x)) {
   }
 
   del(x);
@@ -2676,13 +2676,13 @@ PT_FUNC(test_exception_catch) {
 
   try {
     int r3 = exception_divide(2, 0);
-  } catch (e in DivideByZeroError) {
+  } catch (e, DivideByZeroError) {
     reached0 = true;
   }
 
   try {
     int r3 = exception_divide(2, 1);
-  } catch (e in DivideByZeroError) {
+  } catch (e, DivideByZeroError) {
     reached1 = true;
   }
 
@@ -2733,7 +2733,7 @@ PT_FUNC(test_exception_catch_outer) {
     try {
       PT_ASSERT(len(current(Exception)) == 2);
       exception_divide(2, 0);
-    } catch (e in TypeError) {
+    } catch (e, TypeError) {
       reached0 = true;
     }
 
