@@ -32,28 +32,6 @@ static const char *Iter_Definition(void) {
          "};\n";
 }
 
-static struct Example *Iter_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = new(Array, Int, $I(1), $I(2), $I(5));\n"
-                "\n"
-                "foreach(o,x) {\n"
-                "  show(o); /* 1, 2, 5 */\n"
-                "}\n"},
-      {"Table", "var prices = new(Table, String, Int);\n"
-                "set(prices, $S(\"Apple\"),  $I(12));\n"
-                "set(prices, $S(\"Banana\"), $I( 6));\n"
-                "set(prices, $S(\"Pear\"),   $I(55));\n"
-                "\n"
-                "foreach(key,prices) {\n"
-                "  var price = get(prices, key);\n"
-                "  print(\"Price of %$ is %$\\n\", key, price);\n"
-                "}\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Iter_Methods(void) {
 
   static struct Method methods[] = {
@@ -76,7 +54,7 @@ static struct Method *Iter_Methods(void) {
 }
 
 var Iter = Cello(Iter, Instance(Doc, Iter_Name, Iter_Brief, Iter_Description,
-                                Iter_Definition, Iter_Examples, Iter_Methods));
+                                Iter_Definition, Iter_Methods));
 
 var iter_init(var self) { return method(self, Iter, iter_init); }
 
@@ -117,33 +95,6 @@ static const char *Range_Definition(void) {
          "  int64_t stop;\n"
          "  int64_t step;\n"
          "};\n";
-}
-
-static struct Example *Range_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "/* Iterate 0 to 10 */\n"
-                "foreach (i,range($I(10))) {\n"
-                "  print(\"%i\\n\", i);\n"
-                "}\n"
-                "\n"
-                "/* Iterate 10 to 20 */\n"
-                "foreach (i,range($I(10), $I(20))) {\n"
-                "  print(\"%i\\n\", i);\n"
-                "}\n"
-                "\n"
-                "/* Iterate 10 to 20 with a step of 5 */\n"
-                "foreach (i,range($I(10), $I(20), $I(5))) {\n"
-                "  print(\"%i\\n\", i);\n"
-                "}\n"
-                "\n"
-                "/* Iterate 20 to 10 */\n"
-                "foreach (i,range($I(10), $I(20), $I(-1))) {\n"
-                "  print(\"%i\\n\", i);\n"
-                "}\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static struct Method *Range_Methods(void) {
@@ -368,7 +319,7 @@ static int Range_Show(var self, var output, int pos) {
 var Range =
     Cello(Range,
           Instance(Doc, Range_Name, Range_Brief, Range_Description,
-                   Range_Definition, Range_Examples, Range_Methods),
+                   Range_Definition, Range_Methods),
           Instance(New, Range_New, Range_Del), Instance(Assign, Range_Assign),
           Instance(Cmp, Range_Cmp), Instance(Len, Range_Len),
           Instance(Get, Range_Get, NULL, Range_Mem, NULL),
@@ -395,36 +346,6 @@ static const char *Slice_Definition(void) {
          "  var iter;\n"
          "  var range;\n"
          "};\n";
-}
-
-static struct Example *Slice_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = tuple(\n"
-                "  $S(\"Hello\"), $S(\"There\"), $S(\"World\"), $S(\"!\"));\n"
-                "\n"
-                "/* Iterate over elements 0 to 2 */\n"
-                "foreach (s,slice(x, $I(2))) {\n"
-                "  print(\"%s\\n\", s);\n"
-                "}\n"
-                "\n"
-                "/* Iterate over elements 1 to 2 */\n"
-                "foreach (s,slice(x, $I(1), $I(2))) {\n"
-                "  print(\"%s\\n\", s);\n"
-                "}\n"
-                "\n"
-                "/* Iterate over every other element */\n"
-                "foreach (s,slice(x, _, _, $I(2))) {\n"
-                "  print(\"%s\\n\", s);\n"
-                "}\n"
-                "\n"
-                "/* Iterate backwards, starting from element 3 */\n"
-                "foreach (s,slice(x, _, $I(2), $I(-1))) {\n"
-                "  print(\"%s\\n\", s);\n"
-                "}\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static struct Method *Slice_Methods(void) {
@@ -666,7 +587,7 @@ static int Slice_Show(var self, var output, int pos) {
 var Slice =
     Cello(Slice,
           Instance(Doc, Slice_Name, Slice_Brief, Slice_Description,
-                   Slice_Definition, Slice_Examples, Slice_Methods),
+                   Slice_Definition, Slice_Methods),
           Instance(New, Slice_New, Slice_Del), Instance(Assign, Slice_Assign),
           Instance(Cmp, Slice_Cmp), Instance(Len, Slice_Len),
           Instance(Get, Slice_Get, NULL, Slice_Mem, NULL),
@@ -693,26 +614,6 @@ static const char *Zip_Definition(void) {
          "  var iters;\n"
          "  var values;\n"
          "};\n";
-}
-
-static struct Example *Zip_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "/* Iterate over two iterables at once */\n"
-                "var x = new(Array, Int, $I(100), $I(200), $I(130));\n"
-                "var y = new(Array, Float, $F(0.1), $F(0.2), $F(1.3));\n"
-                "foreach (pair,zip(x, y)) {\n"
-                "  print(\"x: %$\\n\", get(pair, $I(0)));\n"
-                "  print(\"y: %$\\n\", get(pair, $I(1)));\n"
-                "}\n"
-                "\n"
-                "/* Iterate over iterable with count */\n"
-                "foreach (pair,enumerate(x)) {\n"
-                "  print(\"%i: %$\\n\", get(pair, $I(0)), get(pair, $I(1)));\n"
-                "}\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static struct Method *Zip_Methods(void) {
@@ -875,7 +776,7 @@ static bool Zip_Mem(var self, var key) {
 var Zip =
     Cello(Zip,
           Instance(Doc, Zip_Name, Zip_Brief, Zip_Description, Zip_Definition,
-                   Zip_Examples, Zip_Methods),
+                   Zip_Methods),
           Instance(New, Zip_New, Zip_Del), Instance(Assign, Zip_Assign),
           Instance(Len, Zip_Len), Instance(Get, Zip_Get, NULL, Zip_Mem, NULL),
           Instance(Iter, Zip_Iter_Init, Zip_Iter_Next, Zip_Iter_Last,
@@ -906,34 +807,6 @@ static const char *Filter_Definition(void) {
          "  var iter;\n"
          "  var func;\n"
          "};\n";
-}
-
-static struct Example *Filter_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var greater_than_two(var x) {\n"
-                "  return c_int(x) > 2 ? x : NULL;\n"
-                "}\n"
-                "\n"
-                "var x = new(Array, Int, $I(0), $I(5), $I(2), $I(9));\n"
-                "\n"
-                "foreach (n,filter(x, $(Function, greater_than_two))) {\n"
-                "  show(n); /* 5, 9 */\n"
-                "}\n"},
-      {"Usage 2", "var mem_hello(var x) {\n"
-                  "  return mem(x, $S(\"Hello\")) ? x : NULL;\n"
-                  "}\n"
-                  "\n"
-                  "var x = new(Tuple, \n"
-                  "  $S(\"Hello World\"), $S(\"Hello Dan\"), \n"
-                  "  $S(\"Bonjour\"));\n"
-                  "\n"
-                  "var y = new(Tuple);\n"
-                  "assign(y, filter(x, $(Function, mem_hello)));\n"
-                  "show(y); /* tuple(\"Hello World\", \"Hello Dan\") */\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static struct Method *Filter_Methods(void) {
@@ -1022,7 +895,7 @@ static bool Filter_Mem(var self, var key) {
 var Filter =
     Cello(Filter,
           Instance(Doc, Filter_Name, Filter_Brief, Filter_Description,
-                   Filter_Definition, Filter_Examples, Filter_Methods),
+                   Filter_Definition, Filter_Methods),
           Instance(New, Filter_New, NULL),
           Instance(Get, NULL, NULL, Filter_Mem, NULL),
           Instance(Iter, Filter_Iter_Init, Filter_Iter_Next, Filter_Iter_Last,
@@ -1071,33 +944,6 @@ static struct Method *Map_Methods(void) {
       {NULL, NULL, NULL}};
 
   return methods;
-}
-
-static struct Example *Map_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var convert_to_int(var x) {\n"
-                "  var y = new(Int);\n"
-                "  look_from(y, x, 0);\n"
-                "  return y;\n"
-                "}\n"
-                "\n"
-                "var x = tuple($S(\"1\"), $S(\"2\"), $S(\"3\"));\n"
-                "\n"
-                "foreach (y,map(x, $(Function, convert_to_int))) {\n"
-                "  show(y); /* 1, 2, 3 */\n"
-                "};\n"},
-      {"Usage 2", "var print_object(var x) {\n"
-                  "  println(\"Object %$ is of type %$\", x, type_of(x));\n"
-                  "  return NULL;\n"
-                  "}\n"
-                  "\n"
-                  "var x = tuple($I(0), $S(\"Hello!\"), $F(2.4));\n"
-                  "\n"
-                  "call(map(x, $(Function, print_object)));\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static void Map_New(var self, var args) {
@@ -1179,7 +1025,7 @@ static var Map_Call(var self, var args) {
 var Map =
     Cello(Map,
           Instance(Doc, Map_Name, Map_Brief, Map_Description, Map_Definition,
-                   Map_Examples, Map_Methods),
+                   Map_Methods),
           Instance(New, Map_New, NULL), Instance(Len, Map_Len),
           Instance(Get, Map_Get, NULL, Map_Mem, NULL), Instance(Call, Map_Call),
           Instance(Iter, Map_Iter_Init, Map_Iter_Next, Map_Iter_Last,

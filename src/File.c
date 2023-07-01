@@ -23,23 +23,6 @@ static const char *Stream_Definition(void) {
          "};\n";
 }
 
-static struct Example *Stream_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var f = sopen($(File, NULL), $S(\"test.bin\"), $S(\"r\"));\n"
-                "\n"
-                "char c;\n"
-                "while (!seof(f)) {\n"
-                "  sread(f, &c, 1);\n"
-                "  putc(c, stdout);\n"
-                "}\n"
-                "\n"
-                "sclose(f);\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Stream_Methods(void) {
 
   static struct Method methods[] = {
@@ -65,7 +48,7 @@ static struct Method *Stream_Methods(void) {
 
 var Stream =
     Cello(Stream, Instance(Doc, Stream_Name, Stream_Brief, Stream_Description,
-                           Stream_Definition, Stream_Examples, Stream_Methods));
+                           Stream_Definition, Stream_Methods));
 
 var sopen(var self, var resource, var options) {
   return method(self, Stream, sopen, resource, options);
@@ -105,33 +88,6 @@ static const char *File_Definition(void) {
   return "struct File {\n"
          "  FILE* file;\n"
          "};\n";
-}
-
-static struct Example *File_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = new(File, $S(\"test.bin\"), $S(\"wb\"));\n"
-                "char* data = \"hello\";\n"
-                "swrite(x, data, strlen(data));\n"
-                "sclose(x);\n"},
-      {"Formatted Printing",
-       "var x = $(File, NULL);\n"
-       "sopen(x, $S(\"test.txt\"), $S(\"w\"));\n"
-       "print_to(x, 0, \"%$ is %$ \", $S(\"Dan\"), $I(23));\n"
-       "print_to(x, 0, \"%$ is %$ \", $S(\"Chess\"), $I(24));\n"
-       "sclose(x);\n"},
-      {"Automatic Closing",
-       "with(f in new(File, $S(\"test.txt\"), $S(\"r\"))) {\n"
-       "  var k = new(String); resize(k, 100);\n"
-       "  var v = new(Int, $I(0));\n"
-       "  foreach (i in range($I(2))) {\n"
-       "    scan_from(f, 0, \"%$ is %$ \", k, v);\n"
-       "    show(k); show(v);\n"
-       "  }\n"
-       "}\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static var File_Open(var self, var filename, var access);
@@ -282,7 +238,7 @@ static int File_Format_From(var self, int pos, const char *fmt, va_list va) {
 
 var File = Cello(File,
                  Instance(Doc, File_Name, File_Brief, File_Description,
-                          File_Definition, File_Examples, NULL),
+                          File_Definition, NULL),
                  Instance(New, File_New, File_Del),
                  Instance(Start, NULL, File_Close, NULL),
                  Instance(Stream, File_Open, File_Close, File_Seek, File_Tell,
@@ -306,21 +262,6 @@ static const char *Process_Definition(void) {
   return "struct Process {\n"
          "  FILE* proc;\n"
          "};\n";
-}
-
-static struct Example *Process_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = new(Process, $S(\"ls\"), $S(\"r\"));\n"
-                "char c;\n"
-                "while (!seof(x)) {\n"
-                "  sread(x, &c, 1);\n"
-                "  print(\"%c\", $I(c));\n"
-                "}\n"
-                "sclose(x);\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static var Process_Open(var self, var filename, var access);
@@ -468,12 +409,12 @@ static int Process_Format_From(var self, int pos, const char *fmt, va_list va) {
   return vfscanf(p->proc, fmt, va);
 }
 
-var Process = Cello(
-    Process,
-    Instance(Doc, Process_Name, Process_Brief, Process_Description,
-             Process_Definition, Process_Examples, NULL),
-    Instance(New, Process_New, Process_Del),
-    Instance(Start, NULL, Process_Close, NULL),
-    Instance(Stream, Process_Open, Process_Close, Process_Seek, Process_Tell,
-             Process_Flush, Process_EOF, Process_Read, Process_Write),
-    Instance(Format, Process_Format_To, Process_Format_From));
+var Process = Cello(Process,
+                    Instance(Doc, Process_Name, Process_Brief,
+                             Process_Description, Process_Definition, NULL),
+                    Instance(New, Process_New, Process_Del),
+                    Instance(Start, NULL, Process_Close, NULL),
+                    Instance(Stream, Process_Open, Process_Close, Process_Seek,
+                             Process_Tell, Process_Flush, Process_EOF,
+                             Process_Read, Process_Write),
+                    Instance(Format, Process_Format_To, Process_Format_From));

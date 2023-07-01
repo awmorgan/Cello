@@ -28,22 +28,6 @@ static const char *Start_Definition(void) {
          "};\n";
 }
 
-static struct Example *Start_Examples(void) {
-
-  static struct Example examples[] = {{"Usage", "var x = new(Mutex);\n"
-                                                "start(x); /* Lock Mutex */ \n"
-                                                "print(\"Inside Mutex!\\n\");\n"
-                                                "stop(x); /* unlock Mutex */"},
-                                      {"Scoped",
-                                       "var x = new(Mutex);\n"
-                                       "with (mut in x) { /* Lock Mutex */ \n"
-                                       "  print(\"Inside Mutex!\\n\");\n"
-                                       "} /* unlock Mutex */"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Start_Methods(void) {
 
   static struct Method methods[] = {
@@ -62,7 +46,7 @@ static struct Method *Start_Methods(void) {
 
 var Start =
     Cello(Start, Instance(Doc, Start_Name, Start_Brief, Start_Description,
-                          Start_Definition, Start_Examples, Start_Methods));
+                          Start_Definition, Start_Methods));
 
 void start(var self) { method(self, Start, start); }
 

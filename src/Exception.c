@@ -84,23 +84,6 @@ static struct Method *Exception_Methods(void) {
   return methods;
 }
 
-static struct Example *Exception_Examples(void) {
-
-  static struct Example examples[] = {{"Usage",
-                                       "var x = new(Table, String, Int);\n"
-                                       "set(x, $S(\"Hello\"), $I(1));\n"
-                                       "set(x, $S(\"World\"), $I(2));\n"
-                                       "\n"
-                                       "try {\n"
-                                       "  get(x, $S(\"Missing\"));\n"
-                                       "} catch (e,KeyError) {\n"
-                                       "  println(\"Got Exception: %$\", e);\n"
-                                       "}\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static void Exception_New(var self, var args) {
   struct Exception *e = self;
   e->active = false;
@@ -324,7 +307,7 @@ static int Exception_Show(var self, var out, int pos) {
 var Exception =
     Cello(Exception,
           Instance(Doc, Exception_Name, Exception_Brief, Exception_Description,
-                   NULL, Exception_Examples, Exception_Methods),
+                   NULL, Exception_Methods),
           Instance(New, Exception_New, Exception_Del),
           Instance(Assign, Exception_Assign), Instance(Len, Exception_Len),
           Instance(Current, Exception_Current),

@@ -24,33 +24,6 @@ static const char *Get_Definition(void) {
          "};\n";
 }
 
-static struct Example *Get_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage 1", "var x = new(Array, String, \n"
-                  "  $S(\"Hello\"), $S(\"There\"));\n"
-                  "\n"
-                  "show(get(x, $I(0))); /* Hello */\n"
-                  "show(get(x, $I(1))); /* There */\n"
-                  "set(x, $I(1), $S(\"Blah\"));\n"
-                  "show(get(x, $I(1))); /* Blah */\n"},
-      {"Usage 2", "var prices = new(Table, String, Int, \n"
-                  "  $S(\"Apple\"),  $I(12),\n"
-                  "  $S(\"Banana\"), $I( 6),\n"
-                  "  $S(\"Pear\"),   $I(55));\n"
-                  "\n"
-                  "var pear_price   = get(prices, $S(\"Pear\"));\n"
-                  "var banana_price = get(prices, $S(\"Banana\"));\n"
-                  "var apple_price  = get(prices, $S(\"Apple\"));\n"
-                  "\n"
-                  "show(pear_price);   /* 55 */\n"
-                  "show(banana_price); /*  6 */\n"
-                  "show(apple_price);  /* 12 */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Get_Methods(void) {
 
   static struct Method methods[] = {
@@ -72,7 +45,7 @@ static struct Method *Get_Methods(void) {
 }
 
 var Get = Cello(Get, Instance(Doc, Get_Name, Get_Brief, Get_Description,
-                              Get_Definition, Get_Examples, Get_Methods));
+                              Get_Definition, Get_Methods));
 
 var get(var self, var key) { return method(self, Get, get, key); }
 

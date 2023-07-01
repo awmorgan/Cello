@@ -16,18 +16,6 @@ static const char *Len_Definition(void) {
          "};\n";
 }
 
-static struct Example *Len_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = new(Array, Int, $I(1), $I(2), $I(5));\n"
-                "show($I(len(x))); /* 3 */\n"
-                "var y = $S(\"Test\");\n"
-                "show($I(len(y))); /* 4 */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Len_Methods(void) {
 
   static struct Method methods[] = {
@@ -38,7 +26,7 @@ static struct Method *Len_Methods(void) {
 }
 
 var Len = Cello(Len, Instance(Doc, Len_Name, Len_Brief, Len_Description,
-                              Len_Definition, Len_Examples, Len_Methods));
+                              Len_Definition, Len_Methods));
 
 size_t len(var self) { return method(self, Len, len); }
 

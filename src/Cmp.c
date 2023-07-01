@@ -42,34 +42,6 @@ static const char *Cmp_Definition(void) {
          "};\n";
 }
 
-static struct Example *Cmp_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage 1", "show($I( eq($I(1), $I( 1)))); /* 1 */\n"
-                  "show($I(neq($I(2), $I(20)))); /* 1 */\n"
-                  "show($I(neq($S(\"Hello\"), $S(\"Hello\")))); /* 0 */\n"
-                  "show($I( eq($S(\"Hello\"), $S(\"There\")))); /* 0 */\n"
-                  "\n"
-                  "var a = $I(1); var b = $I(1);\n"
-                  "\n"
-                  "show($I(eq(a, b))); /* 1 */\n"
-                  "show($I(a is b));   /* 0 */\n"
-                  "show($I(a isnt b)); /* 1 */\n"},
-      {"Usage 2", "show($I(gt($I(15), $I(3 )))); /* 1 */\n"
-                  "show($I(lt($I(70), $I(81)))); /* 1 */\n"
-                  "show($I(lt($I(71), $I(71)))); /* 0 */\n"
-                  "show($I(ge($I(78), $I(71)))); /* 1 */\n"
-                  "show($I(gt($I(32), $I(32)))); /* 0 */\n"
-                  "show($I(le($I(21), $I(32)))); /* 1 */\n"
-                  "\n"
-                  "show($I(cmp($I(20), $I(20)))); /*  0 */\n"
-                  "show($I(cmp($I(21), $I(20)))); /*  1 */\n"
-                  "show($I(cmp($I(20), $I(21)))); /* -1 */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Cmp_Methods(void) {
 
   static struct Method methods[] = {
@@ -96,7 +68,7 @@ static struct Method *Cmp_Methods(void) {
 }
 
 var Cmp = Cello(Cmp, Instance(Doc, Cmp_Name, Cmp_Brief, Cmp_Description,
-                              Cmp_Definition, Cmp_Examples, Cmp_Methods));
+                              Cmp_Definition, Cmp_Methods));
 
 int cmp(var self, var obj) {
 
@@ -141,20 +113,6 @@ static const char *Sort_Definition(void) {
          "};";
 }
 
-static struct Example *Sort_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = new(Array, Float, \n"
-                "  $F(5.2), $F(7.1), $F(2.2));\n"
-                "\n"
-                "show(x); /* <'Array' At 0x00414603 [5.2, 7.1, 2.2]> */\n"
-                "sort(x);\n"
-                "show(x); /* <'Array' At 0x00414603 [2.2, 5.2, 7.1]> */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Sort_Methods(void) {
 
   static struct Method methods[] = {
@@ -167,7 +125,7 @@ static struct Method *Sort_Methods(void) {
 }
 
 var Sort = Cello(Sort, Instance(Doc, Sort_Name, Sort_Brief, Sort_Description,
-                                Sort_Definition, Sort_Examples, Sort_Methods));
+                                Sort_Definition, Sort_Methods));
 
 void sort(var self) { method(self, Sort, sort_by, lt); }
 

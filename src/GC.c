@@ -40,7 +40,7 @@ static struct Method *Mark_Methods(void) {
 }
 
 var Mark = Cello(Mark, Instance(Doc, Mark_Name, Mark_Brief, Mark_Description,
-                                Mark_Definition, NULL, Mark_Methods));
+                                Mark_Definition, Mark_Methods));
 
 void mark(var self, var gc, void (*f)(var, void *)) {
   if (self == NULL) {
@@ -77,20 +77,6 @@ static const char *GC_Description(void) {
          "started using `start`&&`stop`&&objects can be added || removed "
          "from "
          "the Garbage Collector using `set`&&`rem`.";
-}
-
-static struct Example *GC_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Starting & Stopping", "var gc = current(GC);\n"
-                              "stop(gc);\n"
-                              "var x = new(Int, $I(10)); /* !added to GC */\n"
-                              "show($I(running(gc))); /* 0 */\n"
-                              "del(x); /* Must be deleted when done */\n"
-                              "start(gc);\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 struct GCEntry {
@@ -560,12 +546,11 @@ static bool GC_Running(var self) {
   return gc->running;
 }
 
-var GC = Cello(
-    GC,
-    Instance(Doc, GC_Name, GC_Brief, GC_Description, NULL, GC_Examples, NULL),
-    Instance(New, GC_New, GC_Del), Instance(Get, NULL, GC_Set, GC_Mem, GC_Rem),
-    Instance(Start, GC_Start, GC_Stop, NULL, GC_Running),
-    Instance(Show, GC_Show, NULL), Instance(Current, GC_Current));
+var GC = Cello(GC, Instance(Doc, GC_Name, GC_Brief, GC_Description, NULL, NULL),
+               Instance(New, GC_New, GC_Del),
+               Instance(Get, NULL, GC_Set, GC_Mem, GC_Rem),
+               Instance(Start, GC_Start, GC_Stop, NULL, GC_Running),
+               Instance(Show, GC_Show, NULL), Instance(Current, GC_Current));
 
 void Cello_Exit(void) { del_raw(current(GC)); }
 

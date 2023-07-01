@@ -51,28 +51,6 @@ static const char *Alloc_Definition(void) {
          "};";
 }
 
-static struct Example *Alloc_Examples(void) {
-
-  static struct Example examples[] = {
-      {
-          "Usage",
-          "/* Allocation deallocated by Garbage Collector */\n"
-          "var x = alloc(Int);\n"
-          "construct(x, $I(10));\n",
-      },
-      {
-          "Avoid Garbage Collection",
-          "/* Allocation must be manually deallocated */\n"
-          "var x = alloc_raw(Int);\n"
-          "construct(x, $I(10));\n"
-          "destruct(x);\n"
-          "dealloc_raw(x);\n",
-      },
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Alloc_Methods(void) {
 
   static struct Method methods[] = {
@@ -113,7 +91,7 @@ static struct Method *Alloc_Methods(void) {
 
 var Alloc =
     Cello(Alloc, Instance(Doc, Alloc_Name, Alloc_Brief, Alloc_Description,
-                          Alloc_Definition, Alloc_Examples, Alloc_Methods));
+                          Alloc_Definition, Alloc_Methods));
 
 enum { ALLOC_STANDARD, ALLOC_RAW, ALLOC_ROOT };
 
@@ -247,21 +225,6 @@ static const char *New_Definition(void) {
          "};\n";
 }
 
-static struct Example *New_Examples(void) {
-
-  static struct Example examples[] = {{"Usage", "var x = new(Int, $I(1));\n"
-                                                "show(x); /* 1 */\n"
-                                                "show(type_of(x)); /* Int */\n"
-                                                "\n"
-                                                "var y = alloc(Float);\n"
-                                                "construct(y, $F(1.0));\n"
-                                                "show(y); /* 1.0 */\n"
-                                                "destruct(y);\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *New_Methods(void) {
 
   static struct Method methods[] = {
@@ -298,7 +261,7 @@ static struct Method *New_Methods(void) {
 }
 
 var New = Cello(New, Instance(Doc, New_Name, New_Brief, New_Description,
-                              New_Definition, New_Examples, New_Methods));
+                              New_Definition, New_Methods));
 
 var construct_with(var self, var args) {
   struct New *n = instance(self, New);
@@ -384,20 +347,6 @@ static const char *Copy_Definition(void) {
          "};\n";
 }
 
-static struct Example *Copy_Examples(void) {
-
-  static struct Example examples[] = {{"Usage",
-                                       "var x = new(String, $S(\"Hello\"));\n"
-                                       "var y = copy(x);\n"
-                                       "show(x); /* Hello */\n"
-                                       "show(y); /* Hello */\n"
-                                       "show($I(eq(x, y))); /* 1 */\n"
-                                       "show($I(x is y)); /* 0 */\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Copy_Methods(void) {
 
   static struct Method methods[] = {
@@ -408,7 +357,7 @@ static struct Method *Copy_Methods(void) {
 }
 
 var Copy = Cello(Copy, Instance(Doc, Copy_Name, Copy_Brief, Copy_Description,
-                                Copy_Definition, Copy_Examples, Copy_Methods));
+                                Copy_Definition, Copy_Methods));
 
 var copy(var self) {
 

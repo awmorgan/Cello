@@ -317,11 +317,6 @@ extern var Mark;
 
 /* Signatures */
 
-struct Example {
-  const char *name;
-  const char *body;
-};
-
 struct Method {
   const char *name;
   const char *definition;
@@ -333,7 +328,6 @@ struct Doc {
   const char *(*brief)(void);
   const char *(*description)(void);
   const char *(*definition)(void);
-  struct Example *(*examples)(void);
   struct Method *(*methods)(void);
 };
 

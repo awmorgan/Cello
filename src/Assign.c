@@ -34,23 +34,6 @@ static const char *Assign_Definition(void) {
          "};\n";
 }
 
-static struct Example *Assign_Examples(void) {
-
-  static struct Example examples[] = {{"Usage", "var x = new(Int, $I(10));\n"
-                                                "var y = new(Int, $I(20));\n"
-                                                "\n"
-                                                "show(x); /* 10 */\n"
-                                                "show(y); /* 20 */\n"
-                                                "\n"
-                                                "assign(x, y);\n"
-                                                "\n"
-                                                "show(x); /* 20 */\n"
-                                                "show(y); /* 20 */\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Assign_Methods(void) {
 
   static struct Method methods[] = {
@@ -64,7 +47,7 @@ static struct Method *Assign_Methods(void) {
 
 var Assign =
     Cello(Assign, Instance(Doc, Assign_Name, Assign_Brief, Assign_Description,
-                           Assign_Definition, Assign_Examples, Assign_Methods));
+                           Assign_Definition, Assign_Methods));
 
 var assign(var self, var obj) {
 
@@ -107,20 +90,6 @@ static const char *Swap_Definition(void) {
          "};\n";
 }
 
-static struct Example *Swap_Examples(void) {
-
-  static struct Example examples[] = {{"Usage", "var x = $S(\"Hello\");\n"
-                                                "var y = $S(\"World\");\n"
-                                                "show(x); /* Hello */\n"
-                                                "show(y); /* World */\n"
-                                                "swap(x, y);\n"
-                                                "show(x); /* World */\n"
-                                                "show(y); /* Hello */\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Swap_Methods(void) {
 
   static struct Method methods[] = {
@@ -132,7 +101,7 @@ static struct Method *Swap_Methods(void) {
 }
 
 var Swap = Cello(Swap, Instance(Doc, Swap_Name, Swap_Brief, Swap_Description,
-                                Swap_Definition, Swap_Examples, Swap_Methods));
+                                Swap_Definition, Swap_Methods));
 
 static void memswap(void *p0, void *p1, size_t s) {
   if (p0 == p1) {

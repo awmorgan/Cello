@@ -19,22 +19,6 @@ static const char *Pointer_Definition(void) {
          "};\n";
 }
 
-static struct Example *Pointer_Examples(void) {
-
-  static struct Example examples[] = {{"Usage",
-                                       "var obj0 = $F(1.0), obj1 = $F(2.0);\n"
-                                       "var r = $(Ref, obj0);\n"
-                                       "show(r);\n"
-                                       "show(deref(r)); /* 1.0 */\n"
-                                       "ref(r, obj1);\n"
-                                       "show(deref(r)); /* 2.0 */\n"
-                                       "assign(r, obj0);\n"
-                                       "show(deref(r)); /* 1.0 */\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Pointer_Methods(void) {
 
   static struct Method methods[] = {
@@ -48,7 +32,7 @@ static struct Method *Pointer_Methods(void) {
 
 var Pointer = Cello(Pointer, Instance(Doc, Pointer_Name, Pointer_Brief,
                                       Pointer_Description, Pointer_Definition,
-                                      Pointer_Examples, Pointer_Methods));
+                                      Pointer_Methods));
 
 void ref(var self, var item) { method(self, Pointer, ref, item); }
 
@@ -71,29 +55,6 @@ static const char *Ref_Definition(void) {
   return "struct Ref {\n"
          "  var val;\n"
          "};\n";
-}
-
-static struct Example *Ref_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var obj0 = $F(1.0), obj1 = $F(2.0);\n"
-                "var r = $(Ref, obj0);\n"
-                "show(r);\n"
-                "show(deref(r)); /* 1.0 */\n"
-                "ref(r, obj1);\n"
-                "show(deref(r)); /* 2.0 */\n"
-                "assign(r, obj0);\n"
-                "show(deref(r)); /* 1.0 */\n"},
-      {"Collections", "var i0 = new(Int, $I(100));\n"
-                      "var i1 = new(Int, $I(200));\n"
-                      "var x = new(Array, Ref, i0, i1);\n"
-                      "\n"
-                      "print(deref(get(x, $I(0)))); /* 100 */"
-                      "\n"
-                      "del(x); /* Contents of `x` still alive */\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static void Ref_Ref(var self, var val);
@@ -119,11 +80,10 @@ static var Ref_Deref(var self) {
   return r->val;
 }
 
-var Ref =
-    Cello(Ref,
-          Instance(Doc, Ref_Name, Ref_Brief, Ref_Description, Ref_Definition,
-                   Ref_Examples, NULL),
-          Instance(Assign, Ref_Assign), Instance(Pointer, Ref_Ref, Ref_Deref));
+var Ref = Cello(
+    Ref,
+    Instance(Doc, Ref_Name, Ref_Brief, Ref_Description, Ref_Definition, NULL),
+    Instance(Assign, Ref_Assign), Instance(Pointer, Ref_Ref, Ref_Deref));
 
 static const char *Box_Name(void) { return "Box"; }
 
@@ -154,39 +114,6 @@ static const char *Box_Definition(void) {
   return "struct Box {\n"
          "  var val;\n"
          "};\n";
-}
-
-static struct Example *Box_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var obj0 = $F(1.0), obj1 = $F(2.0);\n"
-                "var r = $(Box, obj0);\n"
-                "show(r);\n"
-                "show(deref(r)); /* 1.0 */\n"
-                "ref(r, obj1);\n"
-                "show(deref(r)); /* 2.0 */\n"
-                "assign(r, obj0);\n"
-                "show(deref(r)); /* 1.0 */\n"},
-      {"Lifetimes", "var quote = $S(\"Life is long\");\n"
-                    "\n"
-                    "with (r in $B(new(String, quote))) {\n"
-                    "  println(\"This reference is: %$\", r);\n"
-                    "  println(\"This string is alive: '%s'\", deref(r));\n"
-                    "}\n"
-                    "\n"
-                    "print(\"Now it has been cleared up!\\n\");\n"},
-      {"Collection", "/* Multiple Types in one Collection */\n"
-                     "var x = new(Array, Box, \n"
-                     "  new(String, $S(\"Hello\")), \n"
-                     "  new(String, $S(\"There\")), \n"
-                     "  new(Int, $I(10)));\n"
-                     "\n"
-                     "print(deref(get(x, $I(0)))); /* Hello */ \n"
-                     "\n"
-                     "del(x); /* Contents of `x` deleted with it */\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static void Box_Ref(var self, var val);
@@ -226,9 +153,8 @@ static var Box_Deref(var self) {
   return b->val;
 }
 
-var Box = Cello(Box,
-                Instance(Doc, Box_Name, Box_Brief, Box_Description,
-                         Box_Definition, Box_Examples, NULL),
-                Instance(New, Box_New, Box_Del), Instance(Assign, Box_Assign),
-                Instance(Show, Box_Show, NULL),
-                Instance(Pointer, Box_Ref, Box_Deref));
+var Box = Cello(
+    Box,
+    Instance(Doc, Box_Name, Box_Brief, Box_Description, Box_Definition, NULL),
+    Instance(New, Box_New, Box_Del), Instance(Assign, Box_Assign),
+    Instance(Show, Box_Show, NULL), Instance(Pointer, Box_Ref, Box_Deref));

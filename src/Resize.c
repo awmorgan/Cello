@@ -35,23 +35,8 @@ static struct Method *Resize_Methods(void) {
   return methods;
 }
 
-static struct Example *Resize_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = new(Array, Int);\n"
-                "resize(x, 10000); /* Reserve space in Array */ \n"
-                "for (size_t i = 0; i < 10000; i++) {\n"
-                "  push(x, $I(i));\n"
-                "}\n"},
-      {"Usage 2", "var x = new(Array, Int, $I(0), $I(1), $I(2));\n"
-                  "resize(x, 0); /* Clear Array of items */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 var Resize =
     Cello(Resize, Instance(Doc, Resize_Name, Resize_Brief, Resize_Description,
-                           Resize_Definition, Resize_Examples, Resize_Methods));
+                           Resize_Definition, Resize_Methods));
 
 void resize(var self, size_t n) { method(self, Resize, resize, n); }

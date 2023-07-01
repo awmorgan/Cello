@@ -40,23 +40,6 @@ static const char *Tuple_Definition(void) {
          "};\n";
 }
 
-static struct Example *Tuple_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var x = tuple($I(100), $I(200), $S(\"Hello\"));\n"
-                "show(x);\n"
-                "var y = tuple(Int, $I(10), $I(20));\n"
-                "var z = new_with(Array, y);\n"
-                "show(z);\n"
-                "\n"
-                "foreach (item,x) {\n"
-                "  println(\"%$\", item);\n"
-                "}\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Tuple_Methods(void) {
 
   static struct Method methods[] = {
@@ -516,7 +499,7 @@ static uint64_t Tuple_Hash(var self) {
 var Tuple = Cello(
     Tuple,
     Instance(Doc, Tuple_Name, Tuple_Brief, Tuple_Description, Tuple_Definition,
-             Tuple_Examples, Tuple_Methods),
+             Tuple_Methods),
     Instance(New, Tuple_New, Tuple_Del), Instance(Assign, Tuple_Assign),
     Instance(Cmp, Tuple_Cmp), Instance(Hash, Tuple_Hash),
     Instance(Len, Tuple_Len),

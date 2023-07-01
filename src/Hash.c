@@ -30,24 +30,6 @@ static const char *Hash_Definition(void) {
          "};\n";
 }
 
-static struct Example *Hash_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage",
-       "println(\"%li\", $I(hash($I(  1)))); /*   1 */\n"
-       "println(\"%li\", $I(hash($I(123)))); /* 123 */\n"
-       "\n"
-       "/* 866003103 */\n"
-       "println(\"%li\", $I(hash_data($I(123), size(Int))));\n"
-       "\n"
-       "println(\"%li\", $I(hash($S(\"Hello\"))));  /* -1838682532 */\n"
-       "println(\"%li\", $I(hash($S(\"There\"))));  /*   961387266 */\n"
-       "println(\"%li\", $I(hash($S(\"People\")))); /*   697467069 */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Hash_Methods(void) {
 
   static struct Method methods[] = {
@@ -62,7 +44,7 @@ static struct Method *Hash_Methods(void) {
 }
 
 var Hash = Cello(Hash, Instance(Doc, Hash_Name, Hash_Brief, Hash_Description,
-                                Hash_Definition, Hash_Examples, Hash_Methods));
+                                Hash_Definition, Hash_Methods));
 
 uint64_t hash_data(const void *data, size_t size) {
 

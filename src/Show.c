@@ -29,18 +29,6 @@ static const char *Format_Definition(void) {
          "};\n";
 }
 
-static struct Example *Format_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage",
-       "/* printf(\"Hello my name is %s, I'm %i\\n\", \"Dan\", 23); */\n"
-       "format_to($(File, stdout), 0, \n"
-       "  \"Hello my name is %s, I'm %i\\n\", \"Dan\", 23);\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Format_Methods(void) {
 
   static struct Method methods[] = {
@@ -61,7 +49,7 @@ static struct Method *Format_Methods(void) {
 
 var Format =
     Cello(Format, Instance(Doc, Format_Name, Format_Brief, Format_Description,
-                           Format_Definition, Format_Examples, Format_Methods));
+                           Format_Definition, Format_Methods));
 
 int format_to_va(var self, int pos, const char *fmt, va_list va) {
   return method(self, Format, format_to, pos, fmt, va);
@@ -130,36 +118,6 @@ static const char *Show_Definition(void) {
          "};\n";
 }
 
-static struct Example *Show_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Hello World", "println(\"Hello %s!\", $S(\"World\"));\n"},
-      {"File Writing",
-       "with (f in new(File, $S(\"prices.txt\"), $S(\"wb\"))) {\n"
-       "  print_to(f, 0, \"%$ :: %$\\n\", $S(\"Banana\"), $I(57));\n"
-       "  print_to(f, 0, \"%$ :: %$\\n\", $S(\"Apple\"),  $I(22));\n"
-       "  print_to(f, 0, \"%$ :: %$\\n\", $S(\"Pear\"),   $I(16));\n"
-       "}\n"},
-      {"String Scanning",
-       "var input = $S(\"1 && 52 then 78\");\n"
-       "\n"
-       "var i0 = $I(0), i1 = $I(0), i2 = $I(0);\n"
-       "scan_from(input, 0, \"%i && %i then %i\", i0, i1, i2);\n"
-       "\n"
-       "/* i0: 1, i1: 52, i2: 78 */\n"
-       "println(\"i0: %$, i1: %$, i2: %$\", i0, i1, i2);\n"},
-      {"String Printing",
-       "var greeting = new(String);\n"
-       "print_to(greeting, 0, \"Hello %s %s, %s?\", \n"
-       "  $S(\"Mr\"), $S(\"Johnson\"), $S(\"how are you?\"));\n"
-       "\n"
-       "/* Hello Mr Johnson, how are you? */\n"
-       "show(greeting);\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Show_Methods(void) {
 
   static struct Method methods[] = {
@@ -197,7 +155,7 @@ static struct Method *Show_Methods(void) {
 }
 
 var Show = Cello(Show, Instance(Doc, Show_Name, Show_Brief, Show_Description,
-                                Show_Definition, Show_Examples, Show_Methods));
+                                Show_Definition, Show_Methods));
 
 int show(var self) { return show_to(self, $(File, stdout), 0); }
 

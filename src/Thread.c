@@ -22,18 +22,6 @@ static const char *Current_Definition(void) {
          "};\n";
 }
 
-static struct Example *Current_Examples(void) {
-
-  static struct Example examples[] = {{"Usage",
-                                       "var gc = current(GC);\n"
-                                       "show(gc);\n"
-                                       "var thread = current(Thread);\n"
-                                       "show(thread);\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Current_Methods(void) {
 
   static struct Method methods[] = {
@@ -46,7 +34,7 @@ static struct Method *Current_Methods(void) {
 
 var Current = Cello(Current, Instance(Doc, Current_Name, Current_Brief,
                                       Current_Description, Current_Definition,
-                                      Current_Examples, Current_Methods));
+                                      Current_Methods));
 
 var current(var type) { return type_method(type, Current, current); }
 
@@ -76,54 +64,6 @@ static const char *Thread_Description(void) {
          "execution. It acts as a basic wrapper around operating system "
          "threads, "
          "using WinThreads on Windows and pthreads otherwise.";
-}
-
-static struct Example *Thread_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var set_value(var args) {\n"
-                "  assign(get(args, $I(0)), $I(1));\n"
-                "  return NULL;\n"
-                "}\n"
-                "\n"
-                "var i = $I(0);\n"
-                "\n"
-                "var x = new(Thread, $(Function, set_value));\n"
-                "call(x, i);\n"
-                "join(x);\n"
-                "\n"
-                "show(i); /* 1 */\n"},
-      {"Exclusive Resource", "var increment(var args) {\n"
-                             "  var mut = get(args, $I(0));\n"
-                             "  var tot = get(args, $I(1));\n"
-                             "  lock(mut);\n"
-                             "  assign(tot, $I(c_int(tot)+1));\n"
-                             "  unlock(mut);\n"
-                             "  return NULL;\n"
-                             "}\n"
-                             "\n"
-                             "var mutex = new(Mutex);\n"
-                             "var total = $I(0);\n"
-                             "\n"
-                             "var threads = new(Array, Box,\n"
-                             "  new(Thread, $(Function, increment)),\n"
-                             "  new(Thread, $(Function, increment)),\n"
-                             "  new(Thread, $(Function, increment)));\n"
-                             "\n"
-                             "show(total); /* 0 */\n"
-                             "\n"
-                             "foreach (t in threads) {\n"
-                             "  call(deref(t), mutex, total);\n"
-                             "}\n"
-                             "\n"
-                             "foreach (t in threads) {\n"
-                             "  join(deref(t));\n"
-                             "}\n"
-                             "\n"
-                             "show(total); /* 3 */\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static void Thread_New(var self, var args) {
@@ -461,8 +401,7 @@ static void Thread_Mark(var self, var gc, void (*f)(var, void *)) {
 
 var Thread = Cello(
     Thread,
-    Instance(Doc, Thread_Name, Thread_Brief, Thread_Description, NULL,
-             Thread_Examples, NULL),
+    Instance(Doc, Thread_Name, Thread_Brief, Thread_Description, NULL, NULL),
     Instance(New, Thread_New, Thread_Del), Instance(Assign, Thread_Assign),
     Instance(Cmp, Thread_Cmp), Instance(Hash, Thread_Hash),
     Instance(Call, Thread_Call), Instance(Current, Thread_Current),
@@ -504,20 +443,8 @@ static struct Method *Lock_Methods(void) {
   return methods;
 }
 
-static struct Example *Lock_Examples(void) {
-
-  static struct Example examples[] = {{"Usage",
-                                       "var x = new(Mutex);\n"
-                                       "lock(x);   /* Lock Mutex */ \n"
-                                       "print(\"Inside Mutex!\\n\");\n"
-                                       "unlock(x); /* Unlock Mutex */"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 var Lock = Cello(Lock, Instance(Doc, Lock_Name, Lock_Brief, Lock_Description,
-                                Lock_Definition, Lock_Examples, Lock_Methods));
+                                Lock_Definition, Lock_Methods));
 
 void lock(var self) { method(self, Lock, lock); }
 
@@ -541,18 +468,6 @@ static const char *Mutex_Description(void) {
   return "The `Mutex` type can be used to gain mutual exclusion across Threads "
          "for "
          "access to some resource.";
-}
-
-static struct Example *Mutex_Examples(void) {
-
-  static struct Example examples[] = {{"Usage",
-                                       "var x = new(Mutex);\n"
-                                       "with (mut in x) { /* Lock Mutex */ \n"
-                                       "  print(\"Inside Mutex!\\n\");\n"
-                                       "} /* Unlock Mutex */"},
-                                      {NULL, NULL}};
-
-  return examples;
 }
 
 static void Mutex_New(var self, var args) {
@@ -623,9 +538,9 @@ static void Mutex_Unlock(var self) {
 #endif
 }
 
-var Mutex = Cello(Mutex,
-                  Instance(Doc, Mutex_Name, Mutex_Brief, Mutex_Description,
-                           NULL, Mutex_Examples, NULL),
-                  Instance(New, Mutex_New, Mutex_Del),
-                  Instance(Lock, Mutex_Lock, Mutex_Unlock, Mutex_Trylock),
-                  Instance(Start, Mutex_Lock, Mutex_Unlock, NULL));
+var Mutex =
+    Cello(Mutex,
+          Instance(Doc, Mutex_Name, Mutex_Brief, Mutex_Description, NULL, NULL),
+          Instance(New, Mutex_New, Mutex_Del),
+          Instance(Lock, Mutex_Lock, Mutex_Unlock, Mutex_Trylock),
+          Instance(Start, Mutex_Lock, Mutex_Unlock, NULL));

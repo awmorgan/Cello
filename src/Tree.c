@@ -23,41 +23,6 @@ static const char *Tree_Description(void) {
          "[std::map](http://www.cplusplus.com/reference/map/map/)";
 }
 
-static struct Example *Tree_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var prices = new(Tree, String, Int);\n"
-                "set(prices, $S(\"Apple\"),  $I(12));\n"
-                "set(prices, $S(\"Banana\"), $I( 6));\n"
-                "set(prices, $S(\"Pear\"),   $I(55));\n"
-                "\n"
-                "foreach (key,prices) {\n"
-                "  var price = get(prices, key);\n"
-                "  println(\"Price of %$==%$\", key, price);\n"
-                "}\n"},
-      {"Manipulation", "var t = new(Tree, String, Int);\n"
-                       "set(t, $S(\"Hello\"), $I(2));\n"
-                       "set(t, $S(\"There\"), $I(5));\n"
-                       "\n"
-                       "show($I(len(t))); /* 2 */\n"
-                       "show($I(mem(t, $S(\"Hello\")))); /* 1 */\n"
-                       "\n"
-                       "rem(t, $S(\"Hello\"));\n"
-                       "\n"
-                       "show($I(len(t))); /* 1 */\n"
-                       "show($I(mem(t, $S(\"Hello\")))); /* 0 */\n"
-                       "show($I(mem(t, $S(\"There\")))); /* 1 */\n"
-                       "\n"
-                       "resize(t, 0);\n"
-                       "\n"
-                       "show($I(len(t))); /* 0 */\n"
-                       "show($I(mem(t, $S(\"Hello\")))); /* 0 */\n"
-                       "show($I(mem(t, $S(\"There\")))); /* 0 */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 struct Tree {
   var root;
   var ktype;
@@ -765,16 +730,14 @@ static void Tree_Resize(var self, size_t n) {
   }
 }
 
-var Tree =
-    Cello(Tree,
-          Instance(Doc, Tree_Name, Tree_Brief, Tree_Description, NULL,
-                   Tree_Examples, NULL),
-          Instance(New, Tree_New, Tree_Del), Instance(Assign, Tree_Assign),
-          Instance(Mark, Tree_Mark), Instance(Cmp, Tree_Cmp),
-          Instance(Hash, Tree_Hash), Instance(Len, Tree_Len),
-          Instance(Get, Tree_Get, Tree_Set, Tree_Mem, Tree_Rem, Tree_Key_Type,
-                   Tree_Val_Type),
-          Instance(Resize, Tree_Resize),
-          Instance(Iter, Tree_Iter_Init, Tree_Iter_Next, Tree_Iter_Last,
-                   Tree_Iter_Prev, Tree_Iter_Type),
-          Instance(Show, Tree_Show, NULL));
+var Tree = Cello(
+    Tree, Instance(Doc, Tree_Name, Tree_Brief, Tree_Description, NULL, NULL),
+    Instance(New, Tree_New, Tree_Del), Instance(Assign, Tree_Assign),
+    Instance(Mark, Tree_Mark), Instance(Cmp, Tree_Cmp),
+    Instance(Hash, Tree_Hash), Instance(Len, Tree_Len),
+    Instance(Get, Tree_Get, Tree_Set, Tree_Mem, Tree_Rem, Tree_Key_Type,
+             Tree_Val_Type),
+    Instance(Resize, Tree_Resize),
+    Instance(Iter, Tree_Iter_Init, Tree_Iter_Next, Tree_Iter_Last,
+             Tree_Iter_Prev, Tree_Iter_Type),
+    Instance(Show, Tree_Show, NULL));

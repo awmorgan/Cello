@@ -16,16 +16,6 @@ static const char *C_Str_Definition(void) {
          "};\n";
 }
 
-static struct Example *C_Str_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "puts(c_str($S(\"Hello\"))); /* Hello */\n"
-                "puts(c_str($S(\"There\"))); /* There */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *C_Str_Methods(void) {
 
   static struct Method methods[] = {
@@ -38,7 +28,7 @@ static struct Method *C_Str_Methods(void) {
 
 var C_Str =
     Cello(C_Str, Instance(Doc, C_Str_Name, C_Str_Brief, C_Str_Description,
-                          C_Str_Definition, C_Str_Examples, C_Str_Methods));
+                          C_Str_Definition, C_Str_Methods));
 
 char *c_str(var self) {
 
@@ -65,35 +55,6 @@ static const char *String_Definition(void) {
   return "struct String {\n"
          "  char* val;\n"
          "};\n";
-}
-
-static struct Example *String_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var s0 = $(String, \"Hello\");\n"
-                "var s1 = new(String, $S(\"Hello\"));\n"
-                "append(s1, $S(\" There\"));\n"
-                "show(s0); /* Hello */\n"
-                "show(s1); /* Hello There */\n"},
-      {"Manipulation", "var s0 = new(String, $S(\"Balloons\"));\n"
-                       "\n"
-                       "show($I(len(s0))); /* 8 */\n"
-                       "show($I(mem(s0, $S(\"Ball\"))));     /* 1 */\n"
-                       "show($I(mem(s0, $S(\"oon\"))));      /* 1 */\n"
-                       "show($I(mem(s0, $S(\"Balloons\")))); /* 1 */\n"
-                       "show($I(mem(s0, $S(\"l\"))));        /* 1 */\n"
-                       "\n"
-                       "rem(s0, $S(\"oons\"));\n"
-                       "\n"
-                       "show($I(eq(s0, $S(\"Ball\")))); /* 1 */\n"
-                       "\n"
-                       "resize(s0, 0);\n"
-                       "\n"
-                       "show($I(len(s0))); /* 0 */\n"
-                       "show($I(eq(s0, $S(\"\")))); /* 1 */\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static void String_Assign(var self, var obj);
@@ -464,7 +425,7 @@ static int String_Look(var self, var input, int pos) {
 
 var String = Cello(String,
                    Instance(Doc, String_Name, String_Brief, String_Description,
-                            String_Definition, String_Examples, NULL),
+                            String_Definition, NULL),
                    Instance(New, String_New, String_Del),
                    Instance(Assign, String_Assign), Instance(Cmp, String_Cmp),
                    Instance(Hash, String_Hash), Instance(Len, String_Len),

@@ -18,12 +18,7 @@ static const char *Doc_Description(void) {
 }
 
 static const char *Doc_Definition(void) {
-  return "struct Example {\n"
-         "  const char* name;\n"
-         "  const char* body;\n"
-         "};\n"
-         "\n"
-         "struct Method {\n"
+  return "struct Method {\n"
          "  const char* name;\n"
          "  const char* definition;\n"
          "  const char* description;\n"
@@ -34,7 +29,6 @@ static const char *Doc_Definition(void) {
          "  const char* (*brief)(void);\n"
          "  const char* (*description)(void);\n"
          "  const char* (*definition)(void);\n"
-         "  struct Example* (*examples)(void);\n"
          "  struct Method* (*methods)(void);\n"
          "};\n";
 }
@@ -55,18 +49,8 @@ static struct Method *Doc_Methods(void) {
   return methods;
 }
 
-static struct Example *Doc_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "show($S(name(Int))); /* Int */\n"
-                "show($S(brief(Int))); /* Integer Object */\n"},
-      {NULL, NULL}};
-
-  return examples;
-}
-
 var Doc = Cello(Doc, Instance(Doc, Doc_Name, Doc_Brief, Doc_Description,
-                              Doc_Definition, Doc_Examples, Doc_Methods));
+                              Doc_Definition, Doc_Methods));
 
 const char *name(var type) {
   struct Doc *doc = type_instance(type, Doc);
@@ -114,15 +98,8 @@ static struct Method *Help_Methods(void) {
   return methods;
 }
 
-static struct Example *Help_Examples(void) {
-
-  static struct Example examples[] = {{"Usage", "help(Int);\n"}, {NULL, NULL}};
-
-  return examples;
-}
-
 var Help = Cello(Help, Instance(Doc, Help_Name, Help_Brief, Help_Description,
-                                Help_Definition, Help_Examples, Help_Methods));
+                                Help_Definition, Help_Methods));
 
 int help_to(var out, int pos, var self) {
   return method(self, Help, help_to, out, pos);

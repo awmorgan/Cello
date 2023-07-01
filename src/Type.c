@@ -19,17 +19,6 @@ static const char *Cast_Definition(void) {
          "};\n";
 }
 
-static struct Example *Cast_Examples(void) {
-
-  static struct Example examples[] = {{"Usage",
-                                       "var x = $I(100);\n"
-                                       "struct Int* y = cast(x, Int);\n"
-                                       "show(y);\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Cast_Methods(void) {
 
   static struct Method methods[] = {
@@ -42,7 +31,7 @@ static struct Method *Cast_Methods(void) {
 }
 
 var Cast = Cello(Cast, Instance(Doc, Cast_Name, Cast_Brief, Cast_Description,
-                                Cast_Definition, Cast_Examples, Cast_Methods));
+                                Cast_Definition, Cast_Methods));
 
 var cast(var self, var type) {
 
@@ -80,22 +69,6 @@ static const char *Type_Description(void) {
          "To see if a type implements a class `type_implements` can be used. "
          "To "
          "call a member of a class, implemented `type_method` can be used.";
-}
-
-static struct Example *Type_Examples(void) {
-
-  static struct Example examples[] = {
-      {"Usage", "var t = type_of($I(5));\n"
-                "show(t); /* Int */\n"
-                "\n"
-                "show($I(type_implements(t, New)));  /* 1 */\n"
-                "show($I(type_implements(t, Cmp)));  /* 1 */\n"
-                "show($I(type_implements(t, Hash))); /* 1 */\n"
-                "\n"
-                "show($I(type_method(t, Cmp, cmp, $I(5), $I(6))));\n"},
-      {NULL, NULL}};
-
-  return examples;
 }
 
 static struct Method *Type_Methods(void) {
@@ -261,30 +234,17 @@ static int Type_Help_To(var self, var out, int pos) {
     }
   }
 
-  if (doc->examples) {
-    pos = print_to(out, pos, "\n### Examples\n\n");
-    struct Example *examples = doc->examples();
-    while (examples[0].name) {
-      pos = print_to(out, pos, "__%s__\n\n", $S((char *)examples[0].name));
-      pos = print_indent(out, pos, examples[0].body);
-      pos = print_to(out, pos, "\n\n");
-      examples++;
-    }
-    pos = print_to(out, pos, "\n\n");
-  }
-
   return pos;
 }
 
-var Type =
-    CelloEmpty(Type,
-               Instance(Doc, Type_Name, Type_Brief, Type_Description, NULL,
-                        Type_Examples, Type_Methods),
-               Instance(Assign, Type_Assign), Instance(Copy, Type_Copy),
-               Instance(Alloc, Type_Alloc, NULL), Instance(New, Type_New, NULL),
-               Instance(Cmp, Type_Cmp), Instance(Hash, Type_Hash),
-               Instance(Show, Type_Show, NULL), Instance(C_Str, Type_C_Str),
-               Instance(Help, Type_Help_To));
+var Type = CelloEmpty(
+    Type,
+    Instance(Doc, Type_Name, Type_Brief, Type_Description, NULL, Type_Methods),
+    Instance(Assign, Type_Assign), Instance(Copy, Type_Copy),
+    Instance(Alloc, Type_Alloc, NULL), Instance(New, Type_New, NULL),
+    Instance(Cmp, Type_Cmp), Instance(Hash, Type_Hash),
+    Instance(Show, Type_Show, NULL), Instance(C_Str, Type_C_Str),
+    Instance(Help, Type_Help_To));
 
 static var Type_Scan(var self, var cls) {
 
@@ -521,16 +481,6 @@ static const char *Size_Definition(void) {
          "};\n";
 }
 
-static struct Example *Size_Examples(void) {
-
-  static struct Example examples[] = {{"Usage", "show($I(size(Int)));\n"
-                                                "show($I(size(Float)));\n"
-                                                "show($I(size(Array)));\n"},
-                                      {NULL, NULL}};
-
-  return examples;
-}
-
 static struct Method *Size_Methods(void) {
 
   static struct Method methods[] = {
@@ -542,7 +492,7 @@ static struct Method *Size_Methods(void) {
 }
 
 var Size = Cello(Size, Instance(Doc, Size_Name, Size_Brief, Size_Description,
-                                Size_Definition, Size_Examples, Size_Methods));
+                                Size_Definition, Size_Methods));
 
 size_t size(var type) {
 

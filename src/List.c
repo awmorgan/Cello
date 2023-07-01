@@ -25,59 +25,6 @@ static const char *List_Description(void) {
          "[std::list](http://www.cplusplus.com/reference/list/list/)";
 }
 
-static struct Example *List_Examples(void) {
-
-  static struct Example examples[] = {
-      {
-          "Construction & Deletion",
-          "var x = new(List, Int);\n"
-          "push(x, $I(32));\n"
-          "push(x, $I(6));\n"
-          "\n"
-          "/* <'List' At 0x0000000000414603 [32, 6]> */\n"
-          "show(x);\n",
-      },
-      {
-          "Element Access",
-          "var x = new(List, Float, $F(0.01), $F(5.12));\n"
-          "\n"
-          "show(get(x, $I(0))); /* 0.01 */\n"
-          "show(get(x, $I(1))); /* 5.12 */\n"
-          "\n"
-          "set(x, $I(0), $F(500.1));\n"
-          "show(get(x, $I(0))); /* 500.1 */\n",
-      },
-      {
-          "Membership",
-          "var x = new(List, Int, $I(1), $I(2), $I(3), $I(4));\n"
-          "\n"
-          "show($I(mem(x, $I(1)))); /* 1 */\n"
-          "show($I(len(x)));        /* 4 */\n"
-          "\n"
-          "rem(x, $I(3));\n"
-          "\n"
-          "show($I(mem(x, $I(3)))); /* 0 */\n"
-          "show($I(len(x)));        /* 3 */\n"
-          "show($I(empty(x)));      /* 0 */\n"
-          "\n"
-          "resize(x, 0);\n"
-          "\n"
-          "show($I(empty(x)));      /* 1 */\n",
-      },
-      {
-          "Iteration",
-          "var greetings = new(List, String, \n"
-          "  $S(\"Hello\"), $S(\"Bonjour\"), $S(\"Hej\"));\n"
-          "\n"
-          "foreach(greet,greetings) {\n"
-          "  show(greet);\n"
-          "}\n",
-      },
-      {NULL, NULL}};
-
-  return examples;
-}
-
 struct List {
   var type;
   var head;
@@ -457,16 +404,14 @@ static void List_Mark(var self, var gc, void (*f)(var, void *)) {
   }
 }
 
-var List =
-    Cello(List,
-          Instance(Doc, List_Name, List_Brief, List_Description, NULL,
-                   List_Examples, NULL),
-          Instance(New, List_New, List_Del), Instance(Assign, List_Assign),
-          Instance(Mark, List_Mark), Instance(Cmp, List_Cmp),
-          Instance(Hash, List_Hash),
-          Instance(Push, List_Push, List_Pop, List_Push_At, List_Pop_At),
-          Instance(Concat, List_Concat, List_Push), Instance(Len, List_Len),
-          Instance(Get, List_Get, List_Set, List_Mem, List_Rem),
-          Instance(Iter, List_Iter_Init, List_Iter_Next, List_Iter_Last,
-                   List_Iter_Prev, List_Iter_Type),
-          Instance(Show, List_Show, NULL), Instance(Resize, List_Resize));
+var List = Cello(
+    List, Instance(Doc, List_Name, List_Brief, List_Description, NULL, NULL),
+    Instance(New, List_New, List_Del), Instance(Assign, List_Assign),
+    Instance(Mark, List_Mark), Instance(Cmp, List_Cmp),
+    Instance(Hash, List_Hash),
+    Instance(Push, List_Push, List_Pop, List_Push_At, List_Pop_At),
+    Instance(Concat, List_Concat, List_Push), Instance(Len, List_Len),
+    Instance(Get, List_Get, List_Set, List_Mem, List_Rem),
+    Instance(Iter, List_Iter_Init, List_Iter_Next, List_Iter_Last,
+             List_Iter_Prev, List_Iter_Type),
+    Instance(Show, List_Show, NULL), Instance(Resize, List_Resize));
