@@ -258,16 +258,6 @@ var type_instance(var self, var cls) { return Type_Instance(self, cls); }
 
 static var Type_Of(var self) {
 
-  /*
-  **  The type of a Type object==just `Type` again. But because `Type` is
-  **  extern it isn't a constant expression. This means it cannot be set at
-  **  compile time.
-  **
-  **  But we really want to be able to construct types statically. So by
-  **  convention at compile time the type of a Type object==set to `NULL`.
-  **  So if we access a statically allocated object && it tells us `NULL`
-  ** ==the type, we assume the type==`Type`.
-  */
   if (self == NULL) {
     return throw(ValueError, "Received NULL as value to 'type_of'");
   }
@@ -287,6 +277,17 @@ static var Type_Of(var self) {
           "has bad magic number, perhaps it wasn't allocated by Cello.",
           self);
   }
+
+  /*
+  **  The type of a Type object is just `Type` again. But because `Type` is
+  **  extern it isn't a constant expression. This means it cannot be set at
+  **  compile time.
+  **
+  **  But we really want to be able to construct types statically. So by
+  **  convention at compile time the type of a Type object is set to `NULL`.
+  **  So if we access a statically allocated object and it tells us `NULL`
+  **  is the type, we assume the type is `Type`.
+  */
 
   if (head->type == NULL) {
     head->type = Type;
