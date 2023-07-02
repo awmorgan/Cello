@@ -25,11 +25,9 @@ static var Type_Alloc(void) {
       1, sizeof(struct Header) +
              sizeof(struct Type) * (CELLO_NBUILTINS + CELLO_MAX_INSTANCES + 1));
 
-#if CELLO_MEMORY_CHECK == 1
   if (head == NULL) {
     throw(OutOfMemoryError, "Cannot create new 'Type', out of memory!");
   }
-#endif
 
   return header_init(head, Type, AllocHeap);
 }
@@ -41,13 +39,11 @@ static void Type_New(var self, var args) {
   var name = get(args, $I(0));
   var size = get(args, $I(1));
 
-#if CELLO_MEMORY_CHECK == 1
   if (len(args) - 2 > CELLO_MAX_INSTANCES) {
     throw(OutOfMemoryError,
           "Cannot construct 'Type' with %i instances, maximum==%i.",
           $I(len(args)), $I(CELLO_MAX_INSTANCES));
   }
-#endif
 
   size_t cache_entries = CELLO_CACHE_NUM / 3;
   for (size_t i = 0; i < cache_entries; i++) {
@@ -120,11 +116,9 @@ var Type =
 
 static var Type_Scan(var self, var cls) {
 
-#if CELLO_METHOD_CHECK == 1
   if (type_of(self) != Type) {
     return throw(TypeError, "Method call got non type '%s'", type_of(self));
   }
-#endif
 
   struct Type *t;
 
@@ -161,14 +155,11 @@ static var Type_Method_At_Offset(var self, var cls, size_t offset,
 
   var inst = Type_Instance(self, cls);
 
-#if CELLO_METHOD_CHECK == 1
   if (inst == NULL) {
     return throw(ClassError, "Type '%s' does not implement class '%s'", self,
                  cls);
   }
-#endif
 
-#if CELLO_METHOD_CHECK == 1
   var meth = *((var *)(((char *)inst) + offset));
 
   if (meth == NULL) {
@@ -177,7 +168,6 @@ static var Type_Method_At_Offset(var self, var cls, size_t offset,
         "Type '%s' implements class '%s' but not the method '%s' required",
         self, cls, $(String, (char *)method_name));
   }
-#endif
 
   return inst;
 }
@@ -278,16 +268,12 @@ static var Type_Of(var self) {
   **  So if we access a statically allocated object && it tells us `NULL`
   ** ==the type, we assume the type==`Type`.
   */
-
-#if CELLO_NULL_CHECK == 1
   if (self == NULL) {
     return throw(ValueError, "Received NULL as value to 'type_of'");
   }
-#endif
 
   struct Header *head = (struct Header *)((char *)self - sizeof(struct Header));
 
-#if CELLO_MAGIC_CHECK == 1
   if (head->magic == (var)0xDeadCe110) {
     throw(ValueError,
           "Pointer '%p' passed to 'type_of' "
@@ -301,7 +287,6 @@ static var Type_Of(var self) {
           "has bad magic number, perhaps it wasn't allocated by Cello.",
           self);
   }
-#endif
 
   if (head->type == NULL) {
     head->type = Type;

@@ -41,11 +41,9 @@ static void Array_New(var self, var args) {
 
   a->data = malloc(a->nslots * Array_Step(a));
 
-#if CELLO_MEMORY_CHECK == 1
   if (a->data == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Array, out of memory!");
   }
-#endif
 
   for (size_t i = 0; i < a->nitems; i++) {
     Array_Alloc(a, i);
@@ -101,11 +99,9 @@ static void Array_Assign(var self, var obj) {
 
     a->data = malloc(a->nslots * Array_Step(a));
 
-#if CELLO_MEMORY_CHECK == 1
     if (a->data == NULL) {
       throw(OutOfMemoryError, "Cannot allocate Array, out of memory!");
     }
-#endif
 
     for (size_t i = 0; i < a->nitems; i++) {
       Array_Alloc(a, i);
@@ -125,11 +121,9 @@ static void Array_Reserve_More(struct Array *a) {
   if (a->nitems > a->nslots) {
     a->nslots = a->nitems + a->nitems / 2;
     a->data = realloc(a->data, Array_Step(a) * a->nslots);
-#if CELLO_MEMORY_CHECK == 1
     if (a->data == NULL) {
       throw(OutOfMemoryError, "Cannot grow Array, out of memory!");
     }
-#endif
   }
 }
 
@@ -221,13 +215,11 @@ static void Array_Pop_At(var self, var key) {
   int64_t i = c_int(key);
   i = i < 0 ? a->nitems + i : i;
 
-#if CELLO_BOUND_CHECK == 1
   if (i < 0 || i >= (int64_t)a->nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Array of size %i.", key, $I(a->nitems));
     return;
   }
-#endif
 
   destruct(Array_Item(a, i));
 
@@ -266,13 +258,11 @@ static void Array_Push_At(var self, var obj, var key) {
   int64_t i = c_int(key);
   i = i < 0 ? a->nitems + i : i;
 
-#if CELLO_BOUND_CHECK == 1
   if (i < 0 || i >= (int64_t)a->nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Array of size %i.", key, $I(a->nitems));
     return;
   }
-#endif
 
   memmove((char *)a->data + Array_Step(a) * (i + 1),
           (char *)a->data + Array_Step(a) * (i + 0),
@@ -286,12 +276,10 @@ static void Array_Pop(var self) {
 
   struct Array *a = self;
 
-#if CELLO_BOUND_CHECK == 1
   if (a->nitems == 0) {
     throw(IndexOutOfBoundsError, "Cannot pop. Array is empty!");
     return;
   }
-#endif
 
   destruct(Array_Item(a, a->nitems - 1));
 
@@ -305,13 +293,11 @@ static var Array_Get(var self, var key) {
   int64_t i = c_int(key);
   i = i < 0 ? a->nitems + i : i;
 
-#if CELLO_BOUND_CHECK == 1
   if (i < 0 || i >= (int64_t)a->nitems) {
     return throw(IndexOutOfBoundsError,
                  "Index '%i' out of bounds for Array of size %i.", key,
                  $I(a->nitems));
   }
-#endif
 
   return Array_Item(a, i);
 }
@@ -322,13 +308,11 @@ static void Array_Set(var self, var key, var val) {
   int64_t i = c_int(key);
   i = i < 0 ? a->nitems + i : i;
 
-#if CELLO_BOUND_CHECK == 1
   if (i < 0 || i >= (int64_t)a->nitems) {
     throw(IndexOutOfBoundsError,
           "Index '%i' out of bounds for Array of size %i.", key, $I(a->nitems));
     return;
   }
-#endif
 
   assign(Array_Item(a, i), val);
 }
@@ -432,11 +416,9 @@ static void Array_Resize(var self, size_t n) {
   a->nslots = n;
   a->data = realloc(a->data, Array_Step(a) * a->nslots);
 
-#if CELLO_MEMORY_CHECK == 1
   if (a->data == NULL) {
     throw(OutOfMemoryError, "Cannot grow Array, out of memory!");
   }
-#endif
 }
 
 static void Array_Mark(var self, var gc, void (*f)(var, void *)) {

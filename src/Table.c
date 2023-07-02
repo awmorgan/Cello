@@ -96,11 +96,9 @@ static void Table_New(var self, var args) {
   t->sspace0 = calloc(1, Table_Step(t));
   t->sspace1 = calloc(1, Table_Step(t));
 
-#if CELLO_MEMORY_CHECK == 1
   if (t->data == NULL || t->sspace0 == NULL || t->sspace1 == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
-#endif
 
   for (size_t i = 0; i < (nargs - 2) / 2; i++) {
     var key = get(args, $(Int, 2 + (i * 2) + 0));
@@ -171,11 +169,9 @@ static void Table_Assign(var self, var obj) {
   t->sspace0 = realloc(t->sspace0, Table_Step(t));
   t->sspace1 = realloc(t->sspace1, Table_Step(t));
 
-#if CELLO_MEMORY_CHECK == 1
   if (t->data == NULL || t->sspace0 == NULL || t->sspace1 == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
-#endif
 
   memset(t->sspace0, 0, Table_Step(t));
   memset(t->sspace1, 0, Table_Step(t));
@@ -343,11 +339,9 @@ static void Table_Rehash(struct Table *t, size_t new_size) {
   t->nitems = 0;
   t->data = calloc(t->nslots, Table_Step(t));
 
-#if CELLO_MEMORY_CHECK == 1
   if (t->data == NULL) {
     throw(OutOfMemoryError, "Cannot allocate Table, out of memory!");
   }
-#endif
 
   for (size_t i = 0; i < old_size; i++) {
 
@@ -609,12 +603,10 @@ static void Table_Resize(var self, size_t n) {
     return;
   }
 
-#if CELLO_BOUND_CHECK == 1
   if (n < t->nitems) {
     throw(FormatError, "Cannot resize Table to make it smaller than %li items",
           $I(t->nitems));
   }
-#endif
 
   Table_Rehash(t, Table_Ideal_Size(n));
 }

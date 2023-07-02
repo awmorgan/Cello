@@ -78,11 +78,9 @@ static var Tree_Alloc(struct Tree *m) {
   var node = calloc(1, 3 * sizeof(var) + sizeof(struct Header) + m->ksize +
                            sizeof(struct Header) + m->vsize);
 
-#if CELLO_MEMORY_CHECK == 1
   if (node == NULL) {
     throw(OutOfMemoryError, "Can!allocate Tree entry, out of memory!");
   }
-#endif
 
   var key = header_init((struct Header *)((char *)node + 3 * sizeof(var)),
                         m->ktype, AllocData);

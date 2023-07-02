@@ -10,13 +10,9 @@ var header_init(var head, var type, int alloc) {
 
   self->type = type;
 
-#if CELLO_ALLOC_CHECK == 1
   self->alloc = (var)(intptr_t)alloc;
-#endif
 
-#if CELLO_MAGIC_CHECK == 1
   self->magic = (var)CELLO_MAGIC_NUM;
-#endif
 
   return ((char *)self) + sizeof(struct Header);
 }
@@ -34,11 +30,9 @@ static var alloc_by(var type, int method) {
   } else {
     struct Header *head = calloc(1, sizeof(struct Header) + size(type));
 
-#if CELLO_MEMORY_CHECK == 1
     if (head == NULL) {
       throw(OutOfMemoryError, "Cannot create new '%s', out of memory!", type);
     }
-#endif
 
     self = header_init(head, type, AllocHeap);
   }
@@ -73,7 +67,6 @@ void dealloc(var self) {
     return;
   }
 
-#if CELLO_ALLOC_CHECK == 1
   if (self == NULL) {
     throw(ResourceError, "Attempt to deallocate NULL!");
   }
@@ -98,14 +91,11 @@ void dealloc(var self) {
           "which was allocated inside a data structure!",
           self);
   }
-#endif
 
-#if CELLO_ALLOC_CHECK == 1
   size_t s = size(type_of(self));
   for (size_t i = 0; i < (sizeof(struct Header) + s) / sizeof(var); i++) {
     ((var *)header(self))[i] = (var)0xDeadCe110;
   }
-#endif
 
   free(((char *)self) - sizeof(struct Header));
 }

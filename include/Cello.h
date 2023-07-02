@@ -33,24 +33,7 @@
 
 /* Settings */
 
-#ifdef CELLO_NDEBUG
-#define CELLO_BOUND_CHECK 0
-#define CELLO_MAGIC_CHECK 0
-#define CELLO_ALLOC_CHECK 0
-#define CELLO_NULL_CHECK 0
-#define CELLO_METHOD_CHECK 0
-#define CELLO_MEMORY_CHECK 0
-#else
-#define CELLO_BOUND_CHECK 1
-#define CELLO_MAGIC_CHECK 1
-#define CELLO_ALLOC_CHECK 1
-#define CELLO_NULL_CHECK 1
-#define CELLO_METHOD_CHECK 1
-#define CELLO_MEMORY_CHECK 1
-#endif
-
 #define CELLO_MAGIC_NUM 0xCe110
-
 
 #ifdef _WIN32
 #define CELLO_WINDOWS

@@ -78,12 +78,10 @@ static void GC_Rehash(struct GC *gc, size_t new_size) {
   gc->nslots = new_size;
   gc->entries = calloc(gc->nslots, sizeof(struct GCEntry));
 
-#if CELLO_MEMORY_CHECK == 1
   if (gc->entries == NULL) {
     throw(OutOfMemoryError, "Can!allocate GC Pointer Table, out of memory!");
     return;
   }
-#endif
 
   for (size_t i = 0; i < old_size; i++) {
     if (old_entries[i].hash != 0) {

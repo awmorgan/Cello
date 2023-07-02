@@ -25,17 +25,17 @@ COMPILER := $(shell $(CC) -v 2>&1 )
 
 ifeq ($(findstring CYGWIN,$(PLATFORM)),CYGWIN)
 	PREFIX ?= /usr/local
-	
+
 	DYNAMIC = libCello.so
 	STATIC = libCello.a
 	LIBS = -lpthread -lm
-	
+
 	ifneq (,$(wildcard ${LIBDIR}/libdbghelp.a))
 		LIBS += -lDbgHelp
 	else
 		CFLAGS += -DCELLO_NSTRACE
 	endif
-  
+
 	INSTALL_LIB = mkdir -p ${LIBDIR} && cp -f ${STATIC} ${LIBDIR}/$(STATIC)
 	INSTALL_INC = mkdir -p ${INCDIR} && cp -r include/Cello.h ${INCDIR}
 	UNINSTALL_LIB = rm -f ${LIBDIR}/$(STATIC)
@@ -58,13 +58,13 @@ else ifeq ($(findstring MINGW,$(PLATFORM)),MINGW)
 
 	DYNAMIC = libCello.dll
 	STATIC = libCello.a
-  
+
 	ifneq (,$(wildcard ${LIBDIR}/libdbghelp.a))
 		LIBS += -lDbgHelp
 	else
 		CFLAGS += -DCELLO_NSTRACE
 	endif
-	
+
 	INSTALL_LIB = cp $(STATIC) $(LIBDIR)/$(STATIC); cp $(DYNAMIC) $(BINDIR)/$(DYNAMIC)
 	INSTALL_INC = cp -r include/Cello.h $(INCDIR)
 	UNINSTALL_LIB = rm -f ${LIBDIR}/$(STATIC); rm -f ${BINDIR}/$(DYNAMIC)
@@ -84,7 +84,7 @@ else ifeq ($(findstring FreeBSD,$(PLATFORM)),FreeBSD)
 	else
 		CFLAGS += -DCELLO_NSTRACE
 	endif
-  
+
 	INSTALL_LIB = mkdir -p ${LIBDIR} && cp -f ${STATIC} ${LIBDIR}/$(STATIC)
 	INSTALL_INC = mkdir -p ${INCDIR} && cp -r include/Cello.h ${INCDIR}
 	UNINSTALL_LIB = rm -f ${LIBDIR}/$(STATIC)
@@ -97,14 +97,14 @@ else
 	LIBS = -lpthread -lm
 
 	CFLAGS += -fPIC
-  
+
 	ifneq (,$(wildcard ${LIBDIR}/libexecinfo.a))
 		LIBS += -lexecinfo
 		LFLAGS += -rdynamic
 	else
 		CFLAGS += -DCELLO_NSTRACE
 	endif
-  
+
 	INSTALL_LIB = mkdir -p ${LIBDIR} && cp -f ${STATIC} ${LIBDIR}/$(STATIC)
 	INSTALL_INC = mkdir -p ${INCDIR} && cp -r include/Cello.h ${INCDIR}
 	UNINSTALL_LIB = rm -f ${LIBDIR}/$(STATIC)
@@ -140,11 +140,11 @@ obj/%.o: tests/%.c | obj
 
 # Benchmarks
 ifeq ($(findstring Darwin,$(PLATFORM)),Darwin)
-bench: CFLAGS += -DCELLO_NDEBUG -O3
+bench: CFLAGS += -O3
 bench: clean $(STATIC)
 	cd benchmarks; ./benchmark.sh; cd ../
 else
-bench: CFLAGS += -DCELLO_NDEBUG -pg -O3
+bench: CFLAGS += -pg -O3
 bench: clean $(STATIC)
 	cd benchmarks; ./benchmark; cd ../
 endif
@@ -176,7 +176,7 @@ clean:
 install: all
 	$(INSTALL_LIB)
 	$(INSTALL_INC)
-	
+
 # Uninstall
 
 uninstall:
