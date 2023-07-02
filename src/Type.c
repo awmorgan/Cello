@@ -240,7 +240,6 @@ bool type_implements_method_at_offset(var self, var cls, size_t offset) {
 
 static var Type_Instance(var self, var cls) {
 
-#if CELLO_CACHE == 1
   Type_Cache_Entry(0, Size);
   Type_Cache_Entry(1, Alloc);
   Type_Cache_Entry(2, New);
@@ -259,7 +258,6 @@ static var Type_Instance(var self, var cls) {
   Type_Cache_Entry(15, Current);
   Type_Cache_Entry(16, Cast);
   Type_Cache_Entry(17, Pointer);
-#endif
 
   return Type_Scan(self, cls);
 }

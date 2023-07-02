@@ -49,30 +49,8 @@
 #define CELLO_MEMORY_CHECK 1
 #endif
 
-#if CELLO_ALLOC_CHECK == 1
-#define CELLO_ALLOC_HEADER (var) AllocStatic,
-#else
-#define CELLO_ALLOC_HEADER
-#endif
-
-#if CELLO_MAGIC_CHECK == 1
 #define CELLO_MAGIC_NUM 0xCe110
-#define CELLO_MAGIC_HEADER ((var)CELLO_MAGIC_NUM),
-#else
-#define CELLO_MAGIC_HEADER
-#endif
 
-#ifndef CELLO_CACHE
-#define CELLO_CACHE 1
-#define CELLO_CACHE_HEADER                                                     \
-  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,      \
-      NULL, NULL, NULL, NULL, NULL, NULL,
-#define CELLO_CACHE_NUM 18
-#else
-#define CELLO_CACHE 0
-#define CELLO_CACHE_HEADER
-#define CELLO_CACHE_NUM 0
-#endif
 
 #ifdef _WIN32
 #define CELLO_WINDOWS
@@ -136,13 +114,26 @@ typedef void *var;
 #define Cello(T, ...) CelloStruct(T, ##__VA_ARGS__)
 #define CelloStruct(T, ...) CelloObject(T, sizeof(struct T), ##__VA_ARGS__)
 #define CelloEmpty(T, ...) CelloObject(T, 0, ##__VA_ARGS__)
-#define CelloObject(T, S, ...)                                                 \
-  (var)(                                                                       \
-      (char *)((var[]){                                                        \
-          NULL, CELLO_ALLOC_HEADER CELLO_MAGIC_HEADER CELLO_CACHE_HEADER NULL, \
-          "__Name", #T, NULL, "__Size", (var)S, ##__VA_ARGS__, NULL, NULL,     \
-          NULL}) +                                                             \
-      sizeof(struct Header))
+
+#define CELLO_CACHE_NUM 18 /* */
+// clang-format off
+#define CelloObject(T, S, ...)  \
+  (var)((char *)((var[]){ \
+/*  Header.type,  Header.alloc,     Header.magic  */ \
+    NULL,         (var)AllocStatic, ((var)CELLO_MAGIC_NUM),       \
+/*  Type.cls, Type.name,  Type.inst */ \
+    NULL,     NULL,       NULL,   \
+    NULL,     NULL,       NULL,   \
+    NULL,     NULL,       NULL,   \
+    NULL,     NULL,       NULL,   \
+    NULL,     NULL,       NULL,   \
+    NULL,     NULL,       NULL,   \
+    NULL,     "__Name",   #T,     \
+    NULL,     "__Size",   (var)S, \
+    ##__VA_ARGS__,                \
+    NULL,     NULL,       NULL    \
+    }) + sizeof(struct Header))
+// clang-format on
 
 #define Instance(I, ...) NULL, #I, &((struct I){__VA_ARGS__})
 
@@ -204,12 +195,8 @@ enum {
 
 struct Header {
   var type;
-#if CELLO_ALLOC_CHECK == 1
   var alloc;
-#endif
-#if CELLO_MAGIC_CHECK == 1
   var magic;
-#endif
 };
 
 struct Type {
