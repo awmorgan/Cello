@@ -12,7 +12,7 @@ OPTIMIZATION_SET=false
 for arg in "$@"; do
     case $arg in
     debug)
-        FLAGS+=" -O0 -ggdb"
+        FLAGS+=" -O0"
         OPTIMIZATION_SET=true
         ;;
     release)
@@ -58,6 +58,7 @@ FLAGS+=" \
 -Wno-sign-compare \
 -D_CRT_SECURE_NO_WARNINGS \
 -Iinclude \
+-ggdb \
 "
 
 clang \
