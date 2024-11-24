@@ -68,4 +68,4 @@ FLAGS+=" \
 clang \
     $FLAGS \
     cello_tests.c \
-    -o test
+    -o test.exe
