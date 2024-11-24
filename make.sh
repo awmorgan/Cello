@@ -9,23 +9,18 @@ BUILD_TYPE=${1:-release}
 
 # Set optimization flag and sanitizer flag based on build type
 if [ "$BUILD_TYPE" == "debug" ]; then
-        OPT_FLAG="-O0"
+        FLAGS="-O0 -ggdb"
         SANITIZE_FLAGS="-fsanitize=address -fsanitize=undefined"
-        DEBUG_FLAGS="-DDEBUG=1 -ggdb"
 else
         OPT_FLAG="-O3"
         SANITIZE_FLAGS="-fsanitize=undefined"
-        DEBUG_FLAGS=""
 fi
 
-WARN_FLAGS="\
+FLAGS+=" \
 -Wall -Wextra -Wpedantic \
 -Werror \
 -Wno-dollar-in-identifier-extension \
 -Wno-newline-eof \
-"
-
-CELLO_FLAGS="\
 -Wno-gnu-zero-variadic-macro-arguments \
 -Wno-c23-extensions \
 -Wno-unused-variable \
@@ -40,10 +35,8 @@ CELLO_FLAGS="\
 rm -rf build
 mkdir -p build
 
-clang $OPT_FLAG \
-    $DEBUG_FLAGS \
-    $WARN_FLAGS \
-    $CELLO_FLAGS \
+clang \
+    $FLAGS \
     $SANITIZE_FLAGS \
     cello_tests.c \
     -o build/main
