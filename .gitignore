@@ -63,3 +63,6 @@ examples/threads
 
 # mac debug symbols
 *.dSYM
+
+# build directory
+build/

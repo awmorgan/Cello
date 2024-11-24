@@ -215,7 +215,7 @@ void pt_add_suite(void (*func)(void)) {
 
 /* Running */
 
-static clock_t start, end;
+static clock_t start_clk, end;
 static char current_suite[MAX_NAME];
 
 int pt_run(void) {
@@ -237,7 +237,7 @@ int pt_run(void) {
   signal(SIGILL, ptest_signal);
   signal(SIGSEGV, ptest_signal);
 
-  start = clock();
+  start_clk = clock();
   strcpy(current_suite, "");
 
   for (i = 0; i < num_tests; i++) {
@@ -345,7 +345,7 @@ int pt_run(void) {
   puts("  +---------++------------+-------------+-------------+");
   puts("");
 
-  total = (double)(end - start) / CLOCKS_PER_SEC;
+  total = (double)(end - start_clk) / CLOCKS_PER_SEC;
 
   printf("      Total Running Time: %0.3fs\n\n", total);
 

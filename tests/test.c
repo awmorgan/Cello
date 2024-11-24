@@ -1,4 +1,4 @@
-#include "../include/Cello.h"
+#include "../src/Cello.h"
 #include "ptest.h"
 
 /* Array */

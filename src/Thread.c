@@ -426,7 +426,7 @@ static bool Mutex_Trylock(var self) {
   }
   return true;
 #elif defined(CELLO_WINDOWS)
-  return not(WaitForSingleObject(m->mutex, 0) == WAIT_TIMEOUT);
+  return !(WaitForSingleObject(m->mutex, 0) == WAIT_TIMEOUT);
 #else
   return true;
 #endif
