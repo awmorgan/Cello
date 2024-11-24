@@ -50,3 +50,8 @@ benchmarks/Nbodies/nbodies_cpp
 benchmarks/Sudoku/sudoku_c
 benchmarks/Sudoku/sudoku_cello
 benchmarks/Sudoku/sudoku_cpp
+
+out
+test.exp
+test.lib
+test.pdb
