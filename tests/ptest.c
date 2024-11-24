@@ -7,6 +7,9 @@
 #if defined(CELLO_UNIX)
 # include <unistd.h>
 #endif
+// #define puts(...)
+// #define printf(...)
+// #define putchar(...)
 
 /* Globals */
 
