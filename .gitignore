@@ -64,8 +64,6 @@ examples/threads
 # mac debug symbols
 *.dSYM
 
-# build directory
-build/
-
-# temp files
+# misc
 out
+test.pdb

@@ -4,16 +4,41 @@ exec > >(tee -i make.log) 2>&1
 set -x #print commands as they are executed
 set -e #exit when any command fails
 
-# Default to release if no argument is provided
-BUILD_TYPE=${1:-release}
+# Initialize flags
+FLAGS=""
+OPTIMIZATION_SET=false
 
-# Set optimization flag and sanitizer flag based on build type
-if [ "$BUILD_TYPE" == "debug" ]; then
-        FLAGS="-O0 -ggdb"
-        SANITIZE_FLAGS="-fsanitize=address -fsanitize=undefined"
-else
-        OPT_FLAG="-O3"
-        SANITIZE_FLAGS="-fsanitize=undefined"
+# Parse command line arguments
+for arg in "$@"; do
+    case $arg in
+    debug)
+        FLAGS+=" -O0 -ggdb"
+        OPTIMIZATION_SET=true
+        ;;
+    release)
+        FLAGS+=" -O3"
+        OPTIMIZATION_SET=true
+        ;;
+    ubsan)
+        FLAGS+=" -fsanitize=undefined"
+        ;;
+    asan)
+        FLAGS+=" -fsanitize=address"
+        ;;
+    clean)
+        echo "Cleaning build artifacts..."
+        rm -f test make.log
+        ;;
+    *)
+        echo "Unknown option: $arg"
+        echo "Usage: $0 [debug|release|ubsan|asan|clean]"
+        exit 1
+        ;;
+    esac
+done
+
+if [ "$OPTIMIZATION_SET" = false ]; then
+    FLAGS+=" -O3"
 fi
 
 FLAGS+=" \
@@ -32,12 +57,7 @@ FLAGS+=" \
 -D_CRT_SECURE_NO_WARNINGS \
 "
 
-rm -rf build
-mkdir -p build
-
 clang \
     $FLAGS \
-    $SANITIZE_FLAGS \
     cello_tests.c \
-    -o build/main
-
+    -o test
