@@ -8,6 +8,11 @@
 #include <unistd.h>
 #endif
 
+// #define puts(...)
+// #define printf(...)
+// #define putchar(...)
+
+
 /* Globals */
 
 enum { MAX_NAME = 512 };
