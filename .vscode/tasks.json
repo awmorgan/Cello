@@ -2,9 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build debug",
+            "label": "make debug",
             "type": "shell",
-            "command": "./make.sh debug",
+            "command": "./make",
+            "args": [
+                "debug"
+            ],
             "problemMatcher": [
                 "$gcc"
             ],
@@ -22,9 +25,36 @@
             }
         },
         {
-            "label": "build release",
+            "label": "make release",
             "type": "shell",
-            "command": "./make.sh",
+            "command": "./make",
+            "args": [
+                "release"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "make release ubsan",
+            "type": "shell",
+            "command": "./make",
+            "args": [
+                "release",
+                "ubsan"
+            ],
             "problemMatcher": [
                 "$gcc"
             ],

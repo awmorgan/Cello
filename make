@@ -25,13 +25,16 @@ for arg in "$@"; do
     asan)
         FLAGS+=" -fsanitize=address"
         ;;
+    werror)
+        FLAGS+=" -Werror"
+        ;;
     clean)
         echo "Cleaning build artifacts..."
         rm -f test make.log
         ;;
     *)
         echo "Unknown option: $arg"
-        echo "Usage: $0 [debug|release|ubsan|asan|clean]"
+        echo "Usage: $0 [debug|release|ubsan|asan|werror|clean]"
         exit 1
         ;;
     esac
@@ -43,7 +46,6 @@ fi
 
 FLAGS+=" \
 -Wall -Wextra -Wpedantic \
--Werror \
 -Wno-dollar-in-identifier-extension \
 -Wno-newline-eof \
 -Wno-gnu-zero-variadic-macro-arguments \

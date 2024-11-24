@@ -67,3 +67,5 @@ examples/threads
 # misc
 out
 test.pdb
+test.exp
+test.lib
