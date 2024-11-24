@@ -28,6 +28,9 @@ for arg in "$@"; do
     werror)
         FLAGS+=" -Werror"
         ;;
+    cov)
+        FLAGS+=" -fprofile-instr-generate -fcoverage-mapping"
+        ;;
     clean)
         echo "Cleaning build artifacts..."
         rm -f test make.log
@@ -59,6 +62,7 @@ FLAGS+=" \
 -D_CRT_SECURE_NO_WARNINGS \
 -Iinclude \
 -ggdb \
+-fuse-ld=lld \
 "
 
 clang \
