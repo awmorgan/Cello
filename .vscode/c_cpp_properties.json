@@ -11,8 +11,22 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.22621.0",
-            "compilerPath": "C:/Program Files/LLVM/bin/clang.exe",
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
             "intelliSenseMode": "windows-clang-x64"
+        },
+        {
+            "name": "clang",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22621.0",
+            "intelliSenseMode": "windows-clang-x64",
+            "compilerPath": "C:/Program Files/LLVM/bin/clang.exe"
         }
     ],
     "version": 4
