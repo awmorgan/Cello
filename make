@@ -32,6 +32,9 @@ for arg in "$@"; do
         echo "Cleaning build artifacts..."
         rm -f test make.log
         ;;
+    cov)
+        FLAGS+=" -fprofile-instr-generate -fcoverage-mapping"
+        ;;
     *)
         echo "Unknown option: $arg"
         echo "Usage: $0 [debug|release|ubsan|asan|werror|clean]"
@@ -58,6 +61,7 @@ FLAGS+=" \
 -Wno-sign-compare \
 -D_CRT_SECURE_NO_WARNINGS \
 -ggdb \
+-fuse-ld=lld \
 "
 
 clang \
