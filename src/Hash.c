@@ -87,8 +87,8 @@ uint64_t hash_data(const void* data, size_t size) {
 
 	while (d != end) {
 		uint64_t k;
-        memcpy(&k, d, sizeof(uint64_t));
-        d += sizeof(uint64_t);
+		memcpy(&k, d, sizeof(uint64_t));
+		d += sizeof(uint64_t);
 		k *= m; 
 		k ^= k >> r; 
 		k *= m; 
