@@ -12,7 +12,7 @@ OPTIMIZATION_SET=false
 for arg in "$@"; do
     case $arg in
     debug)
-        FLAGS+=" -O0 -ggdb"
+        FLAGS+=" -O0"
         OPTIMIZATION_SET=true
         ;;
     release)
@@ -57,9 +57,10 @@ FLAGS+=" \
 -Wno-unused-function \
 -Wno-sign-compare \
 -D_CRT_SECURE_NO_WARNINGS \
+-ggdb \
 "
 
 clang \
     $FLAGS \
     cello_tests.c \
-    -o test
+    -o test.exe
