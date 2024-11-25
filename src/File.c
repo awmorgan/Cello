@@ -30,7 +30,6 @@ static var File_Open(var self, var filename, var access);
 static void File_Close(var self);
 
 static void File_New(var self, var args) {
-  struct File *f = self;
   if (len(args) > 0) {
     File_Open(self, get(args, $I(0)), get(args, $I(1)));
   }

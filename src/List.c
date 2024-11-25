@@ -94,7 +94,6 @@ static void List_Clear(var self) {
 }
 
 static void List_Del(var self) {
-  struct List *l = self;
   List_Clear(self);
 }
 

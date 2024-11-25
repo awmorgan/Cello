@@ -53,7 +53,6 @@ FLAGS+=" \
 -Wno-newline-eof \
 -Wno-gnu-zero-variadic-macro-arguments \
 -Wno-c23-extensions \
--Wno-unused-variable \
 -Wno-unused-parameter \
 -Wno-extra-semi \
 -Wno-missing-field-initializers \

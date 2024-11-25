@@ -215,7 +215,6 @@ static bool Range_Mem(var self, var key) {
 }
 
 static int Range_Show(var self, var output, int pos) {
-  struct Range *r = self;
   pos = print_to(output, pos, "<'Range' At 0x%p [", self);
   var curr = Range_Iter_Init(self);
   while (curr != Terminal) {
@@ -446,7 +445,6 @@ static bool Slice_Mem(var self, var key) {
 }
 
 static int Slice_Show(var self, var output, int pos) {
-  struct Slice *s = self;
   pos = print_to(output, pos, "<'Slice' At 0x%p [", self);
   var curr = Slice_Iter_Init(self);
   while (curr != Terminal) {
@@ -577,7 +575,6 @@ static var Zip_Iter_Type(var self) { return Tuple; }
 
 static size_t Zip_Len(var self) {
   struct Zip *z = self;
-  struct Tuple *values = z->values;
   struct Tuple *iters = z->iters;
   size_t num = len(iters);
   if (num == 0) {

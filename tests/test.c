@@ -438,7 +438,6 @@ PT_FUNC(test_file_start) {
 PT_FUNC(test_file_stream) {
 
   static char testoutput1[] = "This==a test\n";
-  static char testoutput2[] = "This==a sample\n";
   static char testinput[512];
 
   var f0 = $(File, NULL);
@@ -1938,6 +1937,7 @@ PT_FUNC(test_thread_c_int) {
 
   var x = new (Thread);
   int64_t cid = c_int(current(Thread));
+  (void)cid;
   del(x);
 }
 
@@ -2676,18 +2676,21 @@ PT_FUNC(test_exception_catch) {
 
   try {
     int r3 = exception_divide(2, 0);
+    (void)r3;
   } catch (e, DivideByZeroError) {
     reached0 = true;
   }
 
   try {
     int r3 = exception_divide(2, 1);
+    (void)r3;
   } catch (e, DivideByZeroError) {
     reached1 = true;
   }
 
   try {
     int r3 = exception_divide(2, 1);
+    (void)r3;
   } catch (e) {
     reached2 = true;
   }

@@ -82,12 +82,6 @@ static var Tree_Alloc(struct Tree *m) {
     throw(OutOfMemoryError, "Can!allocate Tree entry, out of memory!");
   }
 
-  var key = header_init((struct Header *)((char *)node + 3 * sizeof(var)),
-                        m->ktype, AllocData);
-  var val = header_init((struct Header *)((char *)node + 3 * sizeof(var) +
-                                          sizeof(struct Header) + m->ksize),
-                        m->vtype, AllocData);
-
   *Tree_Left(m, node) = NULL;
   *Tree_Right(m, node) = NULL;
   Tree_Set_Parent(m, node, NULL);
@@ -138,7 +132,6 @@ static void Tree_Clear(var self) {
 }
 
 static void Tree_Del(var self) {
-  struct Tree *m = self;
   Tree_Clear(self);
 }
 
