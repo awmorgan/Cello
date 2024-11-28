@@ -54,7 +54,6 @@ FLAGS+=" \
 -Wno-c23-extensions \
 -Wno-unused-variable \
 -Wno-unused-parameter \
--Wno-extra-semi \
 -Wno-missing-field-initializers \
 -Wno-unused-function \
 -Wno-sign-compare \
