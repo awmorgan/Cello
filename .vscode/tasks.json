@@ -4,7 +4,7 @@
         {
             "label": "make debug",
             "type": "shell",
-            "command": "./make",
+            "command": "./makecello",
             "args": [
                 "debug"
             ],
@@ -27,7 +27,7 @@
         {
             "label": "make release",
             "type": "shell",
-            "command": "./make",
+            "command": "./makecello",
             "args": [
                 "release"
             ],
@@ -50,7 +50,7 @@
         {
             "label": "make release ubsan",
             "type": "shell",
-            "command": "./make",
+            "command": "./makecello",
             "args": [
                 "release",
                 "ubsan"
@@ -74,7 +74,7 @@
         {
             "label": "make release asan",
             "type": "shell",
-            "command": "./make",
+            "command": "./makecello",
             "args": [
                 "release",
                 "asan"

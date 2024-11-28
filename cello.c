@@ -26,6 +26,3 @@
 #include "src/Tree.c"
 #include "src/Tuple.c"
 #include "src/Type.c"
-
-#include "tests/ptest.c"
-#include "tests/test.c"
