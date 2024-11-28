@@ -49,7 +49,6 @@ fi
 
 FLAGS+=" \
 -Wall -Wextra \
--Wno-gnu-zero-variadic-macro-arguments \
 -Wno-c23-extensions \
 -Wno-unused-variable \
 -Wno-unused-parameter \
