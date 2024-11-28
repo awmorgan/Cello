@@ -49,7 +49,6 @@ fi
 
 FLAGS+=" \
 -Wall -Wextra \
--Wno-dollar-in-identifier-extension \
 -Wno-gnu-zero-variadic-macro-arguments \
 -Wno-c23-extensions \
 -Wno-unused-variable \
