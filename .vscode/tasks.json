@@ -49,6 +49,30 @@
             }
         },
         {
+            "label": "make debug asan",
+            "type": "shell",
+            "command": "./make",
+            "args": [
+                "debug",
+                "asan"
+            ],
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
             "label": "make release",
             "type": "shell",
             "command": "./make",
