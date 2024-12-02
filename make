@@ -70,11 +70,11 @@ $FLAGS \
 
 set -x
 clang $CELLO_FLAGS -c cello.c
+clang $FLAGS tests/ptest.c tests/test.c cello.o -o test.exe
 set +x
 
 if [ "$RUN_TESTS" = true ]; then
   set -x
-  clang $FLAGS tests/ptest.c tests/test.c cello.o -o test.exe
   ./test.exe
   set +x
 fi
