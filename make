@@ -46,6 +46,9 @@ for arg in "$@"; do
     runtests)
         RUN_TESTS=true
         ;;
+    ngc)
+        FLAGS+=" -DCELLO_NGC=1"        
+        ;;
     *)
         echo "Unknown option: $arg"
         echo "Usage: $0 [debug|release|ubsan|asan|werror|clean|runtests]"
